@@ -1,0 +1,14 @@
+
+#para {
+    line-height: 4vh;
+}
+
+@media screen and (min-width: 1024px) {
+    #para {
+        line-height: 6vh;
+    }
+  }
+
+li {
+    margin-bottom: 13px;
+}

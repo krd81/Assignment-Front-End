@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #c1c2be;
+}
+
+footer {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+h2 {
+  color: black;
+  font-family: "Inter", sans-serif;
+  font-weight: 200;
+}
+
+p {
+  color: black;
+  font-family: "Roboto Flex", sans-serif;
+  font-weight: 300;
+}
+
+button {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  background-color: #21336d;
+  transition: transform 0.2s ease-in-out;
+}
+button:hover {
+  transform: scale(1.05);
+}
