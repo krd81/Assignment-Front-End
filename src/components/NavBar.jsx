@@ -165,7 +165,7 @@ const {allUsers, loggedInUser, profile} = useContext(AppContext)
                               "cursor-pointer"
                             )}
                           >
-                            My Listings
+                            Manage Listings
                           </a>
                         )}
                       </Menu.Item>

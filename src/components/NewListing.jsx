@@ -9,9 +9,9 @@ const NewListing = () => {
     document.title = "Create Listing";
     const { listing } = useContext(AppContext)
     const [ currentListing ] = listing
-    const { id } = useParams()
+    const {id} = useParams()
     const nav = useNavigate()
-    let editMode = false
+    // let editMode = false
     // Add local state object to store all of the form's input fields and
     // create a function which will handle changes made the user
 
@@ -23,23 +23,23 @@ const NewListing = () => {
     const [date, setDate] = useState(`${year}-${month}-${day}`)
 
     const [listingFields, setListingFields] = useState({
-        title: currentListing?.title | '',
+        title: (checkEditMode)? currentListing.title : '',
         description:{
-          points: [],
-          text: ''
+          points: (checkEditMode)? currentListing.description.points : [],
+          text: (checkEditMode)? currentListing.description.text : ''
         },
-        department: '',
-        location: '',
-        roleType: '',
-        roleDuration: '',
-        salary: '',
-        datePosted: '',
-        dateClosing: '',
-        listingActive: ''
+        department: (checkEditMode)? currentListing.department : '',
+        location: (checkEditMode)? currentListing.location : 'On Site',
+        roleType: (checkEditMode)? currentListing.roleType : 'Permanent',
+        roleDuration: (checkEditMode)? currentListing.roleDuration : 'Full Time',
+        salary: (checkEditMode)? currentListing.salary : '',
+        datePosted: (checkEditMode)? currentListing.datePosted : date,
+        dateClosing: (checkEditMode)? currentListing.dateClosing : '',
+        listingActive: (checkEditMode)? currentListing.listingActive : true
       })
 
   const handleInputChange = (e, field) => {
-    setListingFields({...listingFields, [field]:e.target.value})
+    setListingFields({...listingFields, [field]: e.target.value})
   }
 
     const handleSubmit = async (event) => {
@@ -90,9 +90,19 @@ const NewListing = () => {
         }
       }
 
+  function checkEditMode() {
     if (id) {
-      editMode = true
+      return true
+    } else {
+      return false
     }
+  }
+
+  const radioCheck = (element, value) => {
+    if (listingFields[element] === value) {
+      return 'checked'
+    }
+  }
 
   const handleCancel = () => {
     if (confirm("Are you sure?")) {
@@ -121,9 +131,7 @@ const NewListing = () => {
                   type="text"
                   id="role-input"
                   name="title"
-                  // value={currentListing.title}
                   value={listingFields.title}
-                  // Add onChange handler to control updating the input
                   onInput={(e) => handleInputChange(e, "title")}
 
                   className="p-textarea-left form-input w-full md:w-2/3 lg:w-3/4 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -138,6 +146,8 @@ const NewListing = () => {
                   type="text"
                   id="dept-input"
                   name="department"
+                  value={listingFields.department}
+                  onInput={(e) => handleInputChange(e, "department")}
                   className="p-textarea-left form-input w-full md:w-2/3 lg:w-3/4 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
@@ -150,6 +160,8 @@ const NewListing = () => {
                   type="text"
                   id="dept-input"
                   name="salary"
+                  value={listingFields.salary}
+                  onInput={(e) => handleInputChange(e, "salary")}
                   className="p-textarea-left form-input w-full md:w-2/3 lg:w-3/4 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
@@ -164,7 +176,9 @@ const NewListing = () => {
                   id="posted-date-input"
                   name="datePosted"
                   className="p-textarea-left form-input w-1/2 md:w-36 lg:w-3/4 block rounded-md border-2 border-black  shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  value={date}
+                  value={listingFields.datePosted}
+                  // onInput={(e) => handleInputChange(e, "datePosted")}
+                  // If date is blank, setDate defaults to today
                   onChange={e => setDate(e.target.value)}
                 />
               </div>
@@ -177,6 +191,8 @@ const NewListing = () => {
                   type="date"
                   id="closing-date-input"
                   name="dateClosing"
+                  value={listingFields.dateClosing}
+                  onInput={(e) => handleInputChange(e, "dateClosing")}
                   className="p-textarea-left form-input w-1/2 md:w-36 lg:w-3/4 block rounded-md border-2 border-black  shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
               </div>
@@ -191,19 +207,34 @@ const NewListing = () => {
                 <div>
                   <li>
                     <label htmlFor="fulltime-input" className="inline-flex items-center">
-                      <input type="radio" id="fulltime-input" name="roleType" checked value="Full Time" onChange={e => e}/>
+                      <input type="radio"
+                      id="fulltime-input"
+                      name="roleType"
+                      value="Full Time"
+                      checked = {listingFields.roleType === "Full Time"}
+                      onChange={e => handleInputChange(e, "roleType")}/>
                       <span className="ml-3">Full Time</span>
                     </label>
                   </li>
                   <li>
                     <label htmlFor="parttime-input" className="inline-flex items-center">
-                      <input type="radio" id="parttime-input" name="roleType" value="Part Time" onChange={e => e}/>
+                      <input type="radio"
+                      id="parttime-input"
+                      name="roleType"
+                      value="Part Time"
+                      checked = {listingFields.roleType === "Part Time"}
+                      onChange={e => handleInputChange(e, "roleType")}/>
                       <span className="ml-3">Part Time</span>
                     </label>
                   </li>
                   <li>
                     <label htmlFor="other-input" className="inline-flex items-center">
-                      <input type="radio" id="other-input" name="roleType" value="Full Time" onChange={e => e}/>
+                      <input type="radio"
+                      id="other-input"
+                      name="roleType"
+                      value="Other"
+                      checked = {listingFields.roleType === "Other"}
+                      onChange={e => handleInputChange(e, "roleType")}/>
                       <span className="ml-3">Other</span>
                     </label>
                   </li>
@@ -218,31 +249,56 @@ const NewListing = () => {
                 <div>
                   <li>
                     <label htmlFor="permanent-input" className="inline-flex items-center">
-                      <input type="radio" id="permanent-input" name="roleDuration" checked value="Permanent" onChange={e => e}/>
+                      <input type="radio"
+                      id="permanent-input"
+                      name="roleDuration"
+                      value="Permanent"
+                      checked = {listingFields.roleDuration === "Permanent"}
+                      onChange={e => handleInputChange(e, "roleDuration")}/>
                       <span className="ml-3">Permanent</span>
                     </label>
                   </li>
                   <li>
                     <label htmlFor="contract-input" className="inline-flex items-center">
-                      <input type="radio" id="contract-input" name="roleDuration" value="Contract" onChange={e => e}/>
+                      <input type="radio"
+                      id="contract-input"
+                      name="roleDuration"
+                      value="Contract"
+                      checked = {listingFields.roleDuration === "Contract"}
+                      onChange={e => handleInputChange(e, "roleDuration")}/>
                       <span className="ml-3">Contract</span>
                     </label>
                   </li>
                   <li>
                     <label htmlFor="parental-input" className="inline-flex items-center">
-                      <input type="radio" id="parental-input" name="roleDuration" value="Parental Leave Cover" onChange={e => e}/>
+                      <input type="radio"
+                      id="parental-input"
+                      name="roleDuration"
+                      value="Parental Leave Cover"
+                      checked = {listingFields.roleDuration === "Parental Leave Cover"}
+                      onChange={e => handleInputChange(e, "roleDuration")}/>
                       <span className="ml-3">Parental Leave Cover</span>
                     </label>
                   </li>
                   <li>
                     <label htmlFor="secondment-input" className="inline-flex items-center">
-                      <input type="radio" id="secondment-input" name="roleDuration" value="Secondment" onChange={e => e}/>
+                      <input type="radio"
+                      id="secondment-input"
+                      name="roleDuration"
+                      value="Secondment"
+                      checked = {listingFields.roleDuration === "Secondment"}
+                      onChange={e => handleInputChange(e, "roleDuration")}/>
                       <span className="ml-3">Secondment</span>
                     </label>
                   </li>
                   <li>
                     <label htmlFor="other-input" className="inline-flex items-center">
-                      <input type="radio" id="other-input" name="roleDuration" value="Other" onChange={e => e}/>
+                      <input type="radio"
+                      id="other-input"
+                      name="roleDuration"
+                      value="Other"
+                      checked = {listingFields.roleDuration === "Other"}
+                      onChange={e => handleInputChange(e, "roleDuration")}/>
                       <span className="ml-3">Other</span>
                     </label>
                   </li>
@@ -257,19 +313,34 @@ const NewListing = () => {
                 <div>
                   <li>
                     <label htmlFor="onsite-input" className="inline-flex items-center">
-                      <input type="radio" id="onsite-input" name="location" checked value="On Site" onChange={e => e}/>
+                      <input type="radio"
+                      id="onsite-input"
+                      name="location"
+                      value="On Site"
+                      checked = {listingFields.location === "On Site"}
+                      onChange={e => handleInputChange(e, "location")}/>
                       <span className="ml-3">On Site</span>
                     </label>
                   </li>
                   <li>
                     <label htmlFor="hybrid-input" className="inline-flex items-center">
-                      <input type="radio" id="hybrid-input" name="location" value="Hybrid" onChange={e => e}/>
+                      <input type="radio"
+                      id="hybrid-input"
+                      name="location"
+                      value="Hybrid"
+                      checked = {listingFields.location === "Hybrid"}
+                      onChange={e => handleInputChange(e, "location")}/>
                       <span className="ml-3">Hybrid</span>
                     </label>
                   </li>
                   <li>
                     <label htmlFor="other-input" className="inline-flex items-center">
-                      <input type="radio" id="other-input" name="location" value="Other" onChange={e => e}/>
+                      <input type="radio"
+                      id="other-input"
+                      name="location"
+                      value="Other"
+                      checked = {listingFields.location === "Other"}
+                      onChange={e => handleInputChange(e, "location")}/>
                       <span className="ml-3">Other</span>
                     </label>
                   </li>
@@ -289,7 +360,9 @@ const NewListing = () => {
                 name="bullet1"
                 id="bullet-desc-input"
                 className="p-textarea-left form-input w-full md:h-8 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              ></textarea>
+                value={listingFields.description.points?.[0] | ''}
+                onInput={(e) => handleInputChange(e, "description")}
+            ></textarea>
               </div>
               <div className="flex my-3">
               <label className="text-xs py-4 md:py-2 pr-4">⚫️</label>
@@ -297,14 +370,18 @@ const NewListing = () => {
                 name="bullet2"
                 id="bullet-desc-input"
                 className="p-textarea-left form-input w-full md:h-8 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              ></textarea>
+                value={listingFields.description.points?.[1] | ''}
+                onInput={(e) => handleInputChange(e, "description")}
+            ></textarea>
               </div>
               <div className="flex my-3">
               <label className="text-xs py-4 md:py-2 pr-4">⚫️</label>
             <textarea
                 name="bullet3"
                 id="bullet-desc-input"
-                className="p-textarea-left form-input w-full md:h-8 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                value={listingFields.description.points?.[2] | ''}
+                onInput={(e) => handleInputChange(e, "description")}
+              className="p-textarea-left form-input w-full md:h-8 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               ></textarea>
               </div>
           </div>
@@ -318,7 +395,9 @@ const NewListing = () => {
                 name="jobDescription"
                 id="job-desc-input"
                 className="p-textarea-left form-input text-xl w-full h-80 block overflow-y-auto my-2 rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 placeholder-gray-400 placeholder-shown:text-sm placeholder-shown:leading-[3.75] "
-              ></textarea>
+                value={listingFields.description.text | ''}
+                onInput={(e) => handleInputChange(e, "description")}
+            ></textarea>
 
           </div>
 
@@ -332,8 +411,9 @@ const NewListing = () => {
                   <input id="listing-active"
                     type="checkbox"
                     name="listingActive"
-                    value="true"
-                    // colouration of on portion and off portion - duration of movement of slider
+                    value={listingFields.listingActive}
+                    onInput={(e) => handleInputChange(e, "listingActive")}
+                      // colouration of on portion and off portion - duration of movement of slider
                     className="absolute bottom-1 w-10 h-6 transition-colors duration-300 rounded-full appearance-none cursor-pointer peer bg-gray-500 checked:bg-green-500  peer-checked:border-gray-900 peer-checked:before:bg-blue-500"
                   />
                   <label htmlFor="listing-active"
