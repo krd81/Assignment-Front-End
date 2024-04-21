@@ -98,18 +98,12 @@ const NewListing = () => {
     }
   }
 
-  const radioCheck = (element, value) => {
-    if (listingFields[element] === value) {
-      return 'checked'
-    }
-  }
-
   const handleCancel = () => {
     if (confirm("Are you sure?")) {
       console.log("Clear any unsaved changes")
     }
   }
-
+  console.log(listingFields.datePosted)
 
   return (
     <>
@@ -171,16 +165,17 @@ const NewListing = () => {
                   Posting date:
                 </label>
                 <input
-
                   type="date"
                   id="posted-date-input"
                   name="datePosted"
                   className="p-textarea-left form-input w-1/2 md:w-36 lg:w-3/4 block rounded-md border-2 border-black  shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   value={listingFields.datePosted}
-                  // onInput={(e) => handleInputChange(e, "datePosted")}
+                  onChange={(e) => handleInputChange(e, "datePosted")}
                   // If date is blank, setDate defaults to today
-                  onChange={e => setDate(e.target.value)}
+                  // onChange={e => setDate(e.target.value)}
                 />
+                  {console.log(listingFields.datePosted)}
+
               </div>
               <br />
               <div className="flex flex-row md:items-center">

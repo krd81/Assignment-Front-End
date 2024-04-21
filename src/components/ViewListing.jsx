@@ -28,6 +28,15 @@ const ViewListing = () => {
     }
   }
 
+  const dateFormat = (date) => {
+    // DB stores date as YYYY-MM-DD
+    const dateFormatted = new Date(date)
+    const day = dateFormatted.toISOString().slice(8,10)
+    const month = dateFormatted.toISOString().slice(5,7)
+    const year = dateFormatted.toISOString().slice(0,4)
+    return `${day}/${month}/${year}`
+  }
+
 
   // Functionality to apply for role
   // const handleApplyButton = () => {
@@ -69,7 +78,7 @@ const ViewListing = () => {
               {currentListing.roleDuration}
               </h4>
               <h4 className="info-title text-lg md:text-xl lg:text-2xl flex justify-start pt-2">
-              {`Date Posted: `}{currentListing ? currentListing.datePosted : "Loading..."}
+              {`Date Posted: `}{currentListing ? dateFormat(currentListing.datePosted) : "Loading..."}
               </h4>
 
             </div>
@@ -127,7 +136,7 @@ const ViewListing = () => {
 
           {/* Closing date */}
           <div className="flex justify-center my-3 pb-6 italic ">
-            <p className="text-lg md:text-2xl lg:text-2xl text-red-500">Closing Date: {currentListing.dateClosing}</p>
+            <p className="text-lg md:text-2xl lg:text-2xl text-red-500">Closing Date: {dateFormat(currentListing.dateClosing)}</p>
           </div>
         </div>
       </div>
