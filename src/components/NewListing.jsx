@@ -23,19 +23,19 @@ const NewListing = () => {
     const [date, setDate] = useState(`${year}-${month}-${day}`)
 
     const [listingFields, setListingFields] = useState({
-        title: (checkEditMode)? currentListing.title : '',
+        title: (editMode)? currentListing.title : '',
         description:{
-          points: (checkEditMode)? currentListing.description.points : [],
-          text: (checkEditMode)? currentListing.description.text : ''
+          points: (editMode)? currentListing.description.points : [],
+          text: (editMode)? currentListing.description.text : ''
         },
-        department: (checkEditMode)? currentListing.department : '',
-        location: (checkEditMode)? currentListing.location : 'On Site',
-        roleType: (checkEditMode)? currentListing.roleType : 'Permanent',
-        roleDuration: (checkEditMode)? currentListing.roleDuration : 'Full Time',
-        salary: (checkEditMode)? currentListing.salary : '',
-        datePosted: (checkEditMode)? currentListing.datePosted : date,
-        dateClosing: (checkEditMode)? currentListing.dateClosing : '',
-        listingActive: (checkEditMode)? currentListing.listingActive : true
+        department: (editMode)? currentListing.department : '',
+        location: (editMode)? currentListing.location : 'On Site',
+        roleType: (editMode)? currentListing.roleType : 'Permanent',
+        roleDuration: (editMode)? currentListing.roleDuration : 'Full Time',
+        salary: (editMode)? currentListing.salary : '',
+        datePosted: (editMode)? currentListing.datePosted : date,
+        dateClosing: (editMode)? currentListing.dateClosing : '',
+        listingActive: (editMode)? currentListing.listingActive : true
       })
 
   const handleInputChange = (e, field) => {
@@ -90,7 +90,7 @@ const NewListing = () => {
         }
       }
 
-  function checkEditMode() {
+  function editMode() {
     if (id) {
       return true
     } else {
@@ -103,7 +103,15 @@ const NewListing = () => {
       console.log("Clear any unsaved changes")
     }
   }
-  console.log(listingFields.datePosted)
+
+  const getText = (field) => {
+    for (let listingField in listingFields) {
+      if (listingField === field) {
+        return
+      }
+    }
+  }
+
 
   return (
     <>
@@ -112,7 +120,7 @@ const NewListing = () => {
         <div className="flex flex-col items-center">
           {/* Title */}
           <div className="flex justify-center lg:justify-start pb-4">
-            <h1 className="text-center text-4xl lg:text-5xl font-bold">Create new listing</h1>
+            <h1 className="text-center text-4xl lg:text-5xl font-bold">{editMode ? "Edit Listing" : "Create new listing"}</h1>
           </div>
           {/* Form: job title/dept/date */}
           <div className="w-full md:w-4/5 lg:w-3/4 xl:w-1/2">
@@ -174,7 +182,6 @@ const NewListing = () => {
                   // If date is blank, setDate defaults to today
                   // onChange={e => setDate(e.target.value)}
                 />
-                  {console.log(listingFields.datePosted)}
 
               </div>
               <br />
@@ -206,7 +213,7 @@ const NewListing = () => {
                       id="fulltime-input"
                       name="roleType"
                       value="Full Time"
-                      checked = {listingFields.roleType === "Full Time"}
+                      checked = {listingFields.roleType === "Full-time"}
                       onChange={e => handleInputChange(e, "roleType")}/>
                       <span className="ml-3">Full Time</span>
                     </label>
@@ -355,7 +362,8 @@ const NewListing = () => {
                 name="bullet1"
                 id="bullet-desc-input"
                 className="p-textarea-left form-input w-full md:h-8 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                value={listingFields.description.points?.[0] | ''}
+                // defaultValue={`${listingFields.description.points?.[0]}` | ''}
+                defaultValue={`${listingFields.description.points?.[0]}`}
                 onInput={(e) => handleInputChange(e, "description")}
             ></textarea>
               </div>
@@ -365,7 +373,8 @@ const NewListing = () => {
                 name="bullet2"
                 id="bullet-desc-input"
                 className="p-textarea-left form-input w-full md:h-8 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                value={listingFields.description.points?.[1] | ''}
+                // defaultValue={`${listingFields.description.points?.[1]}` | ''}
+                defaultValue={`${listingFields.description.points?.[1]}`}
                 onInput={(e) => handleInputChange(e, "description")}
             ></textarea>
               </div>
@@ -374,13 +383,13 @@ const NewListing = () => {
             <textarea
                 name="bullet3"
                 id="bullet-desc-input"
-                value={listingFields.description.points?.[2] | ''}
+                // defaultValue={`${listingFields.description.points?.[2]}` | ''}
+                defaultValue={`${listingFields.description.points?.[2]}`}
                 onInput={(e) => handleInputChange(e, "description")}
               className="p-textarea-left form-input w-full md:h-8 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               ></textarea>
               </div>
           </div>
-
           <div className="w-full md:w-4/5 lg:w-3/4 xl:w-1/2 border-t-2 border-dotted mt-8">
             <br />
               <label htmlFor="job-desc-input" className="font-bold text-xl lg:text-2xl leading-tight text-blue-gray-400">
@@ -390,7 +399,7 @@ const NewListing = () => {
                 name="jobDescription"
                 id="job-desc-input"
                 className="p-textarea-left form-input text-xl w-full h-80 block overflow-y-auto my-2 rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 placeholder-gray-400 placeholder-shown:text-sm placeholder-shown:leading-[3.75] "
-                value={listingFields.description.text | ''}
+                defaultValue={`${listingFields.description.text}`}
                 onInput={(e) => handleInputChange(e, "description")}
             ></textarea>
 
