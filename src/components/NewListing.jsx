@@ -7,7 +7,8 @@ import { useParams, useNavigate } from "react-router-dom"
 
 const NewListing = () => {
     document.title = "Create Listing";
-    const { listing } = useContext(AppContext)
+    const { loggedInUser, listing } = useContext(AppContext)
+    const [ currentUser ] = loggedInUser
     const [ currentListing ] = listing
     const {id} = useParams()
     const nav = useNavigate()
@@ -23,19 +24,19 @@ const NewListing = () => {
     const [date, setDate] = useState(`${year}-${month}-${day}`)
 
     const [listingFields, setListingFields] = useState({
-        title: (editMode)? currentListing.title : '',
+        title: (editMode && currentListing)? currentListing.title : '',
         description:{
-          points: (editMode)? currentListing.description.points : [],
-          text: (editMode)? currentListing.description.text : ''
+          points: (editMode && currentListing)? currentListing.description.points : ['', '', ''],
+          text: (editMode && currentListing)? currentListing.description.text : ''
         },
-        department: (editMode)? currentListing.department : '',
-        location: (editMode)? currentListing.location : 'On Site',
-        roleType: (editMode)? currentListing.roleType : 'Permanent',
-        roleDuration: (editMode)? currentListing.roleDuration : 'Full Time',
-        salary: (editMode)? currentListing.salary : '',
-        datePosted: (editMode)? currentListing.datePosted : date,
-        dateClosing: (editMode)? currentListing.dateClosing : '',
-        listingActive: (editMode)? currentListing.listingActive : true
+        department: (editMode && currentListing)? currentListing.department : '',
+        location: (editMode && currentListing)? currentListing.location : 'On Site',
+        roleType: (editMode && currentListing)? currentListing.roleType : 'Full-time',
+        roleDuration: (editMode && currentListing)? currentListing.roleDuration : 'Permanent',
+        salary: (editMode && currentListing)? currentListing.salary : '',
+        datePosted: (editMode && currentListing)? currentListing.datePosted : date,
+        dateClosing: (editMode && currentListing)? currentListing.dateClosing : '',
+        listingActive: (editMode && currentListing)? currentListing.listingActive : true
       })
 
   const handleInputChange = (e, field) => {
@@ -61,14 +62,23 @@ const NewListing = () => {
           salary: formDataObj.salary,
           datePosted: formDataObj.datePosted,
           dateClosing: formDataObj.dateClosing,
-          listingActive: formDataObj.listingActive
+          listingActive: formDataObj.listingActive,
+          creator: currentUser
+        }
+
+        let url = 'http://localhost:8002/listings';
+        let method = 'POST';
+
+        if (editMode && currentListing) {
+          url =+ `${id}`
+          method = 'PUT'
         }
 
 
         try {
           // const response = await fetch('https://talent-forge-api-atu2.onrender.com/listings', {
-          const response = await fetch('http://localhost:8002/listings', {
-            method: 'POST',
+          const response = await fetch(url, {
+            method: method,
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${sessionStorage.getItem('token')}`
@@ -104,13 +114,6 @@ const NewListing = () => {
     }
   }
 
-  const getText = (field) => {
-    for (let listingField in listingFields) {
-      if (listingField === field) {
-        return
-      }
-    }
-  }
 
 
   return (
@@ -120,7 +123,7 @@ const NewListing = () => {
         <div className="flex flex-col items-center">
           {/* Title */}
           <div className="flex justify-center lg:justify-start pb-4">
-            <h1 className="text-center text-4xl lg:text-5xl font-bold">{editMode ? "Edit Listing" : "Create new listing"}</h1>
+            <h1 className="text-center text-4xl lg:text-5xl font-bold">{(editMode && currentListing) ? "Edit Listing" : "Create new listing"}</h1>
           </div>
           {/* Form: job title/dept/date */}
           <div className="w-full md:w-4/5 lg:w-3/4 xl:w-1/2">
