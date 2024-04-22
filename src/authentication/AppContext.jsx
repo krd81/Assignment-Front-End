@@ -12,8 +12,6 @@ export const AppContextProvider = ({ children }) => {
   const [currentListing, setCurrentListing] = useState(null)
   const [profileUser, setProfileUser] = useState(null)
 
-
-
       // Once user has token, make fetch requests on mount to get all users and listings
     // Then the identity of the logged in user can be set in the LoggedInUserContext
     useEffect(() =>  {
@@ -51,34 +49,24 @@ export const AppContextProvider = ({ children }) => {
             const decodedToken = decoder(token)
             const user = users.find(user => user._id === decodedToken._id)
 
-
-
             setCurrentUser(user)
         }, 500)
-
 
         // setUser()
         return () => clearTimeout(setUser)
     }, [setCurrentUser, users])
 
 
-
-
-
-
-
-
-
-return (
-    <AppContext.Provider
-        value={{
-            allUsers : [users, setUsers],
-            allListings : [listings, setListings],
-            loggedInUser : [currentUser, setCurrentUser],
-            listing : [currentListing, setCurrentListing],
-            profile : [profileUser, setProfileUser],
-            }}>
-        {children}
-    </AppContext.Provider>
+    return (
+        <AppContext.Provider
+            value={{
+                allUsers : [users, setUsers],
+                allListings : [listings, setListings],
+                loggedInUser : [currentUser, setCurrentUser],
+                listing : [currentListing, setCurrentListing],
+                profile : [profileUser, setProfileUser],
+                }}>
+            {children}
+        </AppContext.Provider>
 )
 }
