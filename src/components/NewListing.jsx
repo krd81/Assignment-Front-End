@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react"
+import { useState, useContext } from "react"
 import { AppContext } from '../authentication/AppContext'
 import { useParams, useNavigate } from "react-router-dom"
 
@@ -70,7 +70,7 @@ const NewListing = () => {
         let method = 'POST';
 
         if (editMode && currentListing) {
-          url =+ `${id}`
+          url += `/${id}`
           method = 'PUT'
         }
 
@@ -85,14 +85,22 @@ const NewListing = () => {
             },
             body: JSON.stringify(listingData),
           })
+          console.log('response')
 
           if (!response.ok) {
             throw new Error(`Error: ${response.statusText}`)
           }
 
-          // const result = await response.json()
 
-          nav("/home")
+          if (editMode && currentListing) {
+            // Change link to navigate back to 'manage listings' version of listing
+            // enabling user to make further edits if required
+            nav(`/listings/${id}`)
+          } else {
+            nav('/home')
+            // Find a way to obtain the listingID of the newly created listing and navigate to page
+            // nav(`/listings/`)
+          }
 
         } catch (error) {
           console.error('Failed to create new listing:', error)
@@ -110,7 +118,7 @@ const NewListing = () => {
 
   const handleCancel = () => {
     if (confirm("Are you sure?")) {
-      console.log("Clear any unsaved changes")
+      nav(`/opportunities/${currentUser._id}`)
     }
   }
 
@@ -418,7 +426,8 @@ const NewListing = () => {
                   <input id="listing-active"
                     type="checkbox"
                     name="listingActive"
-                    value={listingFields.listingActive}
+                    // value={listingFields.listingActive}
+                    checked = {listingFields.listingActive === true}
                     onInput={(e) => handleInputChange(e, "listingActive")}
                       // colouration of on portion and off portion - duration of movement of slider
                     className="absolute bottom-1 w-10 h-6 transition-colors duration-300 rounded-full appearance-none cursor-pointer peer bg-gray-500 checked:bg-green-500  peer-checked:border-gray-900 peer-checked:before:bg-blue-500"
