@@ -10,24 +10,60 @@ const ApplyNow = () => {
     const [currentListing, setCurrentListing] = listing
     const [currentUser, setCurrentUser] = loggedInUser // currentUser is set in AppContextProvider
     const nav = useNavigate()
-    // let wordCountOk = true
+    // let wordCountOk = false
+    let managerApproval = false
 
 
+    function checkWordCount() {
+      const textarea = document.getElementById('applicant-input');
+      const words = textarea.value.split(/\s+/).filter(word => word !== ''); // Splitting by whitespace characters
+      const wordCount = words.length;
+
+      if (wordCount > 300) {
+        alert("Word count exceeds 300. Please limit your input.");
+      } else {
+        return true
+      }
+    }
+
+    // function managerApproval() {
+    //   const checkbox = document.getElementById('manager-approval')
+
+    //   if (!checkbox.checked) {
+    //     alert("Please check the checkbox for manager approval.");
+    //     event.preventDefault(); // Prevent form submission
+    //   }
+    // }
 
 
-      function handleSendButton() {
-        // while (!managerApproval) {
-        //     alert('You must have your line manager\'s approval to apply for this role.')
-        // }
-        postApplication
+    function handleSubmit(event) {
+      const checkbox = document.getElementById('manager-approval')
+
+      if (!checkbox.checked) {
+        alert("Please check the checkbox for manager approval.");
+        event.preventDefault(); // Prevent form submission
+      } else {
+        managerApproval = true
       }
 
+      // Check word count and manager approval ticked
+      // while (!managerApproval) {
+      //     alert('You must have your line manager\'s approval to apply for this role.')
+      // }
+      if (checkWordCount() && managerApproval) {
+        postApplication(event)
+
+      }
+    }
 
 
-    const postApplication = async () => {
-        // event.preventDefault()
+
+    const postApplication = async (event) => {
+        event.preventDefault()
+        // const formData = new FormData(event.currentTarget)
+        // const formDataObj = Object.fromEntries(formData.entries())
         const applicant = currentUser
-
+        console.log(applicant)
         try {
           // const response = await fetch(`https://talent-forge-api-atu2.onrender.com/listings/${currentListing._id}`, {
           const response = await fetch(`http://localhost:8002/listings/${currentListing._id}`, {
@@ -58,6 +94,7 @@ const ApplyNow = () => {
 
     return (
         <>
+        {/* <form onSubmit={handleSubmit}> */}
           <div className="flex justify-center p-4 md:p-8 lg:p-4 xl:p-12 bg-grey">
             <div className="bg-white border border-gray-300 mt-6 mb-6">
               {/* Listing header */}
@@ -97,14 +134,14 @@ const ApplyNow = () => {
                     <br />
                     <textarea
                         name="description"
-                        id="job-desc-input"
+                        id="applicant-input"
                         className="p-textarea-left p-textarea-right form-input text-xl w-full h-80 block overflow-y-auto rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 placeholder-gray-400 placeholder-shown:text-sm placeholder-shown:leading-[3.75] ">
                     </textarea>
                     <label htmlFor="job-desc-input" className="font-normal leading-tight text-blue-gray-400"> Suggested 300 word limit</label>
                 </div>
                 <div>
                     <label htmlFor="manager-approval" className="inline-flex items-center">
-                      <input type="checkbox" id="manager-approval" name="location" onChange={() => managerApproval = true} />
+                      <input type="checkbox" id="manager-approval" />
                       <span className="ml-3">I have my line manager&#39;s consent</span>
                     </label>
                 </div>
@@ -112,7 +149,7 @@ const ApplyNow = () => {
               </div>
               {/* Send/Cancel buttons */}
               <div className="flex justify-center my-3">
-                <button onClick={handleSendButton}
+                <button onClick={(e) => handleSubmit(e)}
                   type="submit"
                   className="bg-dark-green hover:bg-dark-blue text-white font-semibold text-2xl md:text-3xl lg:text-4xl hover:text-white m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300 hover:border-transparent rounded"
                 >
@@ -128,6 +165,7 @@ const ApplyNow = () => {
               {/* Closing date */}
             </div>
           </div>
+          {/* </form> */}
         </>
       )
     }
