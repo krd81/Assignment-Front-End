@@ -113,11 +113,11 @@ const Login = () => {
             <form onSubmit={checkCredentials} onInput={() => setUserNotFound('no')}>
               <span className="block m-3">
                 <label htmlFor="username" className="">Username: </label>
-                <input className="p-textarea-left p-textarea-right form-input rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="username" type="text" value={username} onInput={(e) => setUsername(e.target.value)} />
+                <input className="p-textarea-left form-input rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="username" type="text" value={username} onInput={(e) => setUsername(e.target.value)} />
               </span>
               <span className="block m-5">
                 <label htmlFor="password" className="m-1">Password: </label>
-                <input className="p-textarea-left p-textarea-right form-input rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="password" type="password" value={password} onInput={(e) => setPassword(e.target.value)} />
+                <input className="p-textarea-left form-input rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="password" type="password" value={password} onInput={(e) => setPassword(e.target.value)} />
               </span>
               <button
                 type="submit"

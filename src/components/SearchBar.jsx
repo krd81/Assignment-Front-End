@@ -58,7 +58,7 @@ const showProfile = () => {
                 value={query}
                 onInput={handleSearch}
                 placeholder="Search"
-                className="p-textarea-left p-textarea-right bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mb-10"
+                className="p-textarea-left bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block mb-10"
             />
         </div>
         <div>

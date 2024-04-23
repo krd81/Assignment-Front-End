@@ -135,7 +135,7 @@ const ApplyNow = () => {
                     <textarea
                         name="description"
                         id="applicant-input"
-                        className="p-textarea-left p-textarea-right form-input text-xl w-full h-80 block overflow-y-auto rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 placeholder-gray-400 placeholder-shown:text-sm placeholder-shown:leading-[3.75] ">
+                        className="p-textarea-left form-input text-xl w-full h-80 block overflow-y-auto rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 placeholder-gray-400 placeholder-shown:text-sm placeholder-shown:leading-[3.75] ">
                     </textarea>
                     <label htmlFor="job-desc-input" className="font-normal leading-tight text-blue-gray-400"> Suggested 300 word limit</label>
                 </div>

@@ -111,7 +111,7 @@ const Profile = () => {
                     type="text"
                     value={`${editableProfile.firstName} ${" "} ${editableProfile.lastName}`}
                     onInput={(e) => handleInputChange(e, "name")}
-                    className="p-textarea-left p-textarea-right text-input-class border border-gray-300 w-full"
+                    className="p-textarea-left text-input-class border border-gray-300 w-full"
                   />
                 </div>
               ) : (
@@ -133,7 +133,7 @@ const Profile = () => {
                     placeholder="(20 character max)"
                     value={editableProfile.role}
                     onInput={(e) => handleInputChange(e, "role")}
-                    className="p-textarea-left p-textarea-right text-input-class flex-1 border border-gray-300"
+                    className="p-textarea-left text-input-class flex-1 border border-gray-300"
                   />
                 </div>
               ) : (
@@ -150,7 +150,7 @@ const Profile = () => {
                     placeholder="(25 character max)"
                     value={editableProfile.department}
                     onInput={(e) => handleInputChange(e, "department")}
-                    className="p-textarea-left p-textarea-right text-input-class border border-gray-300"
+                    className="p-textarea-left text-input-class border border-gray-300"
                   />
                 </div>
               ) : (
@@ -190,7 +190,7 @@ const Profile = () => {
                   type="text"
                   value={newSkill}
                   onInput={(e) => setNewSkill(e.target.value)}
-                  className="p-textarea-left p-textarea-right border rounded-md w-full"
+                  className="p-textarea-left border rounded-md w-full"
                 />
                 <button
                   onClick={addSkill}
@@ -225,7 +225,7 @@ const Profile = () => {
                 placeholder="(220 character max)"
                 value={editableProfile.aboutMe}
                 onInput={(e) => handleInputChange(e, "aboutMe")}
-                className="p-textarea-left p-textarea-right text-input-class w-full h-56 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="p-textarea-left text-input-class w-full h-56 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>
           ) : (
