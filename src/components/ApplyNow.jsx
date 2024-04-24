@@ -62,31 +62,50 @@ const ApplyNow = () => {
         event.preventDefault()
         // const formData = new FormData(event.currentTarget)
         // const formDataObj = Object.fromEntries(formData.entries())
-        const applicant = currentUser
-        console.log(applicant)
+
+        // let applicants = [...currentListing.applicants, currentUser]
+        const updateListing = {
+          applicants: [...currentListing.applicants, currentUser]
+        }
+
+        const updateUser = {
+          applications: [...currentUser.applications, currentListing]
+        }
+
         try {
           // const response = await fetch(`https://talent-forge-api-atu2.onrender.com/listings/${currentListing._id}`, {
-          const response = await fetch(`http://localhost:8002/listings/${currentListing._id}`, {
+          const listingResponse = await fetch(`http://localhost:8002/listings/${currentListing._id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${sessionStorage.getItem('token')}`
             },
-            body: JSON.stringify(applicant), // This adds the user to the applicant array in the listing
+            body: JSON.stringify(updateListing), // This adds the user to the applicant array in the listing
           })
 
-          if (!response.ok) {
-            throw new Error(`Error: ${response.statusText}`)
+            // const userResponseesponse = await fetch(`https://talent-forge-api-atu2.onrender.com/users/${currentUser._id}`, {
+            const userResponse = await fetch(`http://localhost:8002/users/${currentUser._id}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+              },
+              body: JSON.stringify(updateUser), // This adds the user to the applicant array in the listing
+            })
+
+
+          if (!listingResponse.ok || !userResponse.ok) {
+            throw new Error(`Error: ${listingResponse.statusText}`)
           }
 
-          const result = await response.json()
+          const result = await listingResponse.json()
           alert('Success! A confirmation email has been sent to you.')
 
 
           nav("/home")
 
         } catch (error) {
-          console.error('Failed to create application:', error)
+          console.error('Failed to complete application:', error)
 
         }
       }

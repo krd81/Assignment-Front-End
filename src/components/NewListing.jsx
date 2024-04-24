@@ -85,7 +85,7 @@ const NewListing = () => {
             },
             body: JSON.stringify(listingData),
           })
-          console.log('response')
+          console.log({'response': response, 'method': method})
 
           if (!response.ok) {
             throw new Error(`Error: ${response.statusText}`)
