@@ -102,7 +102,7 @@ const Login = () => {
 
     return (
         <>
-          <div className="flex-col text-center mt-24 lg:mt-40">
+          <div className="bg-grey flex-col text-center mt-24 lg:mt-40">
             <img
               className="m-2 inline"
               src="src/assets/logos/talent_forge_logo.jpg"

@@ -120,8 +120,7 @@ const Profile = () => {
                 }`}</h2>
               )}
               <div className="border-2 border-gray-800">
-              {/* <img src={profileImageURL.medium} alt="Profile Photo" /> */}
-            <img src='https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&h=350' alt="Profile Photo" />
+            <img src={editableProfile?.imageRef} alt="Profile Photo" />
             </div>
               {/* Edit Role */}
               {isEditMode ? (

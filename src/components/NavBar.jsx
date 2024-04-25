@@ -123,10 +123,7 @@ const {allUsers, loggedInUser, profile} = useContext(AppContext)
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-12 w-12  border-2 rounded-full border-gray-800 "
-                        src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress\u0026cs=tinysrgb\u0026dpr=1\u0026fit=crop\u0026h=200\u0026w=280"
-                        // src="src/assets/logos/anonymous_avatars_grey_circles.png"
-                        alt=""
-                      />
+                        src={currentUser?.imageRef} alt="Profile Photo"/>
                     </Menu.Button>
                   </div>
                   <Transition
