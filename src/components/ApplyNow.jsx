@@ -114,8 +114,8 @@ const ApplyNow = () => {
     return (
         <>
         {/* <form onSubmit={handleSubmit}> */}
-          <div className="flex justify-center p-4 md:p-8 lg:p-4 xl:p-12 bg-grey">
-            <div className="bg-white border border-gray-300 mt-6 mb-6">
+          <div className="flex justify-center p-4 md:p-8 lg:p-4 xl:p-12 ">
+            <div className="bg-blue-50 border border-gray-300 mt-6 mb-6">
               {/* Listing header */}
               <div className="flex justify-center pt-4 lg:pt-10 lg:pb-4">
                 <h1 className="text-4xl md:text-3xl lg:text-5xl font-bold">{currentListing.title}</h1>

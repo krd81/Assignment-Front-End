@@ -19,7 +19,7 @@ const UserSearch = () => {
 
   return (
     <>
-      <div className="bg-white mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-96">
+      <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-96">
         {/* Company Details */}
         <div className="flex flex-col justify-center items-center lg:items-start lg:space-y-4 max-w-6xl mx-auto mt-10 px-5 lg:mt-0">
           <div className="flex flex-col justify-center items-center max-w-lg mx-auto mt-10 px-5">

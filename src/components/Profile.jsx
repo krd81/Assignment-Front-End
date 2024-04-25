@@ -91,7 +91,7 @@ const Profile = () => {
   return (
     <>
       {/* Div encapsulating/creating grid effect */}
-      <div className="bg-white items-center justify-center mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-40 px-5 lg:grid lg:grid-cols-3 lg:gap-4">
+      <div className="bg-blue-50 items-center justify-center mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-40 px-5 lg:grid lg:grid-cols-3 lg:gap-4">
         {/* Div for first grid row */}
         <div className="flex justify-center items-center flex-col lg:flex-col lg:space-x-4 max-w-6xl mx-auto px-5">
           {/* First Column: Profile Image, Role, & Department */}

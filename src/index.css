@@ -9,7 +9,13 @@
 }
 
 body {
-  background-color: #c1c2be;
+  /* background-color: #c1c2be; */
+  /* background-image: url('src/assets/backgrounds/Triangle_pattern_007.jpg');
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-attachment: fixed; */
+  /* background-image: linear-gradient(to right, red, yellow,  green); */
+  background-image: linear-gradient(to right, #455f6e, #92a6b3, #e2e9ed);
 }
 
 footer {

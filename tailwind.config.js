@@ -22,6 +22,7 @@ export default {
       },
       backgroundImage: {
         'hero' : "url('src/assets/backgrounds/greybackground.jpg')",
+        'water' : "url('src/assets/backgrounds/top-view-clear-ocean-water-texture.jpg')"
       },
       screens: {
         // // Breakpoints for screen sizes
