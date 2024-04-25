@@ -56,6 +56,7 @@ const JobListing = () => {
     function handleApply(listing) {
       // No preceding / makes the path relative and redirects to apply page
       nav(`/listings/${listing._id}/apply`)
+      setCurrentListing(listing)
     }
 
 
@@ -131,13 +132,13 @@ const JobListing = () => {
                   <p className="text-base mt-2">Salary: {formatSalary(listing.salary)}</p>
                   <p className="text-base mt-2">Posted Date: {listing.datePosted}</p>
                   <p className="text-base mt-2">Job Description: {displayPreview(listing.description.text)}</p>
-                  <div className="flex justify-center">
-                    <button onClick={(event) => handleApply(listing, event)} className="bg-dark-blue hover:bg-washed-blue text-white font-bold py-2 px-4 rounded mt-4">
+                  {/* Add more job details as needed */}
+                </div>
+                <div className="flex justify-center">
+                    <button onClick={() => handleApply(listing)} className="bg-dark-blue hover:bg-washed-blue text-white font-bold py-2 px-4 rounded mb-5">
                       Apply Now
                     </button>
                   </div>
-                  {/* Add more job details as needed */}
-                </div>
               </div>
             ))}
           </div>
