@@ -108,7 +108,9 @@ const ViewListing = () => {
             <>
 
           <div className="flex flex-wrap justify-center my-3">
+            {/* relative navigation - adds /edit to the end of the current address */}
             <button onClick={() => nav('edit')}
+            // e.g. http://localhost:5173/listings/creator/662502e5ad88aad21dd7ca9a/edit
             type="submit"
             className="bg-dark-green hover:bg-dark-blue text-white font-semibold text-2xl md:text-3xl lg:text-4xl hover:text-white m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300 hover:border-transparent rounded"
           >

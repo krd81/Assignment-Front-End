@@ -120,26 +120,29 @@ const JobListing = () => {
         <div className="md:col-span-2 mb-8">
           <div className="grid grid-cols-1 gap-6">
             {filteredListings.map((listing) => (
-              <div key={listing._id} className="bg-white overflow-hidden shadow-lg rounded-lg border">
-                <div className="p-4"
-                  onClick={() => {
-                    listingClick(listing)
-                    }}>
-                  <h2 className="text-xl text-center font-medium text-gray-900">{listing.title}</h2>
-                  <p className="text-base text-center">{listing.department}</p>
-                  <p className="text-base mt-2">{listing.roleType}</p>
-                  <p className="text-base mt-2">{listing.location}</p>
-                  <p className="text-base mt-2">Salary: {formatSalary(listing.salary)}</p>
-                  <p className="text-base mt-2">Posted Date: {listing.datePosted}</p>
-                  <p className="text-base mt-2">Job Description: {displayPreview(listing.description.text)}</p>
-                  {/* Add more job details as needed */}
-                </div>
-                <div className="flex justify-center">
-                    <button onClick={() => handleApply(listing)} className="bg-dark-blue hover:bg-washed-blue text-white font-bold py-2 px-4 rounded mb-5">
-                      Apply Now
-                    </button>
+
+                listing.listingActive && (
+                  <>
+                    <div key={listing._id} className="bg-white overflow-hidden shadow-lg rounded-lg border">
+                      <div className="p-4" onClick={() => {listingClick(listing)}}>
+                        <h2 className="text-xl text-center font-medium text-gray-900">{listing.title}</h2>
+                        <p className="text-base text-center">{listing.department}</p>
+                        <p className="text-base mt-2">{listing.roleType}</p>
+                        <p className="text-base mt-2">{listing.location}</p>
+                        <p className="text-base mt-2">Salary: {formatSalary(listing.salary)}</p>
+                        <p className="text-base mt-2">Posted Date: {listing.datePosted}</p>
+                        <p className="text-base mt-2">Job Description: {displayPreview(listing.description.text)}</p>
+                        {/* Add more job details as needed */}
+                      </div>
+                        <div className="flex justify-center">
+                          <button onClick={() => handleApply(listing)} className="bg-dark-blue hover:bg-washed-blue text-white font-bold py-2 px-4 rounded mb-5">
+                            Apply Now
+                          </button>
+                        </div>
                   </div>
-              </div>
+              </>
+            )
+
             ))}
           </div>
         </div>
