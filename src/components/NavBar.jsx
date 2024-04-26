@@ -12,7 +12,8 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
-const {allUsers, loggedInUser, profile} = useContext(AppContext)
+  const {allUsers, loggedInUser, profile} = useContext(AppContext)
+  const { logout } = useContext(AuthContext)
   const [users, setUsers] = allUsers
   const [currentUser, setCurrentUser] = loggedInUser
   const [profileUser, setProfileUser] = profile
@@ -60,7 +61,6 @@ const {allUsers, loggedInUser, profile} = useContext(AppContext)
   }
 
 
-  const { logout } = useContext(AuthContext)
 
   const handleLogout = () => {
     logout()
