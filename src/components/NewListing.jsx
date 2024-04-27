@@ -36,33 +36,43 @@ const NewListing = () => {
         salary: (editMode && currentListing)? currentListing.salary : '',
         datePosted: (editMode && currentListing)? currentListing.datePosted : date,
         dateClosing: (editMode && currentListing)? currentListing.dateClosing : '',
-        listingActive: (editMode && currentListing)? currentListing.listingActive : true
+        listingActive: (editMode && currentListing)? currentListing.listingActive : false
       })
 
   const handleInputChange = (e, field) => {
     setListingFields({...listingFields, [field]: e.target.value})
+    console.log(listingFields)
+    console.log(`${listingFields}, Updated field: ${field}`)
+  }
+
+  const handleInputChange2 = (value, fieldName) => {
+    setListingFields({...listingFields, [fieldName]: value})
+    console.log(listingFields)
+    console.log(`${listingFields}, Updated field: ${fieldName}, Updated value: ${value}`)
   }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        console.log('Active Status is:'+ listingFields.listingActive)
         const formData = new FormData(event.currentTarget)
         const formDataObj = Object.fromEntries(formData.entries())
         console.log(formData)
         console.log(formDataObj)
+        // Re-write description field to take values from listingFields
         const listingData = {
-          title: formDataObj.title,
+          title: listingFields.title,
           description: {
             points: [formDataObj.bullet1, formDataObj.bullet2, formDataObj.bullet3],
             text: formDataObj.jobDescription
           },
-          department: formDataObj.department,
-          location: formDataObj.location,
-          roleType: formDataObj.roleType,
-          roleDuration: formDataObj.roleDuration,
-          salary: formDataObj.salary,
-          datePosted: formDataObj.datePosted,
-          dateClosing: formDataObj.dateClosing,
-          listingActive: formDataObj.listingActive,
+          department: listingFields.department,
+          location: listingFields.location,
+          roleType: listingFields.roleType,
+          roleDuration: listingFields.roleDuration,
+          salary: listingFields.salary,
+          datePosted: listingFields.datePosted,
+          dateClosing: listingFields.dateClosing,
+          listingActive: listingFields.listingActive,
           creator: currentUser
         }
 
@@ -86,7 +96,8 @@ const NewListing = () => {
             body: JSON.stringify(listingData),
           })
           console.log({'response': response, 'method': method})
-
+          const data = await response.json();
+          console.log(data)
           if (!response.ok) {
             throw new Error(`Error: ${response.statusText}`)
           }
@@ -427,9 +438,9 @@ const NewListing = () => {
                     type="checkbox"
                     name="listingActive"
                     // value={listingFields.listingActive}
-                    checked = {listingFields.listingActive === true}
-                    onInput={(e) => handleInputChange(e, "listingActive")}
-                      // colouration of on portion and off portion - duration of movement of slider
+                    checked = {listingFields.listingActive}
+                    onChange={(e) => handleInputChange2(e.target.checked, "listingActive")}
+                    // colouration of on portion and off portion - duration of movement of slider
                     className="absolute bottom-1 w-10 h-6 transition-colors duration-300 rounded-full appearance-none cursor-pointer peer bg-gray-500 checked:bg-green-500  peer-checked:border-gray-900 peer-checked:before:bg-blue-500"
                   />
                   <label htmlFor="listing-active"
