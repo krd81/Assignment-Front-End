@@ -46,7 +46,7 @@ const showProfile = () => {
     console.log(profileUser)
     console.log(profileUser._id)
     // setProfileUser(currentUser)
-    nav(`/profile/${profileUser._id}`)
+    nav(`/profile/${profileUser?._id}`)
 
 }
 
@@ -73,7 +73,6 @@ const showProfile = () => {
                             console.log(name)
                             for (let user of users) {
                                 if (user.firstName.concat(' ', user.lastName) === name) {
-                                    console.log("Kelly")
                                     setProfileUser(user)
                                     showProfile()
                                 }

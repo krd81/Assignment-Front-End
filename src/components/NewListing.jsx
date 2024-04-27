@@ -127,7 +127,7 @@ const NewListing = () => {
   return (
     <>
     <form onSubmit={handleSubmit}>
-      <div className="bg-white mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-12">
+      <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-12">
         <div className="flex flex-col items-center">
           {/* Title */}
           <div className="flex justify-center lg:justify-start pb-4">
