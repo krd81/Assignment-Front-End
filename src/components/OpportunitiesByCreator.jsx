@@ -40,19 +40,42 @@ const OpportunitiesByCreator = () => {
 
     const handleView = (listing) => {
         // Open Listing in view mode
+        // event.stopPropagation();
         nav(`/listings/creator/${listing._id}`)
         setCurrentListing(listing)
     }
 
-    const handleEdit = (event) => {
+    const handleEdit = (listing) => {
         // Open Listing in edit mode
-    }
+        // Navigates to 'NewListing' component
+        nav(`/listings/creator/${listing._id}`)
+        setCurrentListing(listing)
+      }
 
-    const handleDelete = (event) => {
+    const handleDelete = (listing) => {
         // Delete Listing
+        deleteListing(listing._id)
+        // Update userListing and global listings state variables
+        setUserListings(prevUserListings => prevUserListings.filter((prevUserListing) => prevUserListing !== listing))
+        setListings(prevListings => prevListings.filter((prevListing) => prevListing !== listing))
+        // Re-load listings excl the deleted listing
+        nav(`/opportunities/${currentUser._id}`)
     }
 
-
+    const deleteListing = async (listingID) => {
+      try {
+        // const response = await fetch('https://talent-forge-api-atu2.onrender.com/listings', {
+        await fetch(`http://localhost:8002/listings/${listingID}`, {
+          method: 'DELETE',
+          headers: {
+            // 'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          }
+        })
+      } catch (error) {
+        console.error('Failed to delete listing:', error)
+      }
+    }
 
 
     return (
@@ -67,10 +90,10 @@ const OpportunitiesByCreator = () => {
                     <div className="grid grid-cols-1 gap-6">
             {userListings.map((listing) => (
               <div key={listing._id} className="bg-white overflow-hidden shadow-lg rounded-lg border">
-                <div className="p-4"
-                  onClick={() => {
+                <div className="p-4">
+                  {/* onClick={() => {
                     handleView(listing)
-                    }}>
+                    }} */}
                   <h2 className="text-xl text-center font-medium text-gray-900">{listing.title}</h2>
                   <p className="text-base text-center">{listing.department}</p>
                   <p className="text-base mt-2">Posted Date: {listing.datePosted}</p>
@@ -87,13 +110,19 @@ const OpportunitiesByCreator = () => {
                     </a>
                     {/* Edit Listing */}
                     <a
-                    >
+                    onClick={() => {
+                      handleEdit(listing)
+                      }}>
+
                       <IonIcon name="brush-outline" size="large" />
 
                     </a>
                     {/* Delete Listing */}
                     <a
-                    >
+                    onClick={() => {
+                      handleDelete(listing)
+                      }}>
+
                       <IonIcon name="trash-outline" size="large" />
 
                     </a>
