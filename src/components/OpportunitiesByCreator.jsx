@@ -38,6 +38,15 @@ export const OpportunitiesByCreator = () => {
 
     const nav = useNavigate()
 
+    const formatDate = (dateToFormat) => {
+      const date = new Date(dateToFormat);
+      const dd = date.toISOString().slice(8,10);
+      const mm = date.toISOString().slice(5,7);
+      const yy = date.toISOString().slice(2,4);
+
+      return `${dd}/${mm}/${yy}`
+    }
+
     const handleView = (listing) => {
         // Open Listing in view mode
         nav(`/listings/creator/${listing._id}`)
@@ -80,28 +89,35 @@ export const OpportunitiesByCreator = () => {
 
     return (
         <>
-            <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-96">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-40">
+                <div className="grid grid-cols-1  gap-4">
                     <div className="md:col-span-3 flex items-center justify-center">
                         <h2>
                             View, edit or delete listings:
                         </h2>
                     </div>
                     <div className="grid grid-cols-1 gap-6">
+                      {/* <div className="flex-row"> */}
             {userListings.map((listing) => (
-              <div key={listing._id} className="bg-white overflow-hidden shadow-lg rounded-lg border">
-                <div className="p-4">
+              <div key={listing._id} className={`${listing.listingActive ? 'bg-white' : 'bg-gray-300'} max-w-full overflow-hidden shadow-lg rounded-lg border`}>
+                <div className="p-4 md:flex-row ">
                   {/* onClick={() => {
                     handleView(listing)
                     }} */}
-                  <h2 className="text-xl text-center font-medium text-gray-900">{listing.title}</h2>
-                  <p className="text-base text-center">{listing.department}</p>
-                  <p className="text-base mt-2">Posted Date: {listing.datePosted}</p>
+                    <div className="md:flex">
+                  <div className="md:w-2/3">
+                    <h2 className="text-xl md:text-3xl lg:text-3xl text-center md:text-left font-medium  md:p-2 text-gray-900">{listing.title}</h2>
+                    <p className="text-base md:text-3xl lg:text-3xl text-center md:text-left md:px-2">{listing.department}</p>
+                  </div>
+                  <div className="md:w-1/3">
+                  <p className="text-base text-center pb-3 md:text-xl lg:text-2xl mt-2">Posted: {formatDate(listing.datePosted)}</p>
+                  {console.log(listing.datePosted)}
+                  </div>
+                  </div>
 
-                  <p className="text-base mt-2">{listing.listingActive}</p>
-                  <span className='flex justify-evenly text-gray-500'>
+                  <span className='flex md:flex justify-evenly md:justify-evenly text-gray-500 md:text-xl'>
                     {/* View Listing */}
-                    <a
+                    <a className="md:p-1"
                     onClick={() => {
                       handleView(listing)
                       }}>
@@ -109,7 +125,7 @@ export const OpportunitiesByCreator = () => {
 
                     </a>
                     {/* Edit Listing */}
-                    <a
+                    <a className="md:p-1"
                     onClick={() => {
                       handleEdit(listing)
                       }}>
@@ -118,7 +134,7 @@ export const OpportunitiesByCreator = () => {
 
                     </a>
                     {/* Delete Listing */}
-                    <a
+                    <a className="md:p-1"
                     onClick={() => {
                       handleDelete(listing)
                       }}>
