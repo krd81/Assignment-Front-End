@@ -7,9 +7,10 @@ import { useParams, useNavigate } from "react-router-dom"
 
 const NewListing = () => {
     document.title = "Create Listing";
-    const { loggedInUser, listing } = useContext(AppContext)
+    const { allListings, listing, loggedInUser } = useContext(AppContext)
+    const [listings, setListings] = allListings
     const [ currentUser ] = loggedInUser
-    const [ currentListing ] = listing
+    const [ currentListing, setCurrentListing ] = listing
     const {id} = useParams()
     const nav = useNavigate()
     // let editMode = false
@@ -95,26 +96,44 @@ const NewListing = () => {
             },
             body: JSON.stringify(listingData),
           })
-          console.log({'response': response, 'method': method})
-          const data = await response.json();
-          console.log(data)
-          if (!response.ok) {
+          const data = await response.json()
+          // The listing which has just been amended/created is now the current listing
+          setCurrentListing(data)
+
+
+          if (response.ok) {
+            if (editMode && currentListing) {
+              // Change link to navigate back to 'manage listings' version of listing
+              // enabling user to make further edits if required
+              nav(`/listings/${id}`)
+              // setCurrentListing(data)
+              // In order to udpate the listings array when a listing has been edited:
+              // 1. Function to find index of listing which matches the edited listing's ID
+              const findIndex = (listings, targetID) => {
+                return listings.findIndex(listing => listing.listing_id === targetID);
+              }
+              // 2. Call the function to return the index
+              const index = findIndex(listings, id)
+              // 3. Remove that element (splice(index, 1) removes the element at position index)
+              // 4. Add the updated listing to the array (last parameter: data)
+              // 5. Global state for listings is updated using 'setListings'
+              setListings(listings.splice(index, 1, data))
+            } else {
+              // Update the listings array (global state object)
+              setListings([...listings, data])
+              // Link redirects to the newly created listing
+              nav(`/listings/${data._id}`)
+              // setCurrentListing(data)
+            }
+
+          } else {
             throw new Error(`Error: ${response.statusText}`)
           }
 
 
-          if (editMode && currentListing) {
-            // Change link to navigate back to 'manage listings' version of listing
-            // enabling user to make further edits if required
-            nav(`/listings/${id}`)
-          } else {
-            nav('/home')
-            // Find a way to obtain the listingID of the newly created listing and navigate to page
-            // nav(`/listings/`)
-          }
 
         } catch (error) {
-          console.error('Failed to create new listing:', error)
+          console.error('Failed to create/update listing:', error)
 
         }
       }
@@ -126,6 +145,26 @@ const NewListing = () => {
       return false
     }
   }
+
+  const handleDelete = async (listing) => {
+    if (confirm("This listing will be deleted. Are you sure?")) {
+      setListings(prevListings => prevListings.filter((prevListing) => prevListing !== listing))
+    }
+
+    try {
+      await fetch(`http://localhost:8002/listings/${listing._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+      })
+      nav('/opportunities')
+
+    } catch (error) {
+      console.error('Failed to delete listing:', error)
+    }
+
+}
 
   const handleCancel = () => {
     if (confirm("Are you sure?")) {
@@ -454,11 +493,18 @@ const NewListing = () => {
           {/* Buttons */}
           <div className="flex justify-center mt-6">
             <div className="flex flex-col">
+              {/* Save button event handled by form submit */}
               <button
                 type="submit"
                 className="bg-dark-green hover:bg-dark-blue text-white font-semibold text-lg md:text-xl lg:text-lg hover:text-white m-2 py-2 md:py-3 lg:py-4 px-5 md:px-6 lg:px-8 min-w-[8rem] border border-blue-500 hover:border-transparent rounded"
               >
                 Save
+              </button>
+              <button onClick={handleDelete}
+                type="submit"
+                className="bg-red-600 hover:bg-white text-white font-semibold text-lg md:text-xl lg:text-lg hover:text-red-600 m-2 py-2 md:py-3 lg:py-4 px-5 md:px-6 lg:px-8 min-w-[8rem] border border-blue-500 hover:border-red-600 rounded"
+              >
+                Delete
               </button>
               <button onClick={handleCancel}
                 type="submit"

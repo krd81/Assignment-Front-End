@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
 
 
-const OpportunitiesByCreator = () => {
+export const OpportunitiesByCreator = () => {
     // App level state objects
     const { allListings, listing, loggedInUser } = useContext(AppContext)
     const [listings, setListings] = allListings
@@ -40,7 +40,6 @@ const OpportunitiesByCreator = () => {
 
     const handleView = (listing) => {
         // Open Listing in view mode
-        // event.stopPropagation();
         nav(`/listings/creator/${listing._id}`)
         setCurrentListing(listing)
     }
@@ -48,18 +47,20 @@ const OpportunitiesByCreator = () => {
     const handleEdit = (listing) => {
         // Open Listing in edit mode
         // Navigates to 'NewListing' component
-        nav(`/listings/creator/${listing._id}`)
+        nav(`/listings/creator/${listing._id}/edit`)
         setCurrentListing(listing)
       }
 
     const handleDelete = (listing) => {
-        // Delete Listing
-        deleteListing(listing._id)
-        // Update userListing and global listings state variables
-        setUserListings(prevUserListings => prevUserListings.filter((prevUserListing) => prevUserListing !== listing))
-        setListings(prevListings => prevListings.filter((prevListing) => prevListing !== listing))
-        // Re-load listings excl the deleted listing
-        nav(`/opportunities/${currentUser._id}`)
+      if (confirm("This listing will be deleted. Are you sure?")) {
+         // Delete Listing
+          deleteListing(listing._id)
+          // Update userListing and global listings state variables
+          setUserListings(prevUserListings => prevUserListings.filter((prevUserListing) => prevUserListing !== listing))
+          setListings(prevListings => prevListings.filter((prevListing) => prevListing !== listing))
+          // Re-load listings excl the deleted listing
+          nav(`/opportunities/${currentUser._id}`)
+      }
     }
 
     const deleteListing = async (listingID) => {
@@ -68,7 +69,6 @@ const OpportunitiesByCreator = () => {
         await fetch(`http://localhost:8002/listings/${listingID}`, {
           method: 'DELETE',
           headers: {
-            // 'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
           }
         })
@@ -99,7 +99,7 @@ const OpportunitiesByCreator = () => {
                   <p className="text-base mt-2">Posted Date: {listing.datePosted}</p>
 
                   <p className="text-base mt-2">{listing.listingActive}</p>
-                  <span className='flex justify-evenly text-indigo-100'>
+                  <span className='flex justify-evenly text-gray-500'>
                     {/* View Listing */}
                     <a
                     onClick={() => {

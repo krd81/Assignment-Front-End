@@ -2,6 +2,7 @@ import { useContext } from "react"
 import "../assets/css/ViewListing.css"
 import { AppContext } from '../authentication/AppContext'
 import { useParams, useNavigate } from "react-router-dom"
+import OpportunitiesByCreator from "./OpportunitiesByCreator"
 
 
 
@@ -38,11 +39,7 @@ const ViewListing = () => {
   }
 
 
-  // Functionality to apply for role
-  // const handleApplyButton = () => {
-  //   // No preceding '/' makes the path relative and redirects to apply page
-  //   nav('apply')
-  // }
+
 
 
 
@@ -117,9 +114,9 @@ const ViewListing = () => {
             Edit
           </button>
 
-            <button onClick
+            <button onClick={() => OpportunitiesByCreator.handleDelete(currentListing)}
             type="submit"
-            className="bg-dark-green hover:bg-dark-blue text-white font-semibold text-2xl md:text-3xl lg:text-4xl hover:text-white m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300 hover:border-transparent rounded"
+            className="bg-red-600 hover:bg-white text-white font-semibold text-2xl md:text-3xl lg:text-4xl hover:text-red-600 m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300  hover:border-red-600 rounded"
             >
             Delete
             </button>
