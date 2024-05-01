@@ -4,13 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
 import Fuse from "fuse.js" // Import Fuse.js library
 
-
+// Icon for NEW listings: 'notifications-outline' or <ion-icon name="megaphone-outline"></ion-icon>
+// Icon for expiring listings: 'alert' | 'alert-circle' | 'alert-circle-outline'
+// Icon to show job has been applied for: 'checkmark-circle-outline'
+// Icon to show applications: 'people' | 'people-outline'
 // export const ListingContext = createContext()
 
 const JobListing = () => {
   const { allListings, listing } = useContext(AppContext)
-  const [listings, setListings] = allListings
-  const [currentListing, setCurrentListing] = listing
+  const [ listings ] = allListings
+  const [ setCurrentListing ] = listing
 
   const nav = useNavigate()
 

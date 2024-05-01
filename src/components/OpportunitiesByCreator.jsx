@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import { useState, useEffect, useContext } from "react"
 import IonIcon from '@reacticons/ionicons'
 import { useNavigate } from 'react-router-dom'
@@ -9,9 +9,9 @@ import '../assets/css/Opportunities.css'
 export const OpportunitiesByCreator = () => {
   // App level state objects
   const { allListings, listing, loggedInUser } = useContext(AppContext)
-  const [listings, setListings] = allListings
-  const [currentListing, setCurrentListing] = listing
-  const [currentUser, setCurrentUser] = loggedInUser
+  const [ listings, setListings ] = allListings
+  const [ setCurrentListing ] = listing
+  const [ currentUser ] = loggedInUser
 
   // Local state object
   let [userListings, setUserListings] = useState([])
@@ -116,7 +116,7 @@ export const OpportunitiesByCreator = () => {
                   </div>
                   </div>
 
-                  <span className='flex md:flex justify-evenly md:justify-evenly text-gray-500  md:text-xl'>
+                  <span className='flex md:flex justify-evenly md:justify-evenly text-gray-500  md:text-2xl'>
                     {/* View Listing */}
                     <a className="md:p-1 hover:text-blue-700"
                     onClick={() => {
@@ -129,7 +129,7 @@ export const OpportunitiesByCreator = () => {
                     onClick={() => {
                       handleEdit(listing)
                       }}>
-                      <IonIcon name="brush-outline" size="large" />
+                      <IonIcon name='pencil-outline' size="large" />
                     </a>
                     {/* Delete Listing */}
                     <a className="md:p-1 hover:text-blue-700"
