@@ -12,16 +12,10 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
-  const {allUsers, loggedInUser, profile} = useContext(AppContext)
+  const { loggedInUser, profile } = useContext(AppContext)
   const { logout } = useContext(AuthContext)
-  const [users, setUsers] = allUsers
-  const [currentUser, setCurrentUser] = loggedInUser
-  const [profileUser, setProfileUser] = profile
-
-
-
-
-
+  const [ currentUser ] = loggedInUser
+  const [ setProfileUser ] = profile
 
     // Define adminRender here to access homeUser
     const adminRender = () => {
@@ -42,7 +36,6 @@ export default function NavBar() {
       ...adminRender()
     ]
 
-  const { token } = useContext(AuthContext)
   const nav = useNavigate()
 
   // Need a way to re-set the current user as profileUser
