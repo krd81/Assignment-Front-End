@@ -15,14 +15,14 @@ const ViewListing = () => {
   // Conditional rendering of job description/points
   function renderJobInfo(info) {
     console.log(currentListing)
-    if (currentListing.description) {
-        if (info ==='points' && currentListing.description.points) {
+    if (currentListing?.description) {
+        if (info ==='points' && currentListing?.description.points) {
           const pointsArray = [...currentListing.description.points]
           return pointsArray.map((point, index) => {
-            return <li className="text-lg md:text-xl lg:text-2xl my-1 md:my-3" key={index}>{point}</li>
+            return <li className="text-lg md:text-xl lg:text-2xl my-1 md:my-3 list-item-indent" key={index}>{point}</li>
           })
-        } else if (info === 'text' && currentListing.description.text) {
-          return <p className="text-xl md:text-2xl lg:text-2xl">{currentListing.description.text}</p>
+        } else if (info === 'text' && currentListing?.description.text) {
+          return <p className="text-xl md:text-2xl lg:text-2xl">{currentListing?.description.text}</p>
         }
     } else {
       return null
@@ -49,41 +49,41 @@ const ViewListing = () => {
 
   return (
     <>
-      <div className="flex justify-center md:p-8 lg:p-4 xl:p-12 bg-grey ">
-        <div className="bg-blue-50 border-2 border-gray-700 shadow-2xl my-6 mx-6 px-4 md:px-28 lg:px-96">
+      <div className="flex justify-center md:p-8 lg:p-4 xl:p-12">
+        <div className="bg-blue-50 border-2 border-gray-700 shadow-2xl my-6 mx-6 px-4 md:px-28 lg:px-80">
           {/* Listing header */}
           <div className="flex justify-center pt-4 lg:pt-10 lg:pb-4 ">
-            <h1 className="text-4xl md:text-4xl lg:text-5xl font-bold">{currentListing.title}</h1>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">{currentListing?.title}</h1>
           </div>
           {/* Listing subheader */}
           <div className="flex justify-center">
-            <h2 className="text-2xl md:text-2xl lg:text-3xl">{`Department: ${currentListing.department}`}</h2>
+            <h2 className="text-2xl md:text-2xl lg:text-3xl">{`Department: ${currentListing?.department}`}</h2>
           </div>
-          <div className="flex justify-center items-center flex-col sm:flex-col md:flex-col lg:flex-row">
+          <div className="flex justify-center md:items-center flex-col sm:flex-col md:flex-col lg:flex-row">
             {/* Listing top level info */}
             <div className="top-level-info mx-2 sm:mx-4 md:mx-4 lg:mx-4 my-2 md:my-4 lg:my-4">
 
               <h4 className="info-title text-lg md:text-3xl lg:text-3xl flex justify-start pt-2">
-                {currentListing.location}
+                {currentListing?.location}
               </h4>
 
               <h4 className="info-title text-lg md:text-3xl lg:text-3xl flex justify-start pt-2">
-              {currentListing.roleType}
+              {currentListing?.roleType}
               </h4>
 
               <h4 className="info-title text-lg md:text-3xl lg:text-3xl flex justify-start pt-2">
-              {currentListing.roleDuration}
+              {currentListing?.roleDuration}
               </h4>
               <h4 className="info-title text-lg md:text-xl lg:text-2xl flex justify-start pt-2">
-              {`Date Posted: `}{currentListing ? dateFormat(currentListing.datePosted) : "Loading..."}
+              {`Date Posted: `}{currentListing ? dateFormat(currentListing?.datePosted) : "Loading..."}
               </h4>
 
             </div>
             </div>
 
-            <div className="flex justify-center items-center flex-col sm:flex-col md:flex-col lg:flex-row">
+            <div className="flex md:justify-center md:items-center flex-col pt-4 md:pt-0 sm:flex-col md:flex-col lg:flex-row">
             {/* Job points */}
-            <div className="job-points mx-7 md:mx-11 lg:mx-11 my-0 md:my-4 lg:my-4">
+            <div className="job-points mx-2 md:mx-11 lg:mx-11 my-0 md:my-4 lg:my-4">
               <div className="list-disc list-inside text-lg md:text-3xl lg:text-3xl">
             {/* Bullet point rendering function */}
                 {renderJobInfo('points')}
@@ -91,7 +91,7 @@ const ViewListing = () => {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center mx-2 md:mx-4 lg:mx-4 my-0 md:my-2 lg:my-2">
+          <div className="flex flex-col justify-center mx-2 md:mx-4 lg:mx-4 my-6 md:my-2 lg:my-2 test-text">
             {/* Full job description */}
             <div>
               <span  id="para">
@@ -135,7 +135,7 @@ const ViewListing = () => {
 
           {/* Closing date */}
           <div className="flex justify-center my-3 pb-6 italic ">
-            <p className="text-lg md:text-2xl lg:text-2xl text-red-500">Closing Date: {dateFormat(currentListing.dateClosing)}</p>
+            <p className="text-lg md:text-2xl lg:text-2xl text-red-500">Closing Date: {dateFormat(currentListing?.dateClosing)}</p>
           </div>
         </div>
       </div>

@@ -3,12 +3,25 @@
     line-height: 4vh;
 }
 
-@media screen and (min-width: 1024px) {
-    #para {
-        line-height: 6vh;
-    }
-  }
+
 
 li {
     margin-bottom: 13px;
 }
+
+.list-item-indent {
+    padding-left: 1.7rem; /* Adjust the padding as needed */
+    text-indent: -1.6rem; /* Counteract the padding for the first line */
+}
+
+
+@media screen and (min-width: 1024px) {
+
+    #para {
+        line-height: 6vh;
+    }
+    .list-item-indent {
+        padding-left: 2rem; /* Adjust the padding as needed */
+        text-indent: -2rem; /* Counteract the padding for the first line */
+    }
+  }

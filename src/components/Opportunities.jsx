@@ -13,7 +13,7 @@ import Fuse from "fuse.js" // Import Fuse.js library
 const JobListing = () => {
   const { allListings, listing } = useContext(AppContext)
   const [ listings ] = allListings
-  const [ setCurrentListing ] = listing
+  const [ currentListing, setCurrentListing ] = listing
 
   const nav = useNavigate()
 
