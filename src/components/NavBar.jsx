@@ -14,8 +14,8 @@ function classNames(...classes) {
 export default function NavBar() {
   const { loggedInUser, profile } = useContext(AppContext)
   const { logout } = useContext(AuthContext)
-  const [ currentUser ] = loggedInUser
-  const [ setProfileUser ] = profile
+  const [ currentUser, setCurrentUser ] = loggedInUser
+  const [ profileUser, setProfileUser ] = profile
 
     // Define adminRender here to access homeUser
     const adminRender = () => {

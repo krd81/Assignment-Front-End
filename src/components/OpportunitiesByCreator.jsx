@@ -10,8 +10,8 @@ export const OpportunitiesByCreator = () => {
   // App level state objects
   const { allListings, listing, loggedInUser } = useContext(AppContext)
   const [ listings, setListings ] = allListings
-  const [ setCurrentListing ] = listing
-  const [ currentUser ] = loggedInUser
+  const [ currentListing, setCurrentListing ] = listing
+  const [ currentUser, setCurrentUser ] = loggedInUser
 
   // Local state object
   let [userListings, setUserListings] = useState([])
