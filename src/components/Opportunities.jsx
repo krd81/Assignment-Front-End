@@ -6,6 +6,7 @@ import "../assets/css/App.css"
 
 // Icon for NEW listings: 'notifications-outline' or <ion-icon name="megaphone-outline"></ion-icon>
 // Icon for expiring listings: 'alert' | 'alert-circle' | 'alert-circle-outline'
+// Icon for favourite listings: 'heart'
 // Icon to show job has been applied for: 'checkmark-circle-outline'
 // Icon to show applications: 'people' | 'people-outline'
 // export const ListingContext = createContext()
@@ -78,10 +79,20 @@ const JobListing = () => {
     return text.split(' ').slice(0, 20).join(' ');
   }
 
-  // Function to format salary as currency with 1000s separator
-  function formatSalary(salary) {
-    return `$${Number(salary).toLocaleString()}`;
+  function newListing(listing) {
+    const datePosted = new Date(listing.datePosted)
+    const today = new Date(Date.now())
+    const differenceInTime = today.getTime() - datePosted.getTime()
+    const daysSincePosted = Math.floor(differenceInTime / (1000 * 3600 * 24))
+
+    if (daysSincePosted < 7) {
+      return true
+    } else {
+      return false
+    }
   }
+
+
 
 
   document.title = "Opportunities"
@@ -126,16 +137,21 @@ const JobListing = () => {
 
                 listing.listingActive && (
                   <>
-                    <div key={listing._id} className="bg-white overflow-hidden shadow-lg rounded-lg border select-list-item">
+                  {/* className={`${listing.listingActive ? 'bg-white' : 'bg-gray-300'} max-w-full overflow-hidden shadow-lg rounded-lg border select-list-item`} */}
+                    <div key={listing._id} className={`overflow-hidden shadow-lg rounded-lg border ${newListing(listing) ? "border-green-600 bg-green-50" : "bg-white"} select-list-item`}>
                       <div className="p-4" onClick={() => {listingClick(listing)}}>
                         <h2 className="text-xl text-center font-medium text-gray-900">{listing.title}</h2>
                         <p className="text-base text-center">{listing.department}</p>
+                        <div>
+                          {/* Icons */}
+
+                        </div>
                         <p className="text-base mt-2">{listing.roleType}</p>
                         <p className="text-base mt-2">{listing.location}</p>
-                        <p className="text-base mt-2">Salary: {formatSalary(listing.salary)}</p>
+                        <p className="text-base mt-2">Salary: ${Number(listing.salary).toLocaleString()}</p>
                         <p className="text-base mt-2">Posted Date: {listing.datePosted}</p>
                         <p className="text-base mt-2">Job Description: {displayPreview(listing.description.text)}</p>
-                        {/* Add more job details as needed */}
+                        {newListing(listing)}
                       </div>
                         <div className="flex justify-center">
                           <button onClick={() => handleApply(listing)} className="bg-dark-blue hover:bg-washed-blue text-white font-bold py-2 px-4 rounded mb-5">

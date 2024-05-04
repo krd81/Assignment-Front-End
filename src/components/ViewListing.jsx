@@ -74,6 +74,9 @@ const ViewListing = () => {
               <h4 className="info-title text-lg md:text-3xl lg:text-3xl flex justify-start pt-2">
               {currentListing?.roleDuration}
               </h4>
+              <h4 className="info-title text-lg md:text-3xl lg:text-3xl flex justify-start pt-2">
+                Salary: ${Number(currentListing?.salary).toLocaleString()}
+              </h4>
               <h4 className="info-title text-lg md:text-xl lg:text-2xl flex justify-start pt-2">
               {`Date Posted: `}{currentListing ? dateFormat(currentListing?.datePosted) : "Loading..."}
               </h4>
