@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react"
-
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
 import Fuse from "fuse.js" // Import Fuse.js library
+import "../assets/css/App.css"
 
 // Icon for NEW listings: 'notifications-outline' or <ion-icon name="megaphone-outline"></ion-icon>
 // Icon for expiring listings: 'alert' | 'alert-circle' | 'alert-circle-outline'
@@ -126,7 +126,7 @@ const JobListing = () => {
 
                 listing.listingActive && (
                   <>
-                    <div key={listing._id} className="bg-white overflow-hidden shadow-lg rounded-lg border">
+                    <div key={listing._id} className="bg-white overflow-hidden shadow-lg rounded-lg border select-list-item">
                       <div className="p-4" onClick={() => {listingClick(listing)}}>
                         <h2 className="text-xl text-center font-medium text-gray-900">{listing.title}</h2>
                         <p className="text-base text-center">{listing.department}</p>

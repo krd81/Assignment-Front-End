@@ -1,8 +1,11 @@
+/* now handled by App.css
+
 .select-list-item {
     transition: transform 0.3s ease-in-out;
 }
 
 .select-list-item:hover {
-    /* transform: translateX(10px);  */
     transform: scale(1.02);
 }
+
+ */

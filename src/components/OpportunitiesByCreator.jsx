@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react"
 import IonIcon from '@reacticons/ionicons'
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
-import '../assets/css/Opportunities.css'
+import "../assets/css/App.css"
 
 
 export const OpportunitiesByCreator = () => {
