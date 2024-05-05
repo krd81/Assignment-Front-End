@@ -61,13 +61,13 @@ export default function NavBar() {
   }
 
   return (
-    <Disclosure as="nav" className="bg-dark-blue">
+    <Disclosure as="nav" className="bg-dark-blue ">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className=" mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             {/* div holding menu items */}
-            <div className="relative flex h-20 items-center justify-around">
-              <div className="absolute inset-y-0 left-0 flex items-center lg:hidden">
+            <div className="relative flex h-20 items-center justify-around ">
+              <div className="absolute inset-y-0 left-0 flex items-center lg:hidden ">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
@@ -79,7 +79,7 @@ export default function NavBar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center ">
+              <div className="flex flex-1 items-center justify-center">
                 <div className="hidden lg:ml-6 lg:block">
                   <div className="flex space-x-4 justify-center">
                     {navigation.map((item) => (
@@ -174,7 +174,7 @@ export default function NavBar() {
           </div>
 
           <Disclosure.Panel className="lg:hidden">
-            <div className="space-y-1 px-2 pb-3 pt-2">
+            <div className="absolute bg-dark-blue space-y-1 px-2 pb-3 pt-2 ">
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
