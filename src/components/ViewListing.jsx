@@ -32,9 +32,9 @@ const ViewListing = () => {
   const dateFormat = (date) => {
     // DB stores date as YYYY-MM-DD
     const dateFormatted = new Date(date)
-    const day = dateFormatted.toISOString().slice(8,10)
-    const month = dateFormatted.toISOString().slice(5,7)
-    const year = dateFormatted.toISOString().slice(0,4)
+    const day = date ? dateFormatted.toISOString().slice(8,10) : '01'
+    const month = date ? dateFormatted.toISOString().slice(5,7) : '01'
+    const year = date ? dateFormatted.toISOString().slice(0,4) : '2024'
     return `${day}/${month}/${year}`
   }
 
