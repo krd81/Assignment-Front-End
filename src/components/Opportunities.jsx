@@ -137,7 +137,6 @@ const JobListing = () => {
 
                 listing.listingActive && (
                   <>
-                  {/* className={`${listing.listingActive ? 'bg-white' : 'bg-gray-300'} max-w-full overflow-hidden shadow-lg rounded-lg border select-list-item`} */}
                     <div key={listing._id} className={`overflow-hidden shadow-lg rounded-lg border ${newListing(listing) ? "border-green-600 bg-green-50" : "bg-white"} select-list-item`}>
                       <div className="p-4" onClick={() => {listingClick(listing)}}>
                         <h2 className="text-xl text-center font-medium text-gray-900">{listing.title}</h2>

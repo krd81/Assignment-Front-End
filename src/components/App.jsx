@@ -10,6 +10,7 @@ import OpportunitiesByCreator from './OpportunitiesByCreator' // Import the 'Opp
 import UserSearch from './UserSearch' // Import the 'UserSearch' component
 import ViewListing from './ViewListing'
 import ApplyNow from './ApplyNow'
+import UserAssetsList from './UserAssetsList'
 import NewListing from './NewListing' // Import the 'NewListing' component
 import NewUser from './NewUser' // Import the 'NewUser' component
 import { AuthProvider } from '../authentication/AuthContext'
@@ -63,6 +64,7 @@ return (
                 <Route path='/listings/:viewtype?/:id' element={<ViewListing />} />
                 <Route path='/listings/:id/apply' element={<ApplyNow />} />
                 <Route path='/listings/:viewtype?/:id/edit' element={<NewListing />} />
+                <Route path='/user/listings/:userId' element={<UserAssetsList />} />
               <Route path='/listing-new' element={<NewListing />} />
               <Route path='/user-new' element={<NewUser />} />
                 {/* Fallback route for unmatched paths */}
