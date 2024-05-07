@@ -29,6 +29,18 @@ console.log(currentUser)
   ];
 
 
+    const showSkills = (skill, index) => {
+      return (
+        <button
+          key={index}
+          className="p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 bg-green-300 text-black"
+        >
+          {skill}
+        </button>
+      )
+    }
+
+
   // Applications Dummy Data
   const applications = []
 
@@ -87,7 +99,7 @@ console.log(currentUser)
   return (
     <>
       {/* Div encapsulating/creating grid effect */}
-      <div className="bg-blue-50 items-center justify-center mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-40 px-5 lg:grid lg:grid-cols-3 lg:gap-4">
+      <div className="bg-blue-50 items-center justify-center mx-6 my-6 md:my-12 p-6 md:p-10 lg:p-16 xl:mx-40 px-5 lg:grid lg:grid-cols-3 lg:gap-4">
         {/* Div for first grid row */}
         <div className="flex justify-center items-center flex-col lg:flex-col lg:space-x-4 max-w-6xl mx-auto px-5">
           {/* First Column: Profile Image, Role, & Department */}
@@ -258,8 +270,7 @@ console.log(currentUser)
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center mb-12">
-                <h2 className="text-2xl text-center font-bold mb-2">Status:</h2>
-                <p className="text-xl">{editableProfile.status}</p>
+                {currentUser.aboutMe.skills.map((index, skill) => showSkills(index, skill))}
               </div>
             )}
           </div>
