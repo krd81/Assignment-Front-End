@@ -2,36 +2,32 @@
 import { useState, useContext, useEffect } from "react"
 import  Auth  from "../authentication/Auth"
 import { AppContext } from '../authentication/AppContext'
-// import { createClient } from 'pexels'
+
 
 
 const Profile = () => {
   const { loggedInUser, profile} = useContext(AppContext)
   const [currentUser, setCurrentUser] = loggedInUser
   const [profileUser, setProfileUser] = profile
-  // const client = createClient('B9TC4GKtnywbu8Wd3r3OUdRFuqUjwpnzdznUYVjti1E7n5VB70Cl8vfo');
-
 
 
   document.title = "Profile"
   const [isEditMode, setIsEditMode] = useState(false)
   const [skills, setSkills] = useState(["Edit Profile to add skills!"])
   const [newSkill, setNewSkill] = useState("")
-
+console.log(currentUser)
 
   // Checkboxes Dummy Data
-  const statuses = [
-    "Looking for a new job",
-    "Happy where I am",
-    "Might be willing to move",
-    "Unsure how I feel about it",
+  const skillList = [
+    "Project Management",
+    "Leadership",
+    "Design",
+    "Strategy",
+    "Analytical",
+    "Quality Assurance",
+    "Training"
   ];
 
-  // Sets the photoImageUrl so that all sizes can be obtained
-  // useEffect (() => {
-  //   client.photos.show({ id: currentUser.imageRef })
-  //   .then(photo => setProfileImageURL(photo))
-  // }, [client.photos, currentUser])
 
   // Applications Dummy Data
   const applications = []
@@ -109,13 +105,13 @@ const Profile = () => {
                     maxLength="30"
                     placeholder="(30 characters max)"
                     type="text"
-                    value={`${editableProfile.firstName} ${" "} ${editableProfile.lastName}`}
+                    value={`${editableProfile.firstName} ${editableProfile.lastName}`}
                     onInput={(e) => handleInputChange(e, "name")}
                     className="p-textarea-left text-input-class border border-gray-300 w-full"
                   />
                 </div>
               ) : (
-                <h2 className="text-2xl text-center font-bold mb-2">{`${editableProfile.firstName} ${" "} ${
+                <h2 className="text-2xl text-center font-bold mb-2">{`${editableProfile.firstName} ${
                   editableProfile.lastName
                 }`}</h2>
               )}
@@ -249,19 +245,15 @@ const Profile = () => {
           >
             {isEditMode ? (
               <div className="flex flex-col justify-center items-center w-full mx-auto mt-10 ">
-                {statuses.map((status, index) => (
-                  <label key={index} className="flex text-xl text-left items-center mb-8 space-x-2">
-                    <input
-                      type="radio"
-                      name="status"
-                      id={`status-${index}`}
-                      value={status}
-                      checked={editableProfile.status === status}
-                      onChange={(e) => handleInputChange(e, "status")}
-                      className="form-radio h-5 w-5 text-black"
-                    />
-                    <span>{status}</span>
-                  </label>
+                {skillList.map((status, index) => (
+
+                    <button
+                      key={index}
+                      onClick ={handleInputChange}
+                      className={` p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 ${currentUser.aboutMe.skills.includes(status) ? "bg-green-300 text-black" : "bg-dark-green text-white"}`}>
+                      {status}
+                    </button>
+
                 ))}
               </div>
             ) : (
