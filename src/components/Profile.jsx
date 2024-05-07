@@ -25,15 +25,28 @@ console.log(currentUser)
     "Strategy",
     "Analytical",
     "Quality Assurance",
-    "Training"
+    "Training",
+    "First Aid",
+    "Risk Management"
   ];
 
+
+    const showUserSkills = (skill, index) => {
+      return (
+        <button
+          key={index}
+          className="p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 bg-green-300 text-black"
+        >
+          {skill}
+        </button>
+      )
+    }
 
     const showSkills = (skill, index) => {
       return (
         <button
           key={index}
-          className="p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 bg-green-300 text-black"
+          className="p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 bg-dark-green text-white"
         >
           {skill}
         </button>
@@ -257,20 +270,30 @@ console.log(currentUser)
           >
             {isEditMode ? (
               <div className="flex flex-col justify-center items-center w-full mx-auto mt-10 ">
-                {skillList.map((status, index) => (
+                {/* Show user skills first (in green) */}
+                {currentUser.aboutMe.skills.map((skill, index) => showUserSkills(skill, index))}
+                {/* Show any remaining default skills (in blue)
+                Currently not displaying blue (non-selected skills) - due to information not being available at the point of rendering
+                Look for a solution involving useState
+                */}
+                {skillList.map((status, index) => {
+                  let i = 0;
+                  while (i < currentUser.aboutMe.skills.length) {
+                    if (currentUser.aboutMe.skills[i] === status) {
+                  console.log(`Full list: ${status} vs User list: ${currentUser.aboutMe.skills[i]} matching`)
+                  i++;
+                    } else {
+                      console.log(`Full list: ${status} vs User list: ${currentUser.aboutMe.skills[i]} not matching`)
 
-                    <button
-                      key={index}
-                      onClick ={handleInputChange}
-                      className={` p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 ${currentUser.aboutMe.skills.includes(status) ? "bg-green-300 text-black" : "bg-dark-green text-white"}`}>
-                      {status}
-                    </button>
-
-                ))}
+                      showSkills(status, index)
+                      i++;
+                    }
+                  }
+                  })}
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center mb-12">
-                {currentUser.aboutMe.skills.map((index, skill) => showSkills(index, skill))}
+                {currentUser.aboutMe.skills.map((index, skill) => showUserSkills(index, skill))}
               </div>
             )}
           </div>
