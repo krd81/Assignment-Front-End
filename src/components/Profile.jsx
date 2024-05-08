@@ -6,14 +6,24 @@ import { AppContext } from '../authentication/AppContext'
 
 
 const Profile = () => {
+  document.title = "Profile"
   const { loggedInUser, profile} = useContext(AppContext)
   const [currentUser, setCurrentUser] = loggedInUser
   const [profileUser, setProfileUser] = profile
 
-
-  document.title = "Profile"
   const [isEditMode, setIsEditMode] = useState(false)
-  const [skills, setSkills] = useState(["Edit Profile to add skills!"])
+  const [skills, setSkills] = useState([
+    "Project Management",
+    "Leadership",
+    "Design",
+    "Strategy",
+    "Analytical",
+    "Quality Assurance",
+    "Training",
+    "First Aid",
+    "Risk Management"
+
+  ])
   const [newSkill, setNewSkill] = useState("")
 console.log(currentUser)
 
@@ -276,20 +286,7 @@ console.log(currentUser)
                 Currently not displaying blue (non-selected skills) - due to information not being available at the point of rendering
                 Look for a solution involving useState
                 */}
-                {skillList.map((status, index) => {
-                  let i = 0;
-                  while (i < currentUser.aboutMe.skills.length) {
-                    if (currentUser.aboutMe.skills[i] === status) {
-                  console.log(`Full list: ${status} vs User list: ${currentUser.aboutMe.skills[i]} matching`)
-                  i++;
-                    } else {
-                      console.log(`Full list: ${status} vs User list: ${currentUser.aboutMe.skills[i]} not matching`)
-
-                      showSkills(status, index)
-                      i++;
-                    }
-                  }
-                  })}
+                {skills.map((skill, index) => showSkills(skill, index))}
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center mb-12">
