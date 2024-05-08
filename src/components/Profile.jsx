@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useContext, useEffect } from "react"
+import { useState, useContext } from "react"
 import  Auth  from "../authentication/Auth"
 import { AppContext } from '../authentication/AppContext'
 
@@ -13,10 +13,11 @@ const Profile = () => {
 
   const [isEditMode, setIsEditMode] = useState(false)
   const [skills, setSkills] = useState([])
+  const [userSkills, setUserSkills] = useState([])
   const [newSkill, setNewSkill] = useState("")
 console.log(currentUser)
 
-  // Checkboxes Dummy Data
+  // This is the default list which doesn't change
   const skillList = [
     "Project Management",
     "Leadership",
@@ -32,7 +33,7 @@ console.log(currentUser)
 
     const showUserSkills = (skill, index) => {
       return (
-        <button
+        <button onClick={() => updateUserSkills(skill)}
           key={index}
           className="p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 bg-green-300 text-black"
         >
@@ -41,6 +42,21 @@ console.log(currentUser)
       )
     }
 
+    // Function to update the skill list (in currentUser and userSkills state object)
+    const updateUserSkills = (skill) => {
+      if (currentUser.aboutMe.skills.includes(skill)) {
+      if (skillList.includes(skill)) {
+          currentUser.aboutMe.skills.splice(currentUser.aboutMe.skills.indexOf(skill), 1);
+        } else {
+          if (confirm(`This action will delete: "${skill}". Are you sure?`)) {
+          currentUser.aboutMe.skills.splice(currentUser.aboutMe.skills.indexOf(skill), 1);
+          }
+        }
+      } else {
+        currentUser.aboutMe.skills.push(skill);
+      }
+      setUserSkills([...currentUser.aboutMe.skills])
+    }
 
 
 
@@ -93,7 +109,10 @@ console.log(currentUser)
     imageRef: profileUser.imageRef,
   })
 
-  const toggleEditMode = () => setIsEditMode(!isEditMode);
+  const toggleEditMode = () => {
+    setUserSkills([...currentUser.aboutMe.skills])
+    setIsEditMode(!isEditMode)
+  };
 
   const handleInputChange = (e, field) => {
     setEditableProfile({ ...editableProfile, [field]: e.target.value });
@@ -261,13 +280,13 @@ console.log(currentUser)
             {isEditMode ? (
               <div className="flex flex-col justify-center items-center w-full mx-auto mt-10 ">
                 {/* Show user skills first (in green) */}
-                {currentUser.aboutMe.skills.map((skill, index) => showUserSkills(skill, index))}
+                {userSkills.map((skill, index) => showUserSkills(skill, index))}
                 {/* Show any remaining default skills (in blue)*/}
 
                 {skillList.map((skill, index) => {
-                  if (currentUser.aboutMe.skills.includes(skill) === false) {
+                  if (userSkills.includes(skill) === false) {
                     return (
-                      <button
+                      <button onClick={() => updateUserSkills(skill)}
                       key={index}
                       className="p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 bg-dark-green text-white"
                       >
@@ -275,9 +294,31 @@ console.log(currentUser)
                       </button>
                     )
                   }
-                })};
+                })}
+              <div className="flex justify-center items-center max-w-lg mx-auto mt-10 px-5 flex-col"> {/* Added flex class */}
+                <input
+                  maxLength="15"
+                  placeholder="(15 character max)"
+                  type="text"
+                  value={newSkill}
+                  onInput={(e) => setNewSkill(e.target.value)}
+                  className="p-textarea-left border rounded-md w-full"
+                />
+                <button
+                  onClick={addSkill}
+                  data-testid="add-skill-button"
+                  className="bg-dark-green text-white shadow shadow-gray-300 px-4 py-2 rounded-md mt-2 self-center"
+
+                >
+                  +
+                </button>
+              </div>
+
+
+
               </div>
             ) : (
+              // Displays skills on main profile page (userSkills state has not yet been set on first rendering profile)
               <div className="flex flex-col justify-center items-center mb-12">
                 {currentUser.aboutMe.skills.map((index, skill) => showUserSkills(index, skill))}
               </div>
