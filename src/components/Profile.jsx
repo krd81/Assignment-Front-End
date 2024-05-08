@@ -12,18 +12,7 @@ const Profile = () => {
   const [profileUser, setProfileUser] = profile
 
   const [isEditMode, setIsEditMode] = useState(false)
-  const [skills, setSkills] = useState([
-    "Project Management",
-    "Leadership",
-    "Design",
-    "Strategy",
-    "Analytical",
-    "Quality Assurance",
-    "Training",
-    "First Aid",
-    "Risk Management"
-
-  ])
+  const [skills, setSkills] = useState([])
   const [newSkill, setNewSkill] = useState("")
 console.log(currentUser)
 
@@ -52,16 +41,7 @@ console.log(currentUser)
       )
     }
 
-    const showSkills = (skill, index) => {
-      return (
-        <button
-          key={index}
-          className="p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 bg-dark-green text-white"
-        >
-          {skill}
-        </button>
-      )
-    }
+
 
 
   // Applications Dummy Data
@@ -282,11 +262,20 @@ console.log(currentUser)
               <div className="flex flex-col justify-center items-center w-full mx-auto mt-10 ">
                 {/* Show user skills first (in green) */}
                 {currentUser.aboutMe.skills.map((skill, index) => showUserSkills(skill, index))}
-                {/* Show any remaining default skills (in blue)
-                Currently not displaying blue (non-selected skills) - due to information not being available at the point of rendering
-                Look for a solution involving useState
-                */}
-                {skills.map((skill, index) => showSkills(skill, index))}
+                {/* Show any remaining default skills (in blue)*/}
+
+                {skillList.map((skill, index) => {
+                  if (currentUser.aboutMe.skills.includes(skill) === false) {
+                    return (
+                      <button
+                      key={index}
+                      className="p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 bg-dark-green text-white"
+                      >
+                      {skill}
+                      </button>
+                    )
+                  }
+                })};
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center mb-12">
