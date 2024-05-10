@@ -25,6 +25,8 @@ console.log(currentUser)
     "Strategy",
     "Analytical",
     "Quality Assurance",
+    "Auditing",
+    "Compliance",
     "Training",
     "First Aid",
     "Risk Management"
