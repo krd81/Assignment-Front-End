@@ -7,7 +7,7 @@ import { AppContext } from '../authentication/AppContext'
 
 const Profile = () => {
   document.title = "Profile"
-  const { loggedInUser, profile} = useContext(AppContext)
+  const { loggedInUser, profile } = useContext(AppContext)
   const [currentUser, setCurrentUser] = loggedInUser
   const [profileUser, setProfileUser] = profile
 
@@ -15,6 +15,20 @@ const Profile = () => {
   const [skills, setSkills] = useState([])
   const [userSkills, setUserSkills] = useState([])
   const [newSkill, setNewSkill] = useState("")
+
+  const [profileFields, setProfileFields] = useState({
+    firstName: currentUser.firstName,
+    lastName: currentUser.lastName,
+    role: currentUser.role,
+    department: currentUser.department,
+    aboutMe: {
+      text: currentUser.aboutMe.text,
+      careerDevelopment: currentUser.aboutMe.careerDevelopment,
+      skills: [currentUser.aboutMe.skills]
+    },
+
+    imageRef: currentUser.imageRef,
+  })
 console.log(currentUser)
 
   // This is the default list which doesn't change
@@ -60,7 +74,14 @@ console.log(currentUser)
       setUserSkills([...currentUser.aboutMe.skills])
     }
 
+    const handleInputChange = (e, field) => {
+      setProfileFields({ ...profileFields, [field]: e.target.value });
+    }
 
+    const handleAboutMeChange = (e, field) => {
+      setProfileFields({ ...profileFields,
+        aboutMe : {[field]: e.target.value }});
+    }
 
   // Applications Dummy Data
   const applications = []
@@ -80,7 +101,7 @@ console.log(currentUser)
             <>
               <button
                 type="submit"
-
+                onClick={updateProfile}
                 className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md hover:bg-dark-blue"
               >
                 {"Save Changes"}
@@ -121,36 +142,25 @@ console.log(currentUser)
   }
 
 
-  const [editableProfile, setEditableProfile] = useState({
-    firstName: profileUser.firstName,
-    lastName: profileUser.lastName,
-    role: profileUser.role,
-    department: profileUser.department,
-    aboutMe: profileUser.aboutMe.text,
-    careerDevelopment: profileUser.aboutMe.careerDevelopment,
-    imageRef: profileUser.imageRef,
-  })
+
 
   const updateProfile = async (event) => {
     event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const formDataObj = Object.fromEntries(formData.entries())
-    console.log(formData)
-    console.log(formDataObj)
+
 
     setUserSkills([...currentUser.aboutMe.skills])
 
     const updatedProfile = {
       aboutMe: {
-        text : formDataObj.about-me-text,
-        careerDevelopment: formDataObj.about-me-career_development,
-        skills : [currentUser.aboutMe.skills]
+        text: profileFields.aboutMe.text,
+        careerDevelopment: profileFields.aboutMe.careerDevelopment,
+        skills: [...currentUser.aboutMe.skills]
       }
     }
 
     try {
-      // const response = await fetch('https://talent-forge-api-atu2.onrender.com/users', {
-        const response = await fetch('http://localhost:8002/users', {
+      // const response = await fetch(`https://talent-forge-api-atu2.onrender.com/users/${currentUser._id}`, {
+        const response = await fetch(`http://localhost:8002/users/${currentUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -159,9 +169,11 @@ console.log(currentUser)
           body: JSON.stringify(updatedProfile),
 
         })
-        // const data = await response.json()
+        const data = await response.json()
+        console.log(data)
         if (response.ok) {
            setIsEditMode(false)
+           console.log(currentUser)
           } else {
             throw new Error(`Error: ${response.statusText}`)
           }
@@ -171,15 +183,13 @@ console.log(currentUser)
         }
       }
 
-      
-  const handleInputChange = (e, field) => {
-    setEditableProfile({ ...editableProfile, [field]: e.target.value });
-  }
+
+
 
 
   return (
     <>
-    <form onSubmit={updateProfile}>
+    {/* <form onSubmit={updateProfile}> */}
       {/* Div encapsulating/creating grid effect */}
       <div className="bg-blue-50 items-center justify-center mx-6 my-6 md:my-12 p-6 md:p-10 lg:p-16 xl:mx-40 px-5 lg:grid lg:grid-cols-3 lg:gap-4">
         {/* Div for first grid row */}
@@ -199,18 +209,18 @@ console.log(currentUser)
                     maxLength="30"
                     placeholder="(30 characters max)"
                     type="text"
-                    value={`${editableProfile.firstName} ${editableProfile.lastName}`}
+                    value={`${profileFields.firstName} ${profileFields.lastName}`}
                     onInput={(e) => handleInputChange(e, "name")}
                     className="p-textarea-left text-input-class border border-gray-300 w-full"
                   />
                 </div>
               ) : (
-                <h2 className="text-2xl text-center font-bold mb-2">{`${editableProfile.firstName} ${
-                  editableProfile.lastName
+                <h2 className="text-2xl text-center font-bold mb-2">{`${profileFields.firstName} ${
+                  profileFields.lastName
                 }`}</h2>
               )}
               <div className="border-2 border-gray-800">
-            <img src={editableProfile?.imageRef} alt="Profile Photo" />
+            <img src={profileFields?.imageRef} alt="Profile Photo" />
             </div>
               {/* Edit Role */}
               {isEditMode ? (
@@ -220,13 +230,13 @@ console.log(currentUser)
                     type="text"
                     maxLength="20"
                     placeholder="(20 character max)"
-                    value={editableProfile.role}
+                    value={profileFields.role}
                     onInput={(e) => handleInputChange(e, "role")}
                     className="p-textarea-left text-input-class flex-1 border border-gray-300"
                   />
                 </div>
               ) : (
-                <p className="text-xl">Role: {editableProfile.role}</p>
+                <p className="text-xl">Role: {profileFields.role}</p>
               )}
 
               {/* Edit Department */}
@@ -237,13 +247,13 @@ console.log(currentUser)
                     type="text"
                     maxLength="25"
                     placeholder="(25 character max)"
-                    value={editableProfile.department}
+                    value={profileFields.department}
                     onInput={(e) => handleInputChange(e, "department")}
                     className="p-textarea-left text-input-class border border-gray-300"
                   />
                 </div>
               ) : (
-                <p className="text-xl">Department: {editableProfile.department}</p>
+                <p className="text-xl">Department: {profileFields.department}</p>
               )}
             </div>
           </div>
@@ -313,15 +323,15 @@ console.log(currentUser)
                 id="about-me-text"
                 maxLength="220"
                 placeholder="(220 character max)"
-                value={editableProfile.aboutMe}
-                onInput={(e) => handleInputChange(e, "aboutMe")}
+                value={profileFields.aboutMe.text}
+                onInput={(e) => handleAboutMeChange(e, "text")}
                 className="p-textarea-left text-input-class w-full h-56 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>
           ) : (
             <div className="flex flex-col justify-center items-center max-w-lg mx-auto mt-10 px-5 lg:mb-10">
               <h2 className="text-2xl text-center font-bold mb-2">About Me</h2>
-              <p className="text-xl">{editableProfile.aboutMe}</p>
+              <p className="text-xl">{profileFields.aboutMe.text}</p>
             </div>
           )}
           {/* END OF FIRST COLUMN DIV */}
@@ -403,15 +413,15 @@ console.log(currentUser)
                   id="about-me-career-development"
                   maxLength="220"
                   placeholder="(220 character max)"
-                  value={editableProfile.careerDevelopment}
-                  onInput={(e) => handleInputChange(e, "careerDevelopment")}
+                  value={profileFields.aboutMe.careerDevelopment}
+                  onInput={(e) => handleAboutMeChange(e, "careerDevelopment")}
                   className="text-input-class w-full h-56 p-2 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" // Tailwind classes to adjust width and height
                 />
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center">
                 <h2 className="text-2xl text-center font-bold mb-2">Career Development</h2>
-                <p className="text-xl text-center">{editableProfile.careerDevelopment}</p>
+                <p className="text-xl text-center">{profileFields.aboutMe.careerDevelopment}</p>
               </div>
             )}
           </div>
@@ -438,7 +448,7 @@ console.log(currentUser)
         </div>
         {/* End of div encapsulating/creating grid effect */}
       </div>
-      </form>
+      {/* </form> */}
     </>
   )
 }
