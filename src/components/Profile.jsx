@@ -74,17 +74,37 @@ console.log(currentUser)
   return (
     <div className="editButtonRender">
       { Auth ?
-      (
-        <div className="flex flex-col justify-center items-center max-w-lg mx-auto mt-10 mb-10 px-5">
-          <button
-            onClick={toggleEditMode}
-            className="bg-washed-blue text-white p-4 rounded-lg shadow-md hover:bg-dark-blue"
-          >
-            {isEditMode ? "Save Changes" : "Edit Profile"}
-          </button>
-        </div>
-      )
-      : null
+        (
+          <div className="flex flex-col justify-center items-center max-w-lg mx-auto mt-10 mb-10 px-5">
+            {isEditMode ?
+            <>
+              <button
+                type="submit"
+
+                className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md hover:bg-dark-blue"
+              >
+                {"Save Changes"}
+              </button>
+              <button
+              type="submit"
+
+              className="bg-red-600 hover:bg-white text-white text-lg md:text-xl lg:text-lg hover:text-red-600 m-2 py-2 md:py-3 lg:py-4 px-5 md:px-6 lg:px-8 min-w-[8rem] border border-blue-500 hover:border-red-600 rounded-lg"
+            >
+              {"Cancel"}
+            </button>
+            </>
+            :
+              <button
+                type="submit"
+                onClick={() => setIsEditMode(true)}
+                className="bg-washed-blue text-white p-4 rounded-lg shadow-md hover:bg-dark-blue"
+              >
+              {"Edit Profile"}
+              </button>
+            }
+          </div>
+        )
+        : null
       }
     </div>
   )}
@@ -111,17 +131,55 @@ console.log(currentUser)
     imageRef: profileUser.imageRef,
   })
 
-  const toggleEditMode = () => {
-    setUserSkills([...currentUser.aboutMe.skills])
-    setIsEditMode(!isEditMode)
-  };
+  const updateProfile = async (event) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const formDataObj = Object.fromEntries(formData.entries())
+    console.log(formData)
+    console.log(formDataObj)
 
+    setUserSkills([...currentUser.aboutMe.skills])
+
+    const updatedProfile = {
+      aboutMe: {
+        text : formDataObj.about-me-text,
+        careerDevelopment: formDataObj.about-me-career_development,
+        skills : [currentUser.aboutMe.skills]
+      }
+    }
+
+    try {
+      // const response = await fetch('https://talent-forge-api-atu2.onrender.com/users', {
+        const response = await fetch('http://localhost:8002/users', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          },
+          body: JSON.stringify(updatedProfile),
+
+        })
+        // const data = await response.json()
+        if (response.ok) {
+           setIsEditMode(false)
+          } else {
+            throw new Error(`Error: ${response.statusText}`)
+          }
+        } catch (error) {
+          console.error('Failed to create/update listing:', error)
+
+        }
+      }
+
+      
   const handleInputChange = (e, field) => {
     setEditableProfile({ ...editableProfile, [field]: e.target.value });
   }
 
+
   return (
     <>
+    <form onSubmit={updateProfile}>
       {/* Div encapsulating/creating grid effect */}
       <div className="bg-blue-50 items-center justify-center mx-6 my-6 md:my-12 p-6 md:p-10 lg:p-16 xl:mx-40 px-5 lg:grid lg:grid-cols-3 lg:gap-4">
         {/* Div for first grid row */}
@@ -252,6 +310,7 @@ console.log(currentUser)
                 About Me:
               </label>
               <textarea
+                id="about-me-text"
                 maxLength="220"
                 placeholder="(220 character max)"
                 value={editableProfile.aboutMe}
@@ -341,6 +400,7 @@ console.log(currentUser)
                   Career Development:
                 </label>
                 <textarea
+                  id="about-me-career-development"
                   maxLength="220"
                   placeholder="(220 character max)"
                   value={editableProfile.careerDevelopment}
@@ -378,6 +438,7 @@ console.log(currentUser)
         </div>
         {/* End of div encapsulating/creating grid effect */}
       </div>
+      </form>
     </>
   )
 }
