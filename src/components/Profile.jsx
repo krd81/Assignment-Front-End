@@ -12,6 +12,7 @@ const Profile = () => {
   const [profileUser, setProfileUser] = profile
 
   const [isEditMode, setIsEditMode] = useState(false)
+  const [showTextInput, setShowTextInput] = useState(false);
   const [skills, setSkills] = useState([])
   const [newSkill, setNewSkill] = useState("")
 
@@ -72,6 +73,18 @@ console.log(currentUser)
         currentUser.aboutMe.skills.push(skill);
       }
       setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]})
+    }
+
+    const handleAddSkill = async (event) => {
+      event.preventDefault()
+      const formData = new FormData(event.currentTarget)
+      const formDataObj = Object.fromEntries(formData.entries())
+
+      const skill = formDataObj.newSkill
+      if (!currentUser.aboutMe.skills.includes(skill) && !skillList.includes(skill)) {
+        currentUser.aboutMe.skills.push(skill);
+        setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]})
+      }
     }
 
     const handleInputChange = (e, field) => {
@@ -364,22 +377,32 @@ console.log(currentUser)
                   }
                 })}
               <div className="flex justify-center items-center max-w-lg mx-auto mt-10 px-5 flex-col"> {/* Added flex class */}
-                <input
-                  maxLength="15"
-                  placeholder="(15 character max)"
-                  type="text"
-                  value={newSkill}
-                  onInput={(e) => setNewSkill(e.target.value)}
-                  className="p-textarea-left border rounded-md w-full"
-                />
                 <button
-                  onClick={addSkill}
+                  onClick={() => setShowTextInput(true)}
                   data-testid="add-skill-button"
                   className="bg-dark-green text-white shadow shadow-gray-300 px-4 py-2 rounded-md mt-2 self-center"
 
                 >
                   +
                 </button>
+                {showTextInput && (
+                  <>
+                    <form onSubmit={handleAddSkill}>
+                      <input
+                        type="text"
+                        name="newSkill"
+                        maxLength="15"
+                        placeholder="(15 character max)"
+                        // value={newSkill}
+                        // onInput={(e) => setNewSkill(e.target.value)}
+                        className="p-textarea-left border rounded-md w-full"
+                        />
+                      <button type="submit" className="bg-dark-green text-white shadow shadow-gray-300 px-4 py-2 rounded-md mt-2 self-center">
+                        Add Skill
+                      </button>
+                    </form>
+                  </>
+                )}
               </div>
 
 
