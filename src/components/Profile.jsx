@@ -13,7 +13,6 @@ const Profile = () => {
 
   const [isEditMode, setIsEditMode] = useState(false)
   const [skills, setSkills] = useState([])
-  const [userSkills, setUserSkills] = useState(currentUser.aboutMe.skills)
   const [newSkill, setNewSkill] = useState("")
 
   const [profileFields, setProfileFields] = useState({
@@ -25,9 +24,9 @@ const Profile = () => {
   })
 
   const [aboutMeFields, setAboutMeFields] = useState({
-      text: currentUser.aboutMe.text,
-      careerDevelopment: currentUser.aboutMe.careerDevelopment,
-      skills: [currentUser.aboutMe.skills]
+    text: currentUser.aboutMe.text,
+    careerDevelopment: currentUser.aboutMe.careerDevelopment,
+    skills: [...currentUser.aboutMe.skills]
   })
 
 console.log(currentUser)
@@ -72,7 +71,7 @@ console.log(currentUser)
       } else {
         currentUser.aboutMe.skills.push(skill);
       }
-      setUserSkills([...currentUser.aboutMe.skills])
+      setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]})
     }
 
     const handleInputChange = (e, field) => {
@@ -146,9 +145,7 @@ console.log(currentUser)
 
   const updateProfile = async (event) => {
     event.preventDefault()
-
-
-    setUserSkills([...currentUser.aboutMe.skills])
+    setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]})
 
     const updatedProfile = {
       aboutMe: {
@@ -351,11 +348,11 @@ console.log(currentUser)
             {isEditMode ? (
               <div className="flex flex-col justify-center items-center w-full mx-auto mt-10 ">
                 {/* Show user skills first (in green) */}
-                {userSkills.map((skill, index) => showUserSkills(skill, index))}
+                {aboutMeFields.skills.map((skill, index) => showUserSkills(skill, index))}
                 {/* Show any remaining default skills (in blue)*/}
 
                 {skillList.map((skill, index) => {
-                  if (userSkills.includes(skill) === false) {
+                    if (aboutMeFields.skills.includes(skill) === false) {
                     return (
                       <button onClick={() => updateUserSkills(skill)}
                       key={index}
