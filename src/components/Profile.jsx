@@ -12,9 +12,7 @@ const Profile = () => {
   const [profileUser, setProfileUser] = profile
 
   const [isEditMode, setIsEditMode] = useState(false)
-  const [showTextInput, setShowTextInput] = useState(false);
-  const [skills, setSkills] = useState([])
-  const [newSkill, setNewSkill] = useState("")
+  const [showTextInput, setShowTextInput] = useState(false)
 
   const [profileFields, setProfileFields] = useState({
     firstName: currentUser.firstName,
@@ -33,6 +31,8 @@ const Profile = () => {
 console.log(currentUser)
 
   // This is the default list which doesn't change
+  // Its rendering of elements (dependent upon whether or not the user has them in their skills list)
+  // is controlled by an if statement within the HTML
   const skillList = [
     "Project Management",
     "Leadership",
@@ -75,7 +75,7 @@ console.log(currentUser)
       setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]})
     }
 
-    const handleAddSkill = async (event) => {
+    const handleAddUserSkill = async (event) => {
       event.preventDefault()
       const formData = new FormData(event.currentTarget)
       const formDataObj = Object.fromEntries(formData.entries())
@@ -96,7 +96,7 @@ console.log(currentUser)
     }
 
   // Applications Dummy Data
-  const applications = []
+  // const applications = []
 
   // The user profile is required to conditionally render the edit button and job applications
   // We know the userId and that there is a valid token
@@ -142,16 +142,6 @@ console.log(currentUser)
     </div>
   )}
 
-  const addSkill = () => {
-    if (newSkill) {
-      setSkills([...skills, newSkill]);
-      setNewSkill(""); // Clear input after adding
-    }
-  }
-
-  const removeSkill = (indexToRemove) => {
-    setSkills(skills.filter((_, index) => index !== indexToRemove));
-  }
 
 
 
@@ -268,60 +258,6 @@ console.log(currentUser)
             </div>
           </div>
 
-          {/* Skills list */}
-          {isEditMode ? (
-            // If isEditMode is true, then display edit options
-            <div className="flex justify-center items-center max-w-lg mx-auto px-5 flex-col">
-              {" "}
-              {/* Changed class to flex-col */}
-              <div className="flex flex-wrap gap-2 items-center space-x-0.5 mt-10 px-5 flex-col">
-                {" "}
-                {/* Changed class to flex-col */}
-                {skills.map((skill, index) => (
-                  <div key={index} className="flex items-center flex-col">
-                    {" "}
-                    {/* Changed class to flex-col */}
-                    <span className="bg-dark-green text-white px-4 py-2 rounded-md mb-2 font-medium">{skill}</span>
-                    <button
-                      onClick={() => removeSkill(index)}
-                      className="bg-red-500 text-white ml-2 px-2 py-1 rounded-md mb-2"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                ))}
-              </div>
-              {/* Add new skill */}
-              <div className="flex justify-center items-center max-w-lg mx-auto mt-10 px-5 flex-col"> {/* Added flex class */}
-                <input
-                  maxLength="15"
-                  placeholder="(15 character max)"
-                  type="text"
-                  value={newSkill}
-                  onInput={(e) => setNewSkill(e.target.value)}
-                  className="p-textarea-left border rounded-md w-full"
-                />
-                <button
-                  onClick={addSkill}
-                  data-testid="add-skill-button"
-                  className="bg-dark-green text-white shadow shadow-gray-300 px-4 py-2 rounded-md mt-2 self-center"
-
-                >
-                  Add Skill
-                </button>
-              </div>
-            </div>
-          ) : (
-            // Else if false, simply display skills
-            <div className="flex flex-wrap gap-2 items-center space-x-0.5 max-w-lg mx-auto mt-10 px-5">
-              {/* Enumerate over each skill, creating a span for each one. */}
-              {skills.map((skill, index) => (
-                <span key={index} className="bg-dark-blue text-white px-4 py-2 rounded-md text-md font-medium">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          )}
 
           {/* Profile Description (About Me) */}
           {isEditMode ? (
@@ -387,7 +323,7 @@ console.log(currentUser)
                 </button>
                 {showTextInput && (
                   <>
-                    <form onSubmit={handleAddSkill}>
+                    <form onSubmit={handleAddUserSkill}>
                       <input
                         type="text"
                         name="newSkill"
@@ -404,10 +340,7 @@ console.log(currentUser)
                   </>
                 )}
               </div>
-
-
-
-              </div>
+            </div>
             ) : (
               // Displays skills on main profile page (userSkills state has not yet been set on first rendering profile)
               <div className="flex flex-col justify-center items-center mb-12">
@@ -449,7 +382,7 @@ console.log(currentUser)
         </div>
         {/* Div for third grid row */}
         <div className="flex flex-col lg:flex-col lg:space-x-4 max-w-6xl mx-auto mt-10 mb-10 px-5 ">
-          {/* List of Applications Can applications be rendered using opportunities.jsx ? */}
+          {/* List of Applications Can applications be rendered using opportunities.jsx ?
           <div className="space-y-4 justify-center items-center max-w-lg mx-auto mt-10 px-5 ">
             {Object.entries(applications).map(([key, value]) => (
               <div key={key} className="bg-washed-blue text-white p-4 rounded-lg shadow-md border border-gray-300">
@@ -460,7 +393,7 @@ console.log(currentUser)
                 <p className="text-sm">{value.jobDescription}</p>
               </div>
             ))}
-          </div>
+          </div> */}
 
           {/* Edit Button */}
           <EditButtonRender Auth={Auth(profileUser._id, currentUser)}/>
