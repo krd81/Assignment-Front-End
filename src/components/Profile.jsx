@@ -13,7 +13,7 @@ const Profile = () => {
 
   const [isEditMode, setIsEditMode] = useState(false)
   const [skills, setSkills] = useState([])
-  const [userSkills, setUserSkills] = useState([])
+  const [userSkills, setUserSkills] = useState(currentUser.aboutMe.skills)
   const [newSkill, setNewSkill] = useState("")
 
   const [profileFields, setProfileFields] = useState({
@@ -21,14 +21,15 @@ const Profile = () => {
     lastName: currentUser.lastName,
     role: currentUser.role,
     department: currentUser.department,
-    aboutMe: {
+    imageRef: currentUser.imageRef
+  })
+
+  const [aboutMeFields, setAboutMeFields] = useState({
       text: currentUser.aboutMe.text,
       careerDevelopment: currentUser.aboutMe.careerDevelopment,
       skills: [currentUser.aboutMe.skills]
-    },
-
-    imageRef: currentUser.imageRef,
   })
+
 console.log(currentUser)
 
   // This is the default list which doesn't change
@@ -61,13 +62,13 @@ console.log(currentUser)
     // Function to update the skill list (in currentUser and userSkills state object)
     const updateUserSkills = (skill) => {
       if (currentUser.aboutMe.skills.includes(skill)) {
-      if (skillList.includes(skill)) {
-          currentUser.aboutMe.skills.splice(currentUser.aboutMe.skills.indexOf(skill), 1);
-        } else {
-          if (confirm(`This action will delete: "${skill}". Are you sure?`)) {
-          currentUser.aboutMe.skills.splice(currentUser.aboutMe.skills.indexOf(skill), 1);
+        if (skillList.includes(skill)) {
+            currentUser.aboutMe.skills.splice(currentUser.aboutMe.skills.indexOf(skill), 1);
+          } else {
+            if (confirm(`This action will delete: "${skill}". Are you sure?`)) {
+            currentUser.aboutMe.skills.splice(currentUser.aboutMe.skills.indexOf(skill), 1);
+            }
           }
-        }
       } else {
         currentUser.aboutMe.skills.push(skill);
       }
@@ -79,8 +80,7 @@ console.log(currentUser)
     }
 
     const handleAboutMeChange = (e, field) => {
-      setProfileFields({ ...profileFields,
-        aboutMe : {[field]: e.target.value }});
+      setAboutMeFields({ ...aboutMeFields, [field]: e.target.value });
     }
 
   // Applications Dummy Data
@@ -152,8 +152,8 @@ console.log(currentUser)
 
     const updatedProfile = {
       aboutMe: {
-        text: profileFields.aboutMe.text,
-        careerDevelopment: profileFields.aboutMe.careerDevelopment,
+        text: aboutMeFields.text,
+        careerDevelopment: aboutMeFields.careerDevelopment,
         skills: [...currentUser.aboutMe.skills]
       }
     }
@@ -323,7 +323,7 @@ console.log(currentUser)
                 id="about-me-text"
                 maxLength="220"
                 placeholder="(220 character max)"
-                value={profileFields.aboutMe.text}
+                value={aboutMeFields.text}
                 onInput={(e) => handleAboutMeChange(e, "text")}
                 className="p-textarea-left text-input-class w-full h-56 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
@@ -331,7 +331,7 @@ console.log(currentUser)
           ) : (
             <div className="flex flex-col justify-center items-center max-w-lg mx-auto mt-10 px-5 lg:mb-10">
               <h2 className="text-2xl text-center font-bold mb-2">About Me</h2>
-              <p className="text-xl">{profileFields.aboutMe.text}</p>
+              <p className="text-xl">{aboutMeFields.text}</p>
             </div>
           )}
           {/* END OF FIRST COLUMN DIV */}
@@ -413,7 +413,7 @@ console.log(currentUser)
                   id="about-me-career-development"
                   maxLength="220"
                   placeholder="(220 character max)"
-                  value={profileFields.aboutMe.careerDevelopment}
+                  value={aboutMeFields.careerDevelopment}
                   onInput={(e) => handleAboutMeChange(e, "careerDevelopment")}
                   className="text-input-class w-full h-56 p-2 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" // Tailwind classes to adjust width and height
                 />
@@ -421,7 +421,7 @@ console.log(currentUser)
             ) : (
               <div className="flex flex-col justify-center items-center">
                 <h2 className="text-2xl text-center font-bold mb-2">Career Development</h2>
-                <p className="text-xl text-center">{profileFields.aboutMe.careerDevelopment}</p>
+                <p className="text-xl text-center">{aboutMeFields.careerDevelopment}</p>
               </div>
             )}
           </div>
