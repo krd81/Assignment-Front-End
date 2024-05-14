@@ -28,6 +28,8 @@ const Profile = () => {
     skills: [...currentUser.aboutMe.skills]
   })
 
+  let unsavedChanges = false;
+
 console.log(currentUser)
 
   // This is the default list which doesn't change
@@ -72,28 +74,42 @@ console.log(currentUser)
       } else {
         currentUser.aboutMe.skills.push(skill);
       }
-      setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]})
+      setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]});
+      unsavedChanges = true;
     }
 
     const handleAddUserSkill = async (event) => {
-      event.preventDefault()
-      const formData = new FormData(event.currentTarget)
-      const formDataObj = Object.fromEntries(formData.entries())
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      const formDataObj = Object.fromEntries(formData.entries());
 
       const skill = formDataObj.newSkill
       if (!currentUser.aboutMe.skills.includes(skill) && !skillList.includes(skill)) {
         currentUser.aboutMe.skills.push(skill);
-        setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]})
+        setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]});
+        unsavedChanges = true;
       }
     }
 
     const handleInputChange = (e, field) => {
       setProfileFields({ ...profileFields, [field]: e.target.value });
+      unsavedChanges = true;
     }
 
     const handleAboutMeChange = (e, field) => {
       setAboutMeFields({ ...aboutMeFields, [field]: e.target.value });
+      unsavedChanges = true;
     }
+
+    const handleCancel = () => {
+      if (unsavedChanges && confirm("Unsaved changes will be lost - are you sure?")) {
+        setIsEditMode(false);
+        unsavedChanges = false;
+      } else if (!unsavedChanges) {
+        setIsEditMode(false);
+      }
+    }
+
 
   // Applications Dummy Data
   // const applications = []
@@ -113,14 +129,14 @@ console.log(currentUser)
             <>
               <button
                 type="submit"
-                onClick={updateProfile}
+                onClick={(e) => updateProfile(e)}
                 className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md hover:bg-dark-blue"
               >
                 {"Save Changes"}
               </button>
               <button
               type="submit"
-
+              onClick={() => handleCancel()}
               className="bg-red-600 hover:bg-white text-white text-lg md:text-xl lg:text-lg hover:text-red-600 m-2 py-2 md:py-3 lg:py-4 px-5 md:px-6 lg:px-8 min-w-[8rem] border border-blue-500 hover:border-red-600 rounded-lg"
             >
               {"Cancel"}
@@ -147,10 +163,15 @@ console.log(currentUser)
 
 
   const updateProfile = async (event) => {
-    event.preventDefault()
-    setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]})
+    event.preventDefault();
+    setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]});
 
     const updatedProfile = {
+      firstName: profileUser.firstName,
+      lastName: profileUser.lastName,
+      role: profileUser.role,
+      department: profileUser.department,
+      imageRef: profileUser.imageRef,
       aboutMe: {
         text: aboutMeFields.text,
         careerDevelopment: aboutMeFields.careerDevelopment,
@@ -172,8 +193,9 @@ console.log(currentUser)
         const data = await response.json()
         console.log(data)
         if (response.ok) {
-           setIsEditMode(false)
-           console.log(currentUser)
+            setIsEditMode(false);
+            unsavedChanges = false;
+            console.log(currentUser);
           } else {
             throw new Error(`Error: ${response.statusText}`)
           }
@@ -202,28 +224,34 @@ console.log(currentUser)
 
             <div className="flex flex-col items-center justify-center flex-1">
               {/* Edit Name */}
-              {isEditMode ? (
+              {(isEditMode && currentUser.admin) ? (
                 <div className="flex justify-center items-center mb-4 w-full">
                   <div className="mr-2">Name:</div>
                   <input
                     maxLength="30"
-                    placeholder="(30 characters max)"
                     type="text"
-                    value={`${profileFields.firstName} ${profileFields.lastName}`}
-                    onInput={(e) => handleInputChange(e, "name")}
+                    value={`${profileFields.firstName}`}
+                    onInput={(e) => handleInputChange(e, "firstName")}
+                    className="p-textarea-left text-input-class border border-gray-300 w-full"
+                  />
+                  <input
+                    maxLength="30"
+                    type="text"
+                    value={`${profileFields.lastName}`}
+                    onInput={(e) => handleInputChange(e, "lastName")}
                     className="p-textarea-left text-input-class border border-gray-300 w-full"
                   />
                 </div>
               ) : (
-                <h2 className="text-2xl text-center font-bold mb-2">{`${profileFields.firstName} ${
-                  profileFields.lastName
-                }`}</h2>
+                <h2 className="text-2xl text-center font-bold mb-2">
+                  {`${profileFields.firstName} ${profileFields.lastName}`}
+                </h2>
               )}
               <div className="border-2 border-gray-800">
             <img src={profileFields?.imageRef} alt="Profile Photo" />
             </div>
               {/* Edit Role */}
-              {isEditMode ? (
+              {(isEditMode && currentUser.admin) ? (
                 <div className="flex items-center mb-4">
                   <div className="mr-2">Role:</div>
                   <input
@@ -240,7 +268,7 @@ console.log(currentUser)
               )}
 
               {/* Edit Department */}
-              {isEditMode ? (
+              {(isEditMode && currentUser.admin) ? (
                  <div className="flex items-center  w-full">
                   <div className="mr-2">Department: </div>
                   <input
@@ -260,7 +288,8 @@ console.log(currentUser)
 
 
           {/* Profile Description (About Me) */}
-          {isEditMode ? (
+
+          {(isEditMode && currentUser === profileUser) ? (
             <div className="flex flex-col items-center justify-center w-full mx-auto mt-10 px-5 lg:mb-10">
             <label htmlFor="aboutMe" className="text-center mb-3 text-bold text-xl">
                 About Me:
@@ -294,7 +323,7 @@ console.log(currentUser)
               isEditMode ? "" : "px-5"
             }`}
           >
-            {isEditMode ? (
+            {(isEditMode && currentUser === profileUser) ? (
               <div className="flex flex-col justify-center items-center w-full mx-auto mt-10 ">
                 {/* Show user skills first (in green) */}
                 {aboutMeFields.skills.map((skill, index) => showUserSkills(skill, index))}
@@ -355,7 +384,7 @@ console.log(currentUser)
               isEditMode ? "px-5" : ""
             } justify-center items-center`}
           >
-            {isEditMode ? (
+            {(isEditMode && currentUser === profileUser) ? (
               <div className="w-full mx-auto mt-10 px-5 flex flex-col items-center">
                 {" "}
                 {/* Added items-center class */}
