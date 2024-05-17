@@ -2,7 +2,8 @@
 import { useState, useContext } from "react"
 import  Auth  from "../authentication/Auth"
 import { AppContext } from '../authentication/AppContext'
-
+import { createPortal } from 'react-dom'
+import PasswordModal from "./PasswordModal"
 
 
 const Profile = () => {
@@ -14,6 +15,7 @@ const Profile = () => {
   const [isEditMode, setIsEditMode] = useState(false)
   const [showTextInput, setShowTextInput] = useState(false)
   const [unsavedChanges, setUnsavedChanges] = useState(false)
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
 
   const [profileFields, setProfileFields] = useState({
     firstName: currentUser.firstName,
@@ -133,11 +135,17 @@ const Profile = () => {
             <>
               <button
                 type="submit"
-                // onClick={(e) => updateProfile(e)}
+                onClick={() => setShowPasswordModal(true)}
                 className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md m-1 w-56 hover:bg-dark-blue"
               >
                 {"Change Password"}
               </button>
+              {console.log(showPasswordModal)}
+              {showPasswordModal && createPortal(
+                <PasswordModal onClose={() => setShowPasswordModal(false)} />,
+                // document.getElementById('root')
+                document.body
+              )}
               <button
                 type="submit"
                 onClick={(e) => updateProfile(e)}
