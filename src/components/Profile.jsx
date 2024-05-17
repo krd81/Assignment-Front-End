@@ -133,15 +133,22 @@ const Profile = () => {
             <>
               <button
                 type="submit"
+                // onClick={(e) => updateProfile(e)}
+                className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md m-1 w-56 hover:bg-dark-blue"
+              >
+                {"Change Password"}
+              </button>
+              <button
+                type="submit"
                 onClick={(e) => updateProfile(e)}
-                className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md hover:bg-dark-blue"
+                className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md m-1 w-56 hover:bg-dark-blue"
               >
                 {"Save Changes"}
               </button>
               <button
               type="submit"
               onClick={() => handleCancel()}
-              className="bg-red-600 hover:bg-white text-white text-lg md:text-xl lg:text-lg hover:text-red-600 m-2 py-2 md:py-3 lg:py-4 px-5 md:px-6 lg:px-8 min-w-[8rem] border border-blue-500 hover:border-red-600 rounded-lg"
+              className="bg-red-600 hover:bg-white text-white text-lg md:text-xl lg:text-lg hover:text-red-600 m-1 py-2 md:py-3 lg:py-4 px-5 md:px-6 lg:px-8 w-56 border border-blue-500 hover:border-red-600 rounded-lg"
             >
               {"Cancel"}
             </button>
