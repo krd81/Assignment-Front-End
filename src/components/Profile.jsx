@@ -13,6 +13,7 @@ const Profile = () => {
 
   const [isEditMode, setIsEditMode] = useState(false)
   const [showTextInput, setShowTextInput] = useState(false)
+  const [unsavedChanges, setUnsavedChanges] = useState(false)
 
   const [profileFields, setProfileFields] = useState({
     firstName: currentUser.firstName,
@@ -28,9 +29,7 @@ const Profile = () => {
     skills: [...currentUser.aboutMe.skills]
   })
 
-  let unsavedChanges = false;
-
-console.log(currentUser)
+  console.log(currentUser)
 
   // This is the default list which doesn't change
   // Its rendering of elements (dependent upon whether or not the user has them in their skills list)
@@ -75,7 +74,7 @@ console.log(currentUser)
         currentUser.aboutMe.skills.push(skill);
       }
       setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]});
-      unsavedChanges = true;
+      setUnsavedChanges(true);
     }
 
     const handleAddUserSkill = async (event) => {
@@ -87,24 +86,29 @@ console.log(currentUser)
       if (!currentUser.aboutMe.skills.includes(skill) && !skillList.includes(skill)) {
         currentUser.aboutMe.skills.push(skill);
         setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]});
-        unsavedChanges = true;
+        setUnsavedChanges(true);
       }
     }
 
     const handleInputChange = (e, field) => {
       setProfileFields({ ...profileFields, [field]: e.target.value });
-      unsavedChanges = true;
+      setUnsavedChanges(true);
+
     }
 
     const handleAboutMeChange = (e, field) => {
       setAboutMeFields({ ...aboutMeFields, [field]: e.target.value });
-      unsavedChanges = true;
+      setUnsavedChanges(true);
+
     }
 
     const handleCancel = () => {
       if (unsavedChanges && confirm("Unsaved changes will be lost - are you sure?")) {
         setIsEditMode(false);
-        unsavedChanges = false;
+        setUnsavedChanges(false);
+        setProfileFields({ ...currentUser })
+        setAboutMeFields({...currentUser.aboutMe})
+
       } else if (!unsavedChanges) {
         setIsEditMode(false);
       }
@@ -192,15 +196,16 @@ console.log(currentUser)
         })
         const data = await response.json()
         console.log(data)
+
         if (response.ok) {
             setIsEditMode(false);
-            unsavedChanges = false;
+            // unsavedChanges = false;
             console.log(currentUser);
           } else {
             throw new Error(`Error: ${response.statusText}`)
           }
         } catch (error) {
-          console.error('Failed to create/update listing:', error)
+          console.error('Failed to create/update user:', error)
 
         }
       }

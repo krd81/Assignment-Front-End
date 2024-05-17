@@ -45,6 +45,7 @@ export default function NavBar() {
     // if (token) {
       // const user = decoder(token)
       setProfileUser(currentUser)
+      console.log(profileUser)
       nav(`/profile/${currentUser._id}`)
     // }
   }
