@@ -1,18 +1,37 @@
-const ChangePassword = ({ onClose }) => {
+// import { useState } from "react"
 
-    const handleFormSubmit = () => {
+const ChangePassword = ({ onClose }) => {
+  // const [oldPassword, setOldPassword] = useState();
+  // const [newPassword, setNewPassword] = useState();
+  // const [confirmPassword, setConfirmPassword] = useState();
+  let oldPassword;
+  let newPassword;
+  let confirmNewPassword;
+
+    const handleFormSubmit = (event) => {
 // 1. Check old password matches password stored in DB
 // 2. If yes, check new password/confirm passwords are the same - then store new password
 // 3. If no, display message to advise old password is incorrect
 // 4. Option for admin only to update a user's password - if user is admin, no old password is required
+      const formData = new FormData(event.currentTarget)
+      const formDataObj = Object.fromEntries(formData.entries())
+      console.log(formDataObj)
+
+      if (formDataObj.oldPassword.length > 1 && formDataObj.newPassword.length > 1 && formDataObj.confirmNewPassword.length > 1) {
+        oldPassword = formDataObj.oldPassword;
+        newPassword = formDataObj.newPassword;
+        confirmNewPassword = formDataObj.confirmNewPassword;
+
+        const oldPasswordCheck = {
+          password: oldPassword
+        }
+        // API call to compare user's password
+      }
 
       {onClose}
     }
 
-    const handleCancel = () => {
-      {onClose}
 
-    }
 
   return (
 
@@ -31,7 +50,7 @@ const ChangePassword = ({ onClose }) => {
         </div>
 
         <div className="flex flex-row py-2">
-        <label htmlFor="oldPassword" className="place-self-center text-2xl w-full">
+        <label htmlFor="newPassword" className="place-self-center text-2xl w-full">
           New Password:
         </label>
         <input className="p-textarea-left form-input w-full md:w-2/3 lg:w-3/4 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -41,7 +60,7 @@ const ChangePassword = ({ onClose }) => {
         </div>
 
         <div className="flex flex-row py-2">
-        <label htmlFor="oldPassword" className="place-self-center text-2xl w-full">
+        <label htmlFor="confimNewPassword" className="place-self-center text-2xl w-full">
           Confirm New Password:
         </label>
         <input className="p-textarea-left form-input w-full md:w-2/3 lg:w-3/4 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -52,11 +71,11 @@ const ChangePassword = ({ onClose }) => {
 
         <div className="flex flex-row justify-around py-2">
         <button className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md m-1 w-32 hover:bg-dark-blue"
-        type="submit" onClick={handleFormSubmit}>
+        type="submit" onClick={(e) => handleFormSubmit(e)}>
           Save
         </button>
         <button className="bg-red-600 hover:bg-white text-white text-lg md:text-xl lg:text-lg hover:text-red-600 w-32 m-1 py-2 md:py-3 lg:py-4 px-5 md:px-6 lg:px-8  hover:border-red-600 rounded-lg"
-        type="submit" onClick={handleCancel}>
+        type="submit" onClick={onClose}>
           Cancel
         </button>
         </div>
