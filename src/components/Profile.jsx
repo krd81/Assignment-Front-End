@@ -18,17 +18,17 @@ const Profile = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false)
 
   const [profileFields, setProfileFields] = useState({
-    firstName: currentUser.firstName,
-    lastName: currentUser.lastName,
-    role: currentUser.role,
-    department: currentUser.department,
-    imageRef: currentUser.imageRef
+    firstName: profileUser.firstName,
+    lastName: profileUser.lastName,
+    role: profileUser.role,
+    department: profileUser.department,
+    imageRef: profileUser.imageRef
   })
 
   const [aboutMeFields, setAboutMeFields] = useState({
-    text: currentUser.aboutMe.text,
-    careerDevelopment: currentUser.aboutMe.careerDevelopment,
-    skills: [...currentUser.aboutMe.skills]
+    text: profileUser.aboutMe.text,
+    careerDevelopment: profileUser.aboutMe.careerDevelopment,
+    skills: [...profileUser.aboutMe.skills]
   })
 
   console.log(currentUser)
@@ -62,20 +62,20 @@ const Profile = () => {
       )
     }
 
-    // Function to update the skill list (in currentUser and userSkills state object)
+    // Function to update the skill list (in profileUser and userSkills state object)
     const updateUserSkills = (skill) => {
-      if (currentUser.aboutMe.skills.includes(skill)) {
+      if (profileUser.aboutMe.skills.includes(skill)) {
         if (skillList.includes(skill)) {
-            currentUser.aboutMe.skills.splice(currentUser.aboutMe.skills.indexOf(skill), 1);
+            profileUser.aboutMe.skills.splice(profileUser.aboutMe.skills.indexOf(skill), 1);
           } else {
             if (confirm(`This action will delete: "${skill}". Are you sure?`)) {
-            currentUser.aboutMe.skills.splice(currentUser.aboutMe.skills.indexOf(skill), 1);
+            profileUser.aboutMe.skills.splice(profileUser.aboutMe.skills.indexOf(skill), 1);
             }
           }
       } else {
-        currentUser.aboutMe.skills.push(skill);
+        profileUser.aboutMe.skills.push(skill);
       }
-      setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]});
+      setAboutMeFields({...aboutMeFields, skills: [...profileUser.aboutMe.skills]});
       setUnsavedChanges(true);
     }
 
@@ -85,9 +85,9 @@ const Profile = () => {
       const formDataObj = Object.fromEntries(formData.entries());
 
       const skill = formDataObj.newSkill
-      if (!currentUser.aboutMe.skills.includes(skill) && !skillList.includes(skill)) {
-        currentUser.aboutMe.skills.push(skill);
-        setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]});
+      if (!profileUser.aboutMe.skills.includes(skill) && !skillList.includes(skill)) {
+        profileUser.aboutMe.skills.push(skill);
+        setAboutMeFields({...aboutMeFields, skills: [...profileUser.aboutMe.skills]});
         setUnsavedChanges(true);
       }
     }
@@ -108,8 +108,8 @@ const Profile = () => {
       if (unsavedChanges && confirm("Unsaved changes will be lost - are you sure?")) {
         setIsEditMode(false);
         setUnsavedChanges(false);
-        setProfileFields({ ...currentUser })
-        setAboutMeFields({...currentUser.aboutMe})
+        setProfileFields({ ...profileUser })
+        setAboutMeFields({...profileUser.aboutMe})
 
       } else if (!unsavedChanges) {
         setIsEditMode(false);
@@ -183,7 +183,7 @@ const Profile = () => {
 
   const updateProfile = async (event) => {
     event.preventDefault();
-    setAboutMeFields({...aboutMeFields, skills: [...currentUser.aboutMe.skills]});
+    setAboutMeFields({...aboutMeFields, skills: [...profileUser.aboutMe.skills]});
 
     const updatedProfile = {
       firstName: profileUser.firstName,
@@ -194,13 +194,13 @@ const Profile = () => {
       aboutMe: {
         text: aboutMeFields.text,
         careerDevelopment: aboutMeFields.careerDevelopment,
-        skills: [...currentUser.aboutMe.skills]
+        skills: [...profileUser.aboutMe.skills]
       }
     }
 
     try {
-      // const response = await fetch(`https://talent-forge-api-atu2.onrender.com/users/${currentUser._id}`, {
-        const response = await fetch(`http://localhost:8002/users/${currentUser._id}`, {
+      // const response = await fetch(`https://talent-forge-api-atu2.onrender.com/users/${profileUser._id}`, {
+        const response = await fetch(`http://localhost:8002/users/${profileUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -215,7 +215,7 @@ const Profile = () => {
         if (response.ok) {
             setIsEditMode(false);
             // unsavedChanges = false;
-            console.log(currentUser);
+            console.log(profileUser);
           } else {
             throw new Error(`Error: ${response.statusText}`)
           }
@@ -393,7 +393,7 @@ const Profile = () => {
             ) : (
               // Displays skills on main profile page (userSkills state has not yet been set on first rendering profile)
               <div className="flex flex-col justify-center items-center mb-12">
-                {currentUser.aboutMe.skills.map((index, skill) => showUserSkills(index, skill))}
+                {profileUser.aboutMe.skills.map((index, skill) => showUserSkills(index, skill))}
               </div>
             )}
           </div>
