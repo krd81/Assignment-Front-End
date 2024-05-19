@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
 import Fuse from "fuse.js" // Import Fuse.js library
 import "../assets/css/App.css"
+import dateFormat from "../misc/dateFormat"
 
 // Icon for NEW listings: 'notifications-outline' or <ion-icon name="megaphone-outline"></ion-icon>
 // Icon for expiring listings: 'alert' | 'alert-circle' | 'alert-circle-outline'
@@ -148,7 +149,7 @@ const JobListing = () => {
                         <p className="text-base mt-2">{listing.roleType}</p>
                         <p className="text-base mt-2">{listing.location}</p>
                         <p className="text-base mt-2">Salary: ${Number(listing.salary).toLocaleString()}</p>
-                        <p className="text-base mt-2">Posted Date: {listing.datePosted}</p>
+                        <p className="text-base mt-2">Posted Date: {dateFormat(listing.datePosted)}</p>
                         <p className="text-base mt-2">Job Description: {displayPreview(listing.description.text)}</p>
                         {newListing(listing)}
                       </div>

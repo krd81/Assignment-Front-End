@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react"
 import IonIcon from '@reacticons/ionicons'
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
+import dateFormat from "../misc/dateFormat"
 import "../assets/css/App.css"
 
 
@@ -39,14 +40,6 @@ export const OpportunitiesByCreator = () => {
 
   const nav = useNavigate()
 
-  const formatDate = (dateToFormat) => {
-    const date = new Date(dateToFormat);
-    const dd = date.toISOString().slice(8,10);
-    const mm = date.toISOString().slice(5,7);
-    const yy = date.toISOString().slice(2,4);
-
-    return `${dd}/${mm}/${yy}`
-  }
 
   const handleView = (listing) => {
     // Open Listing in view mode
@@ -111,7 +104,7 @@ export const OpportunitiesByCreator = () => {
                     <p className="text-base md:text-3xl lg:text-3xl text-center md:text-left md:px-2">{listing.department}</p>
                   </div>
                   <div className="md:w-1/3">
-                  <p className="text-base text-center pb-3 md:text-xl lg:text-2xl mt-2">Posted: {formatDate(listing.datePosted)}</p>
+                  <p className="text-base text-center pb-3 md:text-xl lg:text-2xl mt-2">Posted: {dateFormat(listing.datePosted)}</p>
                   {console.log(listing.datePosted)}
                   </div>
                   </div>

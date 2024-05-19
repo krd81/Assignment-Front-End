@@ -3,7 +3,7 @@ import "../assets/css/ViewListing.css"
 import { AppContext } from '../authentication/AppContext'
 import { useParams, useNavigate } from "react-router-dom"
 import OpportunitiesByCreator from "./OpportunitiesByCreator"
-
+import dateFormat from "../misc/dateFormat"
 
 
 const ViewListing = () => {
@@ -28,19 +28,6 @@ const ViewListing = () => {
       return null
     }
   }
-
-  const dateFormat = (date) => {
-    // DB stores date as YYYY-MM-DD
-    const dateFormatted = new Date(date)
-    const day = date ? dateFormatted.toISOString().slice(8,10) : '01'
-    const month = date ? dateFormatted.toISOString().slice(5,7) : '01'
-    const year = date ? dateFormatted.toISOString().slice(0,4) : '2024'
-    return `${day}/${month}/${year}`
-  }
-
-
-
-
 
 
 
