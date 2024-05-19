@@ -1,0 +1,35 @@
+table {
+    border-collapse: collapse;
+
+  }
+
+
+th,
+td {
+    padding: 8px 10px;
+}
+
+th {
+
+    text-align: center;
+    padding-bottom: 10px;
+
+}
+
+td {
+    font-size: x-large;
+    text-align: center;
+}
+
+tr {
+    vertical-align: baseline;
+}
+
+a {
+    color: blue;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: rgb(243, 200, 60);
+}

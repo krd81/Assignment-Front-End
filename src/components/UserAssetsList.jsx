@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 import { AppContext } from '../authentication/AppContext'
 import { useLocation, Link } from "react-router-dom"
+import dateFormat from "../misc/dateFormat"
+import '../assets/css/UserAssetList.css'
 
 // User Assets - reusable component for Applications / Events etc
 const UserAssetsList = () => {
@@ -26,12 +28,30 @@ const UserAssetsList = () => {
       case 'Applications':
         for (let listing of currentUser.applications) {
           applicationElements.push(
+            <>
+            <tr>
+              <td>
+              <ul>
             <li className="list-disc" key={listing._id}>
-              <Link to={`/listings/${listing._id}`}>
+              <Link to={`/listings/${listing._id}`} >
                 {listing.title}
                 {setCurrentListing(listing)}
               </Link>
             </li>
+            </ul>
+              </td>
+
+              <td>
+              {listing.department}
+
+              </td>
+
+              <td>
+                {dateFormat(listing.dateClosing)}
+              </td>
+            </tr>
+
+            </>
           );
         }
         if (currentUser.applications.length < 1) {
@@ -60,10 +80,20 @@ const UserAssetsList = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-3 flex-row items-center justify-center">
               <h2 className="text-3xl md:text-5xl lg:text-5xl text-center font-semibold mt-8 mb-4">{`Your ${asset}`}</h2>
-              <div className="py-3 md:py-10 lg:py-14 mx-6 text-xl md:text-4xl">
-                <ul>
-                  {showAssets()}
-                </ul>
+              <div className="flex justify-center py-3 md:py-10 lg:py-14 mx-6 text-xl md:text-4xl">
+                <table className="table-fixed">
+                  <thead>
+                    <tr>
+                      <th >Listing Title</th>
+                      <th >Department</th>
+                      <th >Closing Date</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {showAssets()}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
