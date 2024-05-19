@@ -1,20 +1,13 @@
-import { useState, useContext } from "react"
+import { useContext } from "react"
 import { AppContext } from '../authentication/AppContext'
 
 const ChangePassword = ({ onClose }) => {
-  const { loggedInUser, profile } = useContext(AppContext);
-  const [currentUser, setCurrentUser] = loggedInUser
+  const { profile } = useContext(AppContext);
   const [profileUser, setProfileUser] = profile
 
-  // const [oldPassword, setOldPassword] = useState();
-  // const [newPassword, setNewPassword] = useState();
-  // const [confirmPassword, setConfirmPassword] = useState();
-  // let oldPassword;
-  // let newPassword;
-  // let confirmNewPassword;
 
-    const handleFormSubmit = async (event) => {
-      event.preventDefault();
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
 // 1. Check old password matches password stored in DB
 // 2. If yes, check new password/confirm passwords are the same - then store new password
 // 3. If no, display message to advise old password is incorrect
@@ -29,16 +22,13 @@ const ChangePassword = ({ onClose }) => {
         body: JSON.stringify(HTTPBody)
       });
       return response;
-
     }
-
 
       const formData = new FormData(event.currentTarget)
       const formDataObj = Object.fromEntries(formData.entries())
       console.log(formDataObj)
 
       if (formDataObj.oldPassword && formDataObj.newPassword && formDataObj.confirmNewPassword) {
-        console.log("Form data objects are truthy");
         const oldPassword = formDataObj.oldPassword;
         const newPassword = formDataObj.newPassword;
         const confirmNewPassword = formDataObj.confirmNewPassword;
@@ -48,20 +38,15 @@ const ChangePassword = ({ onClose }) => {
         };
         // API call to compare user's password
         try {
-          console.log("1st API call");
           let response = await apiCall(`http://localhost:8002/users/${profileUser._id}/password`, 'POST', oldPasswordCheck)
-          console.log(`${response.status}, ${response.statusText}`);
-          if (response.status === '200') {
+          if (response.ok) {
             if (newPassword === confirmNewPassword) {
-          console.log("New passwords matching");
               const passwordUpdate = {
                 password: newPassword
               };
               // Second API call to change user's password
               try {
-          console.log("2nd API call");
           response = await apiCall(`http://localhost:8002/users/${profileUser._id}`, 'PUT', passwordUpdate)
-          console.log(`${response.status}, ${response.statusText}`);
           if (response.ok) {
             alert("Your password has been changed");
                     // Close portal
@@ -70,30 +55,23 @@ const ChangePassword = ({ onClose }) => {
                     clearFields();
                 }
               } catch (error) {
-          console.log("Failed on 2nd API call");
-          console.log(`${response.status}, ${response.statusText}`);
+                console.error('Failed to change password:', error);
               }
-
           } else {
             alert("Passwords do not match - please try again");
             // Clear password fields
             clearFields();
-
           }
-
         } else {
           alert("Old Password is incorrect - please try again");
           // Clear password fields
           clearFields();
         }
       } catch (error) {
-          console.log("Failed on 1st API call");
           console.error('Failed to change password:', error);
         // Clear password fields
         clearFields();
       }
-
-
     } else {
       alert("Ensure all fields are complete");
       // Clear password fields
