@@ -20,7 +20,7 @@ const ChangePassword = ({ onClose }) => {
 // 3. If no, display message to advise old password is incorrect
 // 4. Option for admin only to update a user's password - if user is admin, no old password is required
     async function apiCall(URL, HTTPMethod, HTTPBody) {
-      const response = await fetch(URL, {
+      const response = fetch(URL, {
         method: HTTPMethod,
         headers: {
           'Content-Type': 'application/json',
@@ -48,9 +48,10 @@ const ChangePassword = ({ onClose }) => {
         };
         // API call to compare user's password
         try {
-          let response = await apiCall(`http://localhost:8002/users/${profileUser._id}/password`, 'POST', oldPasswordCheck)
           console.log("1st API call");
-          if (response.ok) {
+          let response = await apiCall(`http://localhost:8002/users/${profileUser._id}/password`, 'POST', oldPasswordCheck)
+          console.log(`${response.status}, ${response.statusText}`);
+          if (response.status === '200') {
             if (newPassword === confirmNewPassword) {
           console.log("New passwords matching");
               const passwordUpdate = {
@@ -58,10 +59,11 @@ const ChangePassword = ({ onClose }) => {
               };
               // Second API call to change user's password
               try {
-                response = await apiCall(`http://localhost:8002/users/${profileUser._id}`, 'PUT', passwordUpdate)
-                console.log("2nd API call");
-                if (response.ok) {
-                    alert("Your password has been changed");
+          console.log("2nd API call");
+          response = await apiCall(`http://localhost:8002/users/${profileUser._id}`, 'PUT', passwordUpdate)
+          console.log(`${response.status}, ${response.statusText}`);
+          if (response.ok) {
+            alert("Your password has been changed");
                     // Close portal
                     onClose();
                     // Clear password fields
@@ -69,7 +71,7 @@ const ChangePassword = ({ onClose }) => {
                 }
               } catch (error) {
           console.log("Failed on 2nd API call");
-          console.log(error);
+          console.log(`${response.status}, ${response.statusText}`);
               }
 
           } else {
