@@ -26,7 +26,9 @@ const JobListing = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredListings, setFilteredListings] = useState([...listings])
+  const [favourites, setFavourites] = useState(currentUser ? [...currentUser.listingsFavourites] : [])
 
+  console.log(favourites)
   // Function to handle department selection
   const handleDepartmentChange = (event) => {
     setSelectedDepartment(event.target.value)
@@ -59,16 +61,55 @@ const JobListing = () => {
   }, [searchQuery, selectedDepartment, listings])
 
   // Function to highlight user's starred listings
-  const toggleFavourite = (listing) => {
+  const displayFavouriteIcon = (listing) => {
+    // event.stopImmediatePropagation();
     let iconName;
-    if (currentUser.listingsFavourites.includes(listing)) {
-      currentUser.listingsFavourites.pop(listing);
-      iconName = "star-outline";
-    } else {
-      currentUser.listingsFavourites.push(listing);
+    if (favourites.includes(listing)) {
       iconName = "star";
+    } else {
+      iconName = "star-outline";
     }
-    return <IonIcon name={iconName} size="large" />
+    return (
+    <>
+    <a className="md:p-1 hover:text-blue-700"
+      onClick={event => toggleFavourite(listing, event)}
+    >
+    <IonIcon name={iconName} size="large" />
+    </a>
+    </>
+    )
+  }
+
+  const toggleFavourite = async (listing, event) => {
+    event.preventDefault();
+    // event.stopImmediatePropagation();
+    console.log(favourites)
+    favourites.map((favouriteListing, index) => {
+      if (favouriteListing._id || index === listing._id) {
+        setFavourites(prev => prev.filter(prevListing => prevListing !== listing));
+      } else {
+        setFavourites(...favourites, listing);
+      }
+    })
+
+    const favouritesUpdate = {
+      listingsFavourites: [...favourites]
+    };
+
+    try {
+      await fetch (`http://localhost:8002/users/${currentUser._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        },
+        body: JSON.stringify(favouritesUpdate)
+      })
+    } catch (error) {
+      console.error('User\'s favourite listings not updated:', error);
+    }
+
+
   }
 
   // Functionality to apply for role
@@ -81,8 +122,8 @@ const JobListing = () => {
 
 
   function listingClick(listing, event) {
-    event.stopImmediatePropagation();
-    nav(`/listings/${listing._id}`)
+    // event.stopImmediatePropagation();
+    // nav(`/listings/${listing._id}`)
     setCurrentListing(listing)
   }
 
@@ -177,13 +218,7 @@ const JobListing = () => {
                           <p className="text-base text-center">{listing.department}</p>
                         </div>
                         <div className="px-2">
-                        <a className="text-gray-500 md:p-1 hover:text-blue-700"
-                    onClick={() => {
-                      toggleFavourite(listing)
-                      }}>
-                      <IonIcon name='star-outline' size="large" />
-                    </a>
-
+                          {displayFavouriteIcon(listing)}
                         </div>
                         </div>
                         <div>
