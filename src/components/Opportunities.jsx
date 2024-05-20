@@ -158,9 +158,19 @@ const JobListing = () => {
                       <div className="p-4 " onClick={() => {listingClick(listing)}}>
                         <div className="flex justify-between">
                         <div>
-                        <span className={`text-green-600 md:p-1 ${currentUser.applications.includes(listing) ? "visible" : "invisible"}`}>
-                      <IonIcon name='checkmark-circle-outline' size="large" />
-                    </span>
+                          {currentUser?.applications.map((application, index) => {
+                            if (application._id === listing._id) {
+                              return (
+                                <>
+                                  <span id={index} className={`text-green-600 md:p-1`}>
+                                    <IonIcon name='checkmark-circle-outline' size="large" />
+                                  </span>
+                                </>
+                              )
+                            }
+                          })
+                        }
+
                         </div>
                         <div>
                           <h2 className="text-xl text-center font-medium text-gray-900 ">{listing.title}</h2>
