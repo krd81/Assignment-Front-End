@@ -2,18 +2,20 @@ import { useState, useEffect, useContext } from "react"
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
 import Fuse from "fuse.js" // Import Fuse.js library
+import IonIcon from '@reacticons/ionicons'
 import "../assets/css/App.css"
 import dateFormat from "../misc/dateFormat"
 
 // Icon for NEW listings: 'notifications-outline' or <ion-icon name="megaphone-outline"></ion-icon>
 // Icon for expiring listings: 'alert' | 'alert-circle' | 'alert-circle-outline'
-// Icon for favourite listings: 'heart'
+// Icon for favourite listings:  <ion-icon name="star"></ion-icon> <ion-icon name="star-outline"></ion-icon>
 // Icon to show job has been applied for: 'checkmark-circle-outline'
 // Icon to show applications: 'people' | 'people-outline'
-// export const ListingContext = createContext()
+// Don't show expired listings
 
 const JobListing = () => {
-  const { allListings, listing } = useContext(AppContext)
+  const { loggedInUser, allListings, listing } = useContext(AppContext)
+  const [currentUser, setCurrentUser] = loggedInUser
   const [ listings ] = allListings
   const [ currentListing, setCurrentListing ] = listing
 
@@ -56,17 +58,30 @@ const JobListing = () => {
     setFilteredListings(newFilteredListings)
   }, [searchQuery, selectedDepartment, listings])
 
-
-    // Functionality to apply for role
-    function handleApply(listing) {
-      // No preceding / makes the path relative and redirects to apply page
-      nav(`/listings/${listing._id}/apply`)
-      setCurrentListing(listing)
+  // Function to highlight user's starred listings
+  const toggleFavourite = (listing) => {
+    let iconName;
+    if (currentUser.listingsFavourites.includes(listing)) {
+      currentUser.listingsFavourites.pop(listing);
+      iconName = "star-outline";
+    } else {
+      currentUser.listingsFavourites.push(listing);
+      iconName = "star";
     }
+    return <IonIcon name={iconName} size="large" />
+  }
+
+  // Functionality to apply for role
+  function handleApply(listing) {
+    // No preceding / makes the path relative and redirects to apply page
+    nav(`/listings/${listing._id}/apply`)
+    setCurrentListing(listing)
+  }
 
 
 
-  function listingClick(listing) {
+  function listingClick(listing, event) {
+    event.stopImmediatePropagation();
     nav(`/listings/${listing._id}`)
     setCurrentListing(listing)
   }
@@ -99,7 +114,8 @@ const JobListing = () => {
   document.title = "Opportunities"
 
   return (
-    <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-96">
+    <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-32">
+      {console.log(currentUser)}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-3 flex items-center justify-center">
           <h2 className="text-3xl font-semibold mt-8 mb-4">Internal Opportunities</h2>
@@ -134,14 +150,32 @@ const JobListing = () => {
         </div>
         <div className="md:col-span-2 mb-8">
           <div className="grid grid-cols-1 gap-6">
-            {filteredListings.map((listing) => (
+            {filteredListings.map((listing, index) => (
 
                 listing.listingActive && (
                   <>
-                    <div key={listing._id} className={`overflow-hidden shadow-lg rounded-lg border ${newListing(listing) ? "border-green-600 bg-green-50" : "bg-white"} select-list-item`}>
-                      <div className="p-4" onClick={() => {listingClick(listing)}}>
-                        <h2 className="text-xl text-center font-medium text-gray-900">{listing.title}</h2>
-                        <p className="text-base text-center">{listing.department}</p>
+                    <div key={index} className={`overflow-hidden shadow-lg rounded-lg border ${newListing(listing) ? "border-green-600 bg-green-50" : "bg-white"} select-list-item`}>
+                      <div className="p-4 " onClick={() => {listingClick(listing)}}>
+                        <div className="flex justify-between">
+                        <div>
+                        <span className={`text-green-600 md:p-1 ${currentUser.applications.includes(listing) ? "visible" : "invisible"}`}>
+                      <IonIcon name='checkmark-circle-outline' size="large" />
+                    </span>
+                        </div>
+                        <div>
+                          <h2 className="text-xl text-center font-medium text-gray-900 ">{listing.title}</h2>
+                          <p className="text-base text-center">{listing.department}</p>
+                        </div>
+                        <div className="px-2">
+                        <a className="text-gray-500 md:p-1 hover:text-blue-700"
+                    onClick={() => {
+                      toggleFavourite(listing)
+                      }}>
+                      <IonIcon name='star-outline' size="large" />
+                    </a>
+
+                        </div>
+                        </div>
                         <div>
                           {/* Icons */}
 
@@ -149,7 +183,7 @@ const JobListing = () => {
                         <p className="text-base mt-2">{listing.roleType}</p>
                         <p className="text-base mt-2">{listing.location}</p>
                         <p className="text-base mt-2">Salary: ${Number(listing.salary).toLocaleString()}</p>
-                        <p className="text-base mt-2">Posted Date: {dateFormat(listing.datePosted)}</p>
+                        <p className="text-base mt-2">Closing Date: {dateFormat(listing.dateClosing)}</p>
                         <p className="text-base mt-2">Job Description: {displayPreview(listing.description.text)}</p>
                         {newListing(listing)}
                       </div>
