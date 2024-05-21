@@ -71,26 +71,23 @@ const JobListing = () => {
 
   // Function to highlight user's starred listings
   const displayFavouriteIcon = (listing) => {
-    // event.stopImmediatePropagation();
-    let iconName;
-    favourites.map(favourite => {
-      if (favourite._id === listing._id) {
-        iconName = "star";
-      } else {
-        iconName = "star-outline";
-      }
-    })
-    return (
-    <>
-      <a className="md:p-1 hover:text-blue-700"
-        onClick={event => toggleFavourite(listing, event)}
-      >
-        <IonIcon name={iconName} size="large" />
-      </a>
-    </>
-    )
-  }
+    // Find and add to isFavourite if the current listing is in favourites
+    const isFavourite = favourites.find(favourite => favourite._id === listing._id);
 
+    // Set iconName based on whether the listing is a favourite or not
+    // isFavourite is either defined (as the found listing) or undefined
+    const iconName = isFavourite ? "star" : "star-outline";
+    const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
+
+    return (
+      <>
+        <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(listing, event)}>
+          <IonIcon name={iconName} size="large" />
+        </a>
+      </>
+    );  }
+
+    
   const toggleFavourite = async (listing, event) => {
     event.preventDefault();
     // event.stopImmediatePropagation();
