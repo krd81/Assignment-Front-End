@@ -33,7 +33,7 @@ const UserAssetsList = () => {
               <td>
               <ul>
             <li className="list-disc" key={listing._id}>
-              <Link to={`/listings/${listing._id}`} >
+              <Link className="title-link" to={`/listings/${listing._id}`} >
                 {listing.title}
                 {setCurrentListing(listing)}
               </Link>

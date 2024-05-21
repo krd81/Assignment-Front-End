@@ -25,11 +25,11 @@ tr {
     vertical-align: baseline;
 }
 
-a {
+.title-link {
     color: blue;
     text-decoration: underline;
 }
 
-a:hover {
+.title-link:hover {
     color: rgb(243, 200, 60);
 }

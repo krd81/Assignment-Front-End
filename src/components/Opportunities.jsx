@@ -71,11 +71,11 @@ const JobListing = () => {
     }
     return (
     <>
-    <a className="md:p-1 hover:text-blue-700"
-      onClick={event => toggleFavourite(listing, event)}
-    >
-    <IonIcon name={iconName} size="large" />
-    </a>
+      <a className="md:p-1 hover:text-blue-700"
+        onClick={event => toggleFavourite(listing, event)}
+      >
+        <IonIcon name={iconName} size="large" />
+      </a>
     </>
     )
   }
@@ -202,33 +202,30 @@ const JobListing = () => {
                     <div key={index} className={`overflow-hidden shadow-lg rounded-lg border ${newListing(listing) ? "border-green-600 bg-green-50" : "bg-white"} select-list-item`}>
                       <div className="p-4 " onClick={() => {listingClick(listing)}}>
                         <div className="flex justify-between">
-                        <div>
-                          {currentUser?.applications.map((application, index) => {
-                            if (application._id === listing._id) {
-                              return (
-                                <>
-                                  <span id={index} className={`text-green-600 md:p-1`}>
-                                    <IonIcon name='checkmark-circle-outline' size="large" />
-                                  </span>
-                                </>
-                              )
-                            }
-                          })
-                        }
+                          <div>
+                            {currentUser?.applications.map((application, index) => {
+                              if (application._id === listing._id) {
+                                return (
+                                  <>
+                                    <span id={index} className={`text-green-600 md:p-1`}>
+                                      <IonIcon name='checkmark-circle-outline' size="large" />
+                                    </span>
+                                  </>
+                                )
+                              }
+                            })
+                          }
 
+                          </div>
+                          <div>
+                            <h2 className="text-xl text-center font-medium text-gray-900 ">{listing.title}</h2>
+                            <p className="text-base text-center">{listing.department}</p>
+                          </div>
+                          <div className="px-2">
+                            {displayFavouriteIcon(listing)}
+                          </div>
                         </div>
-                        <div>
-                          <h2 className="text-xl text-center font-medium text-gray-900 ">{listing.title}</h2>
-                          <p className="text-base text-center">{listing.department}</p>
-                        </div>
-                        <div className="px-2">
-                          {displayFavouriteIcon(listing)}
-                        </div>
-                        </div>
-                        <div>
-                          {/* Icons */}
 
-                        </div>
                         <p className="text-base mt-2">{listing.roleType}</p>
                         <p className="text-base mt-2">{listing.location}</p>
                         <p className="text-base mt-2">Salary: ${Number(listing.salary).toLocaleString()}</p>
