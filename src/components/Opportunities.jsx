@@ -94,11 +94,13 @@ const JobListing = () => {
     // event.stopImmediatePropagation();
 
     if (favourites.length > 0) {
-        if (favourites.includes(listing)) {
-          setFavourites(prev => prev.filter(prevListing => prevListing !== listing));
+      favourites.map(favourite => {
+        if (favourite._id === listing._id) {
+          setFavourites(prev => prev.filter(prevListing => prevListing._id !== listing._id));
         } else {
           setFavourites([...favourites, listing]);
         }
+      })
     } else {
       setFavourites([listing]);
     }
