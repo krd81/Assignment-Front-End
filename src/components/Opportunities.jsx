@@ -26,7 +26,7 @@ const JobListing = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredListings, setFilteredListings] = useState([...listings])
-  const [favourites, setFavourites] = useState(currentUser ? [...currentUser.listingsFavourites] : [])
+  const [favourites, setFavourites] = useState([])
 
   console.log(favourites)
   // Function to handle department selection
@@ -59,6 +59,14 @@ const JobListing = () => {
 
     setFilteredListings(newFilteredListings)
   }, [searchQuery, selectedDepartment, listings])
+
+  //useEffect hook allows the favourites state to be updated once the current user object becomes available
+  useEffect(() => {
+    if (currentUser && currentUser.listingsFavourites) {
+      setFavourites([...currentUser.listingsFavourites]);
+    }
+  }, [currentUser]);
+
 
   // Function to highlight user's starred listings
   const displayFavouriteIcon = (listing) => {
