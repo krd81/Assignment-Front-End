@@ -6,11 +6,11 @@ import IonIcon from '@reacticons/ionicons'
 import "../assets/css/App.css"
 import dateFormat from "../misc/dateFormat"
 
-// Icon for NEW listings: 'notifications-outline' or <ion-icon name="megaphone-outline"></ion-icon>
+// DONE - Icon for NEW listings: 'notifications-outline' or <ion-icon name="megaphone-outline"></ion-icon>
 // Icon for expiring listings: 'alert' | 'alert-circle' | 'alert-circle-outline'
-// Icon for favourite listings:  <ion-icon name="star"></ion-icon> <ion-icon name="star-outline"></ion-icon>
-// Icon to show job has been applied for: 'checkmark-circle-outline'
-// Icon to show applications: 'people' | 'people-outline'
+// DONE - Icon for favourite listings:  <ion-icon name="star"></ion-icon> <ion-icon name="star-outline"></ion-icon>
+// DONE - Icon to show job has been applied for: 'checkmark-circle-outline'
+// ???? - Icon to show applications: 'people' | 'people-outline'
 // Don't show expired listings
 
 const JobListing = () => {
@@ -21,12 +21,10 @@ const JobListing = () => {
 
   const nav = useNavigate()
 
-
-
   const [selectedDepartment, setSelectedDepartment] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredListings, setFilteredListings] = useState([...listings])
-  const [favourites, setFavourites] = useState([])
+  const [favourites, setFavourites] = useState(null); // Needs to be null so that the user's favourites aren't over-written with empty array on mount
 
   console.log(favourites)
   // Function to handle department selection
@@ -71,21 +69,23 @@ const JobListing = () => {
 
   // Function to highlight user's starred listings
   const displayFavouriteIcon = (listing) => {
-    // Find and add to isFavourite if the current listing is in favourites
-    const isFavourite = favourites.find(favourite => favourite._id === listing._id);
+    if (favourites) {
+      // Find and add to isFavourite if the current listing is in favourites
+      let isFavourite = favourites.find(favourite => favourite._id === listing._id);
 
-    // Set iconName based on whether the listing is a favourite or not
-    // isFavourite is either defined (as the found listing) or undefined
-    const iconName = isFavourite ? "star" : "star-outline";
-    const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
+      // Set iconName based on whether the listing is a favourite or not
+      // isFavourite is either defined (as the found listing) or undefined
+      const iconName = isFavourite ? "star" : "star-outline";
+      const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
 
-    return (
-      <>
-        <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(listing, event)}>
-          <IonIcon name={iconName} size="large" />
-        </a>
-      </>
-    );
+      return (
+        <>
+          <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(listing, event)}>
+            <IonIcon name={iconName} size="large" />
+          </a>
+        </>
+      );
+    }
   }
 
 
@@ -109,10 +109,11 @@ const JobListing = () => {
     const updateUserFavourites = async () => {
       console.log("Update DB effect called")
       console.log(favourites)
-      const favouritesUpdate = {
-        listingsFavourites: favourites.length>0 ? [...favourites] : []
-      };
-      console.log(favouritesUpdate)
+      // If favourites is null (i.e. on initial mount, do not update the database)
+      if (favourites) {
+        const favouritesUpdate = {
+          listingsFavourites: favourites.length > 0 ? [...favourites] : []
+        };
 
       try {
         const response = await fetch (`http://localhost:8002/users/${currentUser._id}`, {
@@ -128,12 +129,11 @@ const JobListing = () => {
       } catch (error) {
         console.error('User\'s favourite listings not updated:', error);
       }
-
+    }
    }
    if (currentUser) {
     updateUserFavourites();
    }
-
   }, [favourites, currentUser]);
 
 
@@ -181,7 +181,6 @@ const JobListing = () => {
 
   return (
     <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-32">
-      {console.log(currentUser)}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-3 flex items-center justify-center">
           <h2 className="text-3xl font-semibold mt-8 mb-4">Internal Opportunities</h2>
