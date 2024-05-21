@@ -92,7 +92,6 @@ const JobListing = () => {
   const toggleFavourite = (listing, event) => {
     event.preventDefault();
     // event.stopImmediatePropagation();
-    console.log(favourites)
 
     if (favourites.length > 0) {
         if (favourites.includes(listing)) {
