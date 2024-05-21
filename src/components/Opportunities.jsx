@@ -85,10 +85,11 @@ const JobListing = () => {
           <IonIcon name={iconName} size="large" />
         </a>
       </>
-    );  }
+    );
+  }
 
-    
-  const toggleFavourite = async (listing, event) => {
+
+  const toggleFavourite = (listing, event) => {
     event.preventDefault();
     // event.stopImmediatePropagation();
     console.log(favourites)
@@ -114,7 +115,7 @@ const JobListing = () => {
       console.log(favouritesUpdate)
 
       try {
-        await fetch (`http://localhost:8002/users/${currentUser._id}`, {
+        const response = await fetch (`http://localhost:8002/users/${currentUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -122,11 +123,16 @@ const JobListing = () => {
           },
           body: JSON.stringify(favouritesUpdate)
         });
+        const result = await response.json();
+        console.log(result)
       } catch (error) {
         console.error('User\'s favourite listings not updated:', error);
       }
+
    }
+   if (currentUser) {
     updateUserFavourites();
+   }
 
   }, [favourites, currentUser]);
 
