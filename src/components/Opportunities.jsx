@@ -84,16 +84,20 @@ const JobListing = () => {
     event.preventDefault();
     // event.stopImmediatePropagation();
     console.log(favourites)
-    favourites.map((favouriteListing, index) => {
-      if (favouriteListing._id || index === listing._id) {
-        setFavourites(prev => prev.filter(prevListing => prevListing !== listing));
-      } else {
-        setFavourites(...favourites, listing);
-      }
-    })
+
+    if (favourites.length > 0) {
+        if (favourites.includes(listing)) {
+          setFavourites(prev => prev.filter(prevListing => prevListing !== listing));
+        } else {
+          setFavourites([...favourites, listing]);
+        }
+    } else {
+      setFavourites([listing]);
+    }
+
 
     const favouritesUpdate = {
-      listingsFavourites: [...favourites]
+      listingsFavourites: favourites.length>0 ? [...favourites] : []
     };
 
     try {
