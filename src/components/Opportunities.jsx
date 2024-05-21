@@ -68,15 +68,18 @@ const JobListing = () => {
   }, [currentUser]);
 
 
+
   // Function to highlight user's starred listings
   const displayFavouriteIcon = (listing) => {
     // event.stopImmediatePropagation();
     let iconName;
-    if (favourites.includes(listing)) {
-      iconName = "star";
-    } else {
-      iconName = "star-outline";
-    }
+    favourites.map(favourite => {
+      if (favourite._id === listing._id) {
+        iconName = "star";
+      } else {
+        iconName = "star-outline";
+      }
+    })
     return (
     <>
       <a className="md:p-1 hover:text-blue-700"
@@ -102,27 +105,34 @@ const JobListing = () => {
     } else {
       setFavourites([listing]);
     }
-
-
-    const favouritesUpdate = {
-      listingsFavourites: favourites.length>0 ? [...favourites] : []
-    };
-
-    try {
-      await fetch (`http://localhost:8002/users/${currentUser._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-        },
-        body: JSON.stringify(favouritesUpdate)
-      })
-    } catch (error) {
-      console.error('User\'s favourite listings not updated:', error);
-    }
-
-
   }
+
+  useEffect(() =>  {
+    const updateUserFavourites = async () => {
+      console.log("Update DB effect called")
+      console.log(favourites)
+      const favouritesUpdate = {
+        listingsFavourites: favourites.length>0 ? [...favourites] : []
+      };
+      console.log(favouritesUpdate)
+
+      try {
+        await fetch (`http://localhost:8002/users/${currentUser._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          },
+          body: JSON.stringify(favouritesUpdate)
+        });
+      } catch (error) {
+        console.error('User\'s favourite listings not updated:', error);
+      }
+   }
+    updateUserFavourites();
+
+  }, [favourites, currentUser]);
+
 
   // Functionality to apply for role
   function handleApply(listing) {
