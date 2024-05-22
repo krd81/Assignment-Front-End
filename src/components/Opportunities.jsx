@@ -166,13 +166,39 @@ const JobListing = () => {
     return text.split(' ').slice(0, 20).join(' ');
   }
 
-  function newListing(listing) {
-    const datePosted = new Date(listing.datePosted)
-    const today = new Date(Date.now())
-    const differenceInTime = today.getTime() - datePosted.getTime()
-    const daysSincePosted = Math.floor(differenceInTime / (1000 * 3600 * 24))
+  // Returns the number of days since
+  function listingTimeline(listing) {
+    const today = new Date(Date.now());
 
-    if (daysSincePosted < 7) {
+    const datePosted = new Date(listing.datePosted);
+    const timeSincePosted = today.getTime() - (datePosted ? datePosted.getTime() : 0);
+    const daysSincePosted = timeSincePosted > 0 ? Math.floor(timeSincePosted / (1000 * 3600 * 24)) : 10; // If posted date is unavailable or in the future, make the number of days 10, so that the listing will not show as new
+
+    const dateClosing = new Date(listing.dateClosing);
+    const timeUntilClosing = today.getTime() - (dateClosing ? dateClosing.getTime() : 0);
+    const daysUntilClosing = timeUntilClosing > 0 ? Math.floor(timeUntilClosing / (1000 * 3600 * 24)) : 10; // If closing date is unavailable or in the past, make the number of days 10, so that the listing will not show as expiring
+
+    return {sincePosted: daysSincePosted, untilClosing: daysUntilClosing}
+  }
+
+  function newListing(listing) {
+    if (listingTimeline(listing).sincePosted < 7) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  function lastChanceListing(listing) {
+    if (listingTimeline(listing).untilClosing < 5) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  function expiredListing(listing) {
+    if (listingTimeline(listing).untilClosing < -6) {
       return true
     } else {
       return false
@@ -224,7 +250,9 @@ const JobListing = () => {
 
                 listing.listingActive && (
                   <>
-                    <div key={index} className={`overflow-hidden shadow-lg rounded-lg border ${newListing(listing) ? "border-green-600 bg-green-50" : "bg-white"} select-list-item`}>
+                    <div key={index} className={`overflow-hidden shadow-lg rounded-lg select-list-item
+                                                ${newListing(listing) ? "border-green-600 border bg-green-50" : "bg-white border"}
+                                                ${lastChanceListing(listing) ? "border-red-600 border-2" : "bg-white border"}`}>
                       <div className="p-4 " onClick={() => {listingClick(listing)}}>
                         <div className="flex justify-between">
                           <div>
