@@ -7,11 +7,11 @@ import "../assets/css/App.css"
 import dateFormat from "../misc/dateFormat"
 
 // DONE - Icon for NEW listings: 'notifications-outline' or <ion-icon name="megaphone-outline"></ion-icon>
-// Icon for expiring listings: 'alert' | 'alert-circle' | 'alert-circle-outline'
+// DONE - Icon for expiring listings: 'alert' | 'alert-circle' | 'alert-circle-outline'
 // DONE - Icon for favourite listings:  <ion-icon name="star"></ion-icon> <ion-icon name="star-outline"></ion-icon>
 // DONE - Icon to show job has been applied for: 'checkmark-circle-outline'
 // ???? - Icon to show applications: 'people' | 'people-outline'
-// Don't show expired listings
+// DONE - Don't show expired listings
 
 const JobListing = () => {
   const { loggedInUser, allListings, listing } = useContext(AppContext)
@@ -109,8 +109,6 @@ const JobListing = () => {
 
   useEffect(() =>  {
     const updateUserFavourites = async () => {
-      console.log("Update DB effect called")
-      console.log(favourites)
       // If favourites is null (i.e. on initial mount, do not update the database)
       if (favourites) {
         const favouritesUpdate = {
@@ -118,7 +116,7 @@ const JobListing = () => {
         };
 
       try {
-        const response = await fetch (`http://localhost:8002/users/${currentUser._id}`, {
+        await fetch (`http://localhost:8002/users/${currentUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -126,8 +124,6 @@ const JobListing = () => {
           },
           body: JSON.stringify(favouritesUpdate)
         });
-        const result = await response.json();
-        console.log(result)
       } catch (error) {
         console.error('User\'s favourite listings not updated:', error);
       }
@@ -141,19 +137,21 @@ const JobListing = () => {
 
   // Functionality to apply for role
   function handleApply(listing) {
-    if (currentUser &&
+    if ((currentUser &&
       currentUser.applications.find(application => application._id === listing._id) &&
         confirm("You have already applied for this role. Are you sure you would like to continue?")
-      ) {
+      ) || (currentUser &&
+        !currentUser.applications.find(application => application._id === listing._id))) {
         nav(`/listings/${listing._id}/apply`)
         setCurrentListing(listing)
       }
   }
 
 
-
   function listingClick(listing) {
-    nav(`/listings/${listing._id}`)
+    const isExpired = expiredListing(listing);
+
+    nav(`/listings/${listing._id}`, { state: { isExpired } })
     setCurrentListing(listing)
   }
 
@@ -175,12 +173,12 @@ const JobListing = () => {
     const daysSincePosted = timeSincePosted > 0 ? Math.floor(timeSincePosted / (1000 * 3600 * 24)) : 10; // If posted date is unavailable or in the future, make the number of days 10, so that the listing will not show as new
 
     const dateClosing = new Date(listing.dateClosing);
-    const timeUntilClosing = (dateClosing ? dateClosing.getTime() + 1 : today.getTime()) - today.getTime();
+    const timeUntilClosing = (dateClosing ? dateClosing.getTime() : today.getTime()) - today.getTime();
     const daysUntilClosing = timeUntilClosing ? Math.floor(timeUntilClosing / (1000 * 3600 * 24)) : 10; // If closing date is unavailable or in the past, make the number of days 10, so that the listing will not show as expiring
 
     return {sincePosted: daysSincePosted, untilClosing: daysUntilClosing}
   }
-
+  // Listings that have been posted in the last 7 days are shown with green b/ground & green border
   function newListing(listing) {
     if (listingTimeline(listing).sincePosted < 7) {
       return true
@@ -189,6 +187,7 @@ const JobListing = () => {
     }
   }
 
+  // Listings which have less than 5 days until the closing date are shown with a red border
   function lastChanceListing(listing) {
     if (listingTimeline(listing).untilClosing < 5) {
       return true
@@ -197,8 +196,18 @@ const JobListing = () => {
     }
   }
 
+  // Listings which have gone past the closing date have the Apply Now button rendered inactive
   function expiredListing(listing) {
-    console.log(`Listing: ${listing.title} has ${listingTimeline(listing).untilClosing} days remaining`)
+    if (listingTimeline(listing).untilClosing < 0) {
+      return true
+    } else {
+      return false
+    }
+
+  }
+
+  // Listings where the closing date was more than 7 days ago are not shown
+  function removeListing(listing) {
     if (listingTimeline(listing).untilClosing < -6) {
       return true
     } else {
@@ -249,7 +258,7 @@ const JobListing = () => {
           <div className="grid grid-cols-1 gap-6">
             {filteredListings.map((listing, index) => (
 
-                (listing.listingActive && !expiredListing(listing)) && (
+                (listing.listingActive && !removeListing(listing)) && (
                   <>
                     <div key={index} className={`overflow-hidden shadow-lg rounded-lg select-list-item
                                                 ${newListing(listing) ? "border-green-600 border-2 bg-green-100" : "bg-white border"}
@@ -288,8 +297,15 @@ const JobListing = () => {
                         {newListing(listing)}
                       </div>
                         <div className="flex justify-center">
-                          <button onClick={() => handleApply(listing)} className="bg-dark-blue hover:bg-washed-blue text-white font-bold py-2 px-4 rounded mb-5">
-                            Apply Now
+                          <button
+                            onClick={() => {
+                              if (!expiredListing(listing)) {
+                                handleApply(listing);
+                              }
+                            }}
+                            className={`${expiredListing(listing) ? "bg-gray-300 text-gray-500 expired-button" : "bg-dark-blue text-white"}  font-bold py-2 px-4 rounded mb-5`}
+                          >
+                              Apply Now
                           </button>
                         </div>
                   </div>

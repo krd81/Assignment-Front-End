@@ -45,3 +45,11 @@ button {
 button:hover {
   transform: scale(1.03);
 }
+
+.expired-button {
+  transition: none;
+}
+
+.expired-button:hover {
+  transform: none;
+}

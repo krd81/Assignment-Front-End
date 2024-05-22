@@ -2,8 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import "../assets/css/ViewListing.css"
 import IonIcon from '@reacticons/ionicons'
 import { AppContext } from '../authentication/AppContext'
-import { useParams, useNavigate } from "react-router-dom"
-import JobListing from "./Opportunities"
+import { useParams, useNavigate, useLocation } from "react-router-dom"
 import OpportunitiesByCreator from "./OpportunitiesByCreator"
 import dateFormat from "../misc/dateFormat"
 
@@ -15,6 +14,8 @@ const ViewListing = () => {
   const [favourites, setFavourites] = useState(null);
   const { viewtype } = useParams();
   const nav = useNavigate();
+  const location = useLocation();
+  const isExpired = location.state?.isExpired;
 
   // Conditional rendering of job description/points
   function renderJobInfo(info) {
@@ -82,8 +83,6 @@ const ViewListing = () => {
 
   useEffect(() =>  {
     const updateUserFavourites = async () => {
-      console.log("Update DB effect called")
-      console.log(favourites)
       // If favourites is null (i.e. on initial mount, do not update the database)
       if (favourites) {
         const favouritesUpdate = {
@@ -91,7 +90,7 @@ const ViewListing = () => {
         };
 
       try {
-        const response = await fetch (`http://localhost:8002/users/${currentUser._id}`, {
+        await fetch (`http://localhost:8002/users/${currentUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -99,8 +98,6 @@ const ViewListing = () => {
           },
           body: JSON.stringify(favouritesUpdate)
         });
-        const result = await response.json();
-        console.log(result)
       } catch (error) {
         console.error('User\'s favourite listings not updated:', error);
       }
@@ -112,10 +109,11 @@ const ViewListing = () => {
   }, [favourites, currentUser]);
 
   function handleApply() {
-    if (currentUser &&
-      currentUser.applications.find(application => application._id === currentListing._id) &&
+    if ((currentUser &&
+      currentUser.applications.find(application => application._id === listing._id) &&
         confirm("You have already applied for this role. Are you sure you would like to continue?")
-      ) {
+      ) || (currentUser &&
+        !currentUser.applications.find(application => application._id === listing._id))) {
           nav('apply') // No preceding / makes the path relative and redirects to apply page
     }
   }
@@ -208,9 +206,13 @@ const ViewListing = () => {
             </>
             :
             <div className="flex justify-center my-3">
-            <button onClick={handleApply}
+            <button onClick={() => {
+              if (!isExpired) {
+                handleApply();
+              }
+            }}
               type="submit"
-              className="bg-dark-green hover:bg-dark-blue text-white font-semibold text-2xl md:text-3xl lg:text-4xl hover:text-white m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300 hover:border-transparent rounded"
+              className={`${isExpired ? "bg-gray-300 text-gray-400 expired-button" : "bg-dark-blue text-white" } font-semibold text-2xl md:text-3xl lg:text-4xl  m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300 hover:border-transparent rounded`}
             >
               Apply Now
             </button>
