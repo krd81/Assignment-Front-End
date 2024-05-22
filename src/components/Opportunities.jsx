@@ -97,13 +97,25 @@ const JobListing = () => {
     }
 
     if (favourites.length > 0) {
-      favourites.map(favourite => {
-        if (favourite._id === listing._id) {
-          setFavourites(prev => prev.filter(prevListing => prevListing._id !== listing._id));
-        } else {
-          setFavourites([...favourites, listing]);
-        }
-      })
+      // favourites.map(favourite => {
+      //   if (favourite._id === listing._id) {
+      //     console.log(`Favourite id: ${favourite._id}`)
+      //     console.log(`Listing id: ${listing._id}`)
+      //     setFavourites(prev => prev.filter(prevListing => prevListing._id !== listing._id));
+      //   } else {
+      //     console.log('Else condition executed')
+      //     setFavourites([...favourites, listing]);
+      //   }
+      // })
+      if (favourites.find(favourite => favourite._id === listing._id)) {
+        setFavourites(prev => prev.filter(prevListing => prevListing._id !== listing._id));
+      } else {
+        setFavourites([...favourites, listing]);
+      }
+
+
+
+
     } else {
       setFavourites([listing]);
     }
