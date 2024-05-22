@@ -239,8 +239,8 @@ const JobListing = () => {
 
                           </div>
                           <div>
-                            <h2 className="text-xl text-center font-medium text-gray-900 ">{listing.title}</h2>
-                            <p className="text-base text-center">{listing.department}</p>
+                            <h2 className="text-xl text-center font-medium text-gray-900 pl-14">{listing.title}</h2>
+                            <p className="text-base text-center pl-14">{listing.department}</p>
                           </div>
                           <div className="px-2">
                             {displayFavouriteIcon(listing)}

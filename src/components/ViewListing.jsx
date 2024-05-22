@@ -1,14 +1,16 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import "../assets/css/ViewListing.css"
 import IonIcon from '@reacticons/ionicons'
 import { AppContext } from '../authentication/AppContext'
 import { useParams, useNavigate } from "react-router-dom"
+import JobListing from "./Opportunities"
 import OpportunitiesByCreator from "./OpportunitiesByCreator"
 import dateFormat from "../misc/dateFormat"
 
 
 const ViewListing = () => {
-  const { listing } = useContext(AppContext);
+  const { loggedInUser, listing } = useContext(AppContext);
+  const [currentUser, setCurrentUser] = loggedInUser;
   const [ currentListing ] = listing;
   const [favourites, setFavourites] = useState(null);
   const { viewtype } = useParams();
@@ -31,6 +33,84 @@ const ViewListing = () => {
     }
   }
 
+    //useEffect hook allows the favourites state to be updated once the current user object becomes available
+    useEffect(() => {
+      if (currentUser && currentUser.listingsFavourites) {
+        setFavourites([...currentUser.listingsFavourites]);
+      }
+    }, [currentUser]);
+
+
+
+  const displayFavouriteIcon = () => {
+    if (favourites) {
+      // Find and add to isFavourite if the current listing is in favourites
+      let isFavourite = favourites.find(favourite => favourite._id === currentListing._id);
+
+      // Set iconName based on whether the listing is a favourite or not
+      // isFavourite is either defined (as the found listing) or undefined
+      const iconName = isFavourite ? "star" : "star-outline";
+      const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
+
+      return (
+        <>
+          <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(event)}>
+            <IonIcon name={iconName} size="large" />
+          </a>
+        </>
+      );
+    }
+
+  }
+
+  const toggleFavourite = (event) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation(); // Stop the event from propagating to parent elements
+    }
+
+    if (favourites.length > 0) {
+      if (favourites.find(favourite => favourite._id === currentListing._id)) {
+        setFavourites(prev => prev.filter(prevListing => prevListing._id !== currentListing._id));
+      } else {
+        setFavourites([...favourites, currentListing]);
+      }
+    } else {
+      setFavourites([currentListing]);
+    }
+  }
+
+  useEffect(() =>  {
+    const updateUserFavourites = async () => {
+      console.log("Update DB effect called")
+      console.log(favourites)
+      // If favourites is null (i.e. on initial mount, do not update the database)
+      if (favourites) {
+        const favouritesUpdate = {
+          listingsFavourites: favourites.length > 0 ? [...favourites] : []
+        };
+
+      try {
+        const response = await fetch (`http://localhost:8002/users/${currentUser._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          },
+          body: JSON.stringify(favouritesUpdate)
+        });
+        const result = await response.json();
+        console.log(result)
+      } catch (error) {
+        console.error('User\'s favourite listings not updated:', error);
+      }
+    }
+   }
+   if (currentUser) {
+    updateUserFavourites();
+   }
+  }, [favourites, currentUser]);
+
 
 
   document.title = "View Listing"
@@ -44,7 +124,7 @@ const ViewListing = () => {
           <div className="flex justify-between items-center pt-4 px-10 lg:pt-10 lg:pb-4">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center flex-1 pl-10">{currentListing?.title}</h1>
             <div className="flex items-center text-3xl">
-              <IonIcon name='star' size="large" />
+              {displayFavouriteIcon()}
             </div>
           </div>
           {/* Listing subheader */}
