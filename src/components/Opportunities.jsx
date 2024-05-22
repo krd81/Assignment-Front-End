@@ -175,8 +175,8 @@ const JobListing = () => {
     const daysSincePosted = timeSincePosted > 0 ? Math.floor(timeSincePosted / (1000 * 3600 * 24)) : 10; // If posted date is unavailable or in the future, make the number of days 10, so that the listing will not show as new
 
     const dateClosing = new Date(listing.dateClosing);
-    const timeUntilClosing = today.getTime() - (dateClosing ? dateClosing.getTime() : 0);
-    const daysUntilClosing = timeUntilClosing > 0 ? Math.floor(timeUntilClosing / (1000 * 3600 * 24)) : 10; // If closing date is unavailable or in the past, make the number of days 10, so that the listing will not show as expiring
+    const timeUntilClosing = (dateClosing ? dateClosing.getTime() + 1 : today.getTime()) - today.getTime();
+    const daysUntilClosing = timeUntilClosing ? Math.floor(timeUntilClosing / (1000 * 3600 * 24)) : 10; // If closing date is unavailable or in the past, make the number of days 10, so that the listing will not show as expiring
 
     return {sincePosted: daysSincePosted, untilClosing: daysUntilClosing}
   }
@@ -198,6 +198,7 @@ const JobListing = () => {
   }
 
   function expiredListing(listing) {
+    console.log(`Listing: ${listing.title} has ${listingTimeline(listing).untilClosing} days remaining`)
     if (listingTimeline(listing).untilClosing < -6) {
       return true
     } else {
@@ -248,10 +249,10 @@ const JobListing = () => {
           <div className="grid grid-cols-1 gap-6">
             {filteredListings.map((listing, index) => (
 
-                listing.listingActive && (
+                (listing.listingActive && !expiredListing(listing)) && (
                   <>
                     <div key={index} className={`overflow-hidden shadow-lg rounded-lg select-list-item
-                                                ${newListing(listing) ? "border-green-600 border bg-green-50" : "bg-white border"}
+                                                ${newListing(listing) ? "border-green-600 border-2 bg-green-100" : "bg-white border"}
                                                 ${lastChanceListing(listing) ? "border-red-600 border-2" : "bg-white border"}`}>
                       <div className="p-4 " onClick={() => {listingClick(listing)}}>
                         <div className="flex justify-between">
