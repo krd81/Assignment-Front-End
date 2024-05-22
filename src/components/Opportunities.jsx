@@ -141,9 +141,13 @@ const JobListing = () => {
 
   // Functionality to apply for role
   function handleApply(listing) {
-    // No preceding / makes the path relative and redirects to apply page
-    nav(`/listings/${listing._id}/apply`)
-    setCurrentListing(listing)
+    if (currentUser &&
+      currentUser.applications.find(application => application._id === listing._id) &&
+        confirm("You have already applied for this role. Are you sure you would like to continue?")
+      ) {
+        nav(`/listings/${listing._id}/apply`)
+        setCurrentListing(listing)
+      }
   }
 
 
@@ -228,7 +232,7 @@ const JobListing = () => {
                               if (application._id === listing._id) {
                                 return (
                                   <>
-                                    <span id={index} className={`text-green-600 md:p-1`}>
+                                    <span id={index} className={`text-green-600 -mr-9`}>
                                       <IonIcon name='checkmark-circle-outline' size="large" />
                                     </span>
                                   </>

@@ -111,7 +111,14 @@ const ViewListing = () => {
    }
   }, [favourites, currentUser]);
 
-
+  function handleApply() {
+    if (currentUser &&
+      currentUser.applications.find(application => application._id === currentListing._id) &&
+        confirm("You have already applied for this role. Are you sure you would like to continue?")
+      ) {
+          nav('apply') // No preceding / makes the path relative and redirects to apply page
+    }
+  }
 
   document.title = "View Listing"
 
@@ -201,7 +208,7 @@ const ViewListing = () => {
             </>
             :
             <div className="flex justify-center my-3">
-            <button onClick={() => nav('apply')}
+            <button onClick={handleApply}
               type="submit"
               className="bg-dark-green hover:bg-dark-blue text-white font-semibold text-2xl md:text-3xl lg:text-4xl hover:text-white m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300 hover:border-transparent rounded"
             >
