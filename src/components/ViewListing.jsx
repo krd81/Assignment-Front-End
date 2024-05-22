@@ -1,5 +1,6 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import "../assets/css/ViewListing.css"
+import IonIcon from '@reacticons/ionicons'
 import { AppContext } from '../authentication/AppContext'
 import { useParams, useNavigate } from "react-router-dom"
 import OpportunitiesByCreator from "./OpportunitiesByCreator"
@@ -7,10 +8,11 @@ import dateFormat from "../misc/dateFormat"
 
 
 const ViewListing = () => {
-  const { listing } = useContext(AppContext)
-  const [ currentListing ] = listing
-  const { viewtype } = useParams()
-  const nav = useNavigate()
+  const { listing } = useContext(AppContext);
+  const [ currentListing ] = listing;
+  const [favourites, setFavourites] = useState(null);
+  const { viewtype } = useParams();
+  const nav = useNavigate();
 
   // Conditional rendering of job description/points
   function renderJobInfo(info) {
@@ -37,16 +39,21 @@ const ViewListing = () => {
   return (
     <>
       <div className="flex justify-center md:p-8 lg:p-4 xl:p-12">
-        <div className="bg-blue-50 border-2 border-gray-700 shadow-2xl my-6 mx-6 px-4 md:px-28 lg:px-80">
+        <div className="bg-blue-50 border-2 border-gray-700 shadow-2xl w-full">
           {/* Listing header */}
-          <div className="flex justify-center pt-4 lg:pt-10 lg:pb-4 ">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">{currentListing?.title}</h1>
+          <div className="flex justify-between items-center pt-4 px-10 lg:pt-10 lg:pb-4">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center flex-1 pl-10">{currentListing?.title}</h1>
+            <div className="flex items-center text-3xl">
+              <IonIcon name='star' size="large" />
+            </div>
           </div>
           {/* Listing subheader */}
           <div className="flex justify-center">
             <h2 className="text-2xl md:text-2xl lg:text-3xl">{`Department: ${currentListing?.department}`}</h2>
           </div>
-          <div className="flex justify-center md:items-center flex-col sm:flex-col md:flex-col lg:flex-row">
+
+          <div className="my-6 mx-6 px-4 md:px-28 lg:px-80">
+          <div className="flex justify-center md:items-center flex-col sm:flex-col md:flex-col lg:flex-row ">
             {/* Listing top level info */}
             <div className="top-level-info mx-2 sm:mx-4 md:mx-4 lg:mx-4 my-2 md:my-4 lg:my-4">
 
@@ -126,6 +133,7 @@ const ViewListing = () => {
           {/* Closing date */}
           <div className="flex justify-center my-3 pb-6 italic ">
             <p className="text-lg md:text-2xl lg:text-2xl text-red-500">Closing Date: {dateFormat(currentListing?.dateClosing)}</p>
+          </div>
           </div>
         </div>
       </div>
