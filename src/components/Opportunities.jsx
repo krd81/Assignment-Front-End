@@ -69,6 +69,7 @@ const JobListing = () => {
 
   // Function to highlight user's starred listings
   const displayFavouriteIcon = (listing) => {
+
     if (favourites) {
       // Find and add to isFavourite if the current listing is in favourites
       let isFavourite = favourites.find(favourite => favourite._id === listing._id);
@@ -90,8 +91,10 @@ const JobListing = () => {
 
 
   const toggleFavourite = (listing, event) => {
-    event.preventDefault();
-    // event.stopImmediatePropagation();
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation(); // Stop the event from propagating to parent elements
+    }
 
     if (favourites.length > 0) {
       favourites.map(favourite => {
@@ -147,9 +150,8 @@ const JobListing = () => {
 
 
 
-  function listingClick(listing, event) {
-    // event.stopImmediatePropagation();
-    // nav(`/listings/${listing._id}`)
+  function listingClick(listing) {
+    nav(`/listings/${listing._id}`)
     setCurrentListing(listing)
   }
 
