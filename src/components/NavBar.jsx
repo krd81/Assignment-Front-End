@@ -157,9 +157,11 @@ export default function NavBar() {
                           </a>
                         )}
                       </Menu.Item>
-                     {/* Conditionally render if user has listings?? */}
-                      <Menu.Item>
+
+                      <Menu.Item as="div">
+
                         {({ active }) => (
+                        <>
                           <a
                             onClick={showManageListings}
                             className={classNames(
@@ -170,8 +172,64 @@ export default function NavBar() {
                           >
                             Manage Listings
                           </a>
+                          <div className="ml-4"> {/* Adjust the margin as needed */}
+                            {/* Arrow indicator */}
+                            <span className="text-gray-600">{active ? "▼" : "▶"}</span>
+                            {/* Sub-menu items */}
+                            <div className="ml-2">
+                              <a href="#" className="block py-2 text-lg text-gray-600">
+                                Create New
+                              </a>
+                              <a href="#" className="block py-2 text-lg text-gray-600">
+                                View
+                              </a>
+                              <a href="#" className="block py-2 text-lg text-gray-600">
+                                Edit
+                              </a>
+                              <a href="#" className="block py-2 text-lg text-gray-600">
+                                Delete
+                              </a>
+                            </div>
+                          </div>
+                        </>
                         )}
                       </Menu.Item>
+
+                      <Menu.Item as="div">
+
+                        {({ active }) => (
+                        <>
+                          <a
+                            onClick={showManageListings}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-lg text-black",
+                              "cursor-pointer"
+                            )}
+                          >
+                            Manage Users
+                          </a>
+                          <div className="ml-4"> {/* Adjust the margin as needed */}
+                            {/* Arrow indicator */}
+                            <span className="text-gray-600">{active ? "▼" : "▶"}</span>
+                            {/* Sub-menu items */}
+                            <div className="ml-2">
+                              <a href="#" className="block py-2 text-lg text-gray-600">
+                                Create New
+                              </a>
+                              <a href="#" className="block py-2 text-lg text-gray-600">
+                                Edit
+                              </a>
+                              <a href="#" className="block py-2 text-lg text-gray-600">
+                                Delete
+                              </a>
+                            </div>
+                          </div>
+                        </>
+                        )}
+                      </Menu.Item>
+
+
 
                       <Menu.Item>
                         {({ active }) => (
