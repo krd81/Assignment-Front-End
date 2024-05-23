@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react"
+import { Fragment, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
@@ -16,24 +16,15 @@ export default function NavBar() {
   const { logout } = useContext(AuthContext)
   const [ currentUser, setCurrentUser ] = loggedInUser
   const [ profileUser, setProfileUser ] = profile
+  const [dropdown, setDropdown] = useState(false);
 
-    // Define adminRender here to access homeUser
-    const adminRender = () => {
-      if (currentUser && currentUser.admin) {
-        return [
-          { name: "Create User", href: "/user-new", current: false },
-          { name: "Create Listing", href: "/listing-new", current: false }
-        ]
-      }
-      return []
-    }
+
 
     // Nav rendered conditionally based on homeUser.admin status
     const navigation = [
       { name: "Home", href: "/home", current: true },
       { name: "Company Network", href: "/user-search", current: false },
       { name: "Opportunities", href: "/opportunities", current: false },
-      ...adminRender()
     ]
 
   const nav = useNavigate()
@@ -49,6 +40,11 @@ export default function NavBar() {
       nav(`/profile/${currentUser._id}`)
     // }
   }
+
+  useEffect(() => {
+    console.log(dropdown)
+  }
+  , [dropdown])
 
   const showApplications = () => {
     nav(`user/listings/${currentUser._id}`)
@@ -158,77 +154,108 @@ export default function NavBar() {
                         )}
                       </Menu.Item>
 
+                      <Menu.Items as="div">
+
+                        {({ active }) => (
+                          (currentUser.admin && (
+
+                        <>
+                        <div className="ml-4">
+                          <button className={classNames(
+                                  active ? "bg-gray-100" : "bg-white",
+                                  "block py-2 text-lg text-black",
+                                  "cursor-pointer", "block py-2 text-lg text-gray-600"
+                                )} onClick={() => setDropdown((prev) => !prev)}>
+                            Listings
+                          </button>
+                          </div>
+                          <Menu.Item>
+                            <>
+                            {({ active }) => (
+
+
+                          <div className="ml-4" aria-expanded={dropdown ? "true" : "false"}> {/* Adjust the margin as needed */}
+                            {/* Arrow indicator */}
+                            <span className="text-gray-600">{dropdown ? "▼" : "▶"}</span>
+                            {/* Sub-menu items */}
+                            <div className="ml-2"  >
+                              <a href="/listing-new"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block py-2 text-lg text-black",
+                                  "cursor-pointer", "block py-2 text-lg text-gray-600"
+                                )}>
+                                Create New Listing
+                              </a>
+                              <a
+                                onClick={showManageListings}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block py-2 text-lg text-black",
+                                  "cursor-pointer", "block py-2 text-lg text-gray-600"
+                                ) }
+                              >
+                                Manage Listings
+                              </a>
+                            </div>
+                          </div>
+                         )}
+                         </>
+                       </Menu.Item>
+
+                        </>
+                          ))
+
+                        )}
+                      </Menu.Items>
+
                       <Menu.Item as="div">
 
                         {({ active }) => (
                         <>
-                          <a
-                            onClick={showManageListings}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-lg text-black",
-                              "cursor-pointer"
-                            )}
-                          >
-                            Manage Listings
+                          <div className="ml-2">
+                          <a className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block py-2 text-lg text-black",
+                                  "cursor-pointer", "block py-2 text-lg text-gray-600"
+                                )}>
+                            Admin
                           </a>
+                          </div>
                           <div className="ml-4"> {/* Adjust the margin as needed */}
                             {/* Arrow indicator */}
                             <span className="text-gray-600">{active ? "▼" : "▶"}</span>
                             {/* Sub-menu items */}
                             <div className="ml-2">
-                              <a href="#" className="block py-2 text-lg text-gray-600">
-                                Create New
+                              <a href="/user-new"
+                              className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block py-2 text-lg text-black",
+                                  "cursor-pointer", "block py-2 text-lg text-gray-600"
+                                )}>
+                                Create New User
                               </a>
-                              <a href="#" className="block py-2 text-lg text-gray-600">
-                                View
+                              <a href="#"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block py-2 text-lg text-black",
+                                "cursor-pointer", "block py-2 text-lg text-gray-600"
+                              )}>
+                                Edit User ?
                               </a>
-                              <a href="#" className="block py-2 text-lg text-gray-600">
-                                Edit
-                              </a>
-                              <a href="#" className="block py-2 text-lg text-gray-600">
-                                Delete
+                              <a href="#"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block py-2 text-lg text-black",
+                                  "cursor-pointer", "block py-2 text-lg text-gray-600"
+                                )}>
+                                Delete User ?
                               </a>
                             </div>
                           </div>
                         </>
                         )}
                       </Menu.Item>
-
-                      <Menu.Item as="div">
-
-                        {({ active }) => (
-                        <>
-                          <a
-                            onClick={showManageListings}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-lg text-black",
-                              "cursor-pointer"
-                            )}
-                          >
-                            Manage Users
-                          </a>
-                          <div className="ml-4"> {/* Adjust the margin as needed */}
-                            {/* Arrow indicator */}
-                            <span className="text-gray-600">{active ? "▼" : "▶"}</span>
-                            {/* Sub-menu items */}
-                            <div className="ml-2">
-                              <a href="#" className="block py-2 text-lg text-gray-600">
-                                Create New
-                              </a>
-                              <a href="#" className="block py-2 text-lg text-gray-600">
-                                Edit
-                              </a>
-                              <a href="#" className="block py-2 text-lg text-gray-600">
-                                Delete
-                              </a>
-                            </div>
-                          </div>
-                        </>
-                        )}
-                      </Menu.Item>
-
 
 
                       <Menu.Item>
