@@ -45,7 +45,7 @@ export default function NavBar() {
   useEffect(() => {
     console.log(dropdown)
   }
-  , [dropdown])
+  ,[dropdown])
 
   useEffect(() => {
     const handler = (event) => {
