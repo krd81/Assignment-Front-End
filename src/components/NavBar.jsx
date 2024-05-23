@@ -1,9 +1,10 @@
-import { Fragment, useContext, useEffect, useState } from "react"
+import { Fragment, useContext, useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import { AuthContext } from "../authentication/AuthContext"
 import { AppContext } from '../authentication/AppContext'
+import ListingSubMenu from "./ListingSubMenu"
 
 
 
@@ -17,17 +18,17 @@ export default function NavBar() {
   const [ currentUser, setCurrentUser ] = loggedInUser
   const [ profileUser, setProfileUser ] = profile
   const [dropdown, setDropdown] = useState(false);
-
-
-
-    // Nav rendered conditionally based on homeUser.admin status
-    const navigation = [
-      { name: "Home", href: "/home", current: true },
-      { name: "Company Network", href: "/user-search", current: false },
-      { name: "Opportunities", href: "/opportunities", current: false },
-    ]
-
+  let ref = useRef();
   const nav = useNavigate()
+
+
+  // Nav rendered conditionally based on homeUser.admin status
+  const navigation = [
+    { name: "Home", href: "/home", current: true },
+    { name: "Company Network", href: "/user-search", current: false },
+    { name: "Opportunities", href: "/opportunities", current: false },
+  ]
+
 
   // Need a way to re-set the current user as profileUser
   // Whenever another user's profile is viewed, then closed
@@ -46,13 +47,44 @@ export default function NavBar() {
   }
   , [dropdown])
 
+  useEffect(() => {
+    const handler = (event) => {
+      if (dropdown && ref.current && !ref.current.contains(event.target)) {
+        setDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    document.addEventListener("touchstart", handler);
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("touchstart", handler);
+    };
+  }, [dropdown]);
+
+  const onMouseEnter = () => {
+    setDropdown(true);
+  };
+
+  const onMouseLeave = () => {
+    setDropdown(false);
+  };
+
+  const toggleDropdown = () => {
+    setDropdown((prev) => !prev);
+  };
+
+  const closeDropdown = () => {
+    dropdown && setDropdown(false);
+  };
+
   const showApplications = () => {
     nav(`user/listings/${currentUser._id}`)
   }
 
-  const showManageListings = () => {
-    nav(`/opportunities/${currentUser._id}`)
-  }
+  // const showManageListings = () => {
+  //   nav(`/opportunities/${currentUser._id}`)
+  // }
 
 
 
@@ -160,48 +192,26 @@ export default function NavBar() {
                           (currentUser.admin && (
 
                         <>
-                        <div className="ml-4">
-                          <button className={classNames(
+                        <div
+                        ref={ref}
+                        onMouseEnter={onMouseEnter}
+                        onMouseLeave={onMouseLeave}
+                        onClick={closeDropdown}
+                        className="ml-4 block"
+                        >
+                          <button
+                          type="button"
+                          aria-haspopup="menu"
+                          aria-expanded={dropdown ? "true" : "false"}
+                          className={classNames(
                                   active ? "bg-gray-100" : "bg-white",
                                   "block py-2 text-lg text-black",
                                   "cursor-pointer", "block py-2 text-lg text-gray-600"
-                                )} onClick={() => setDropdown((prev) => !prev)}>
+                                )} onClick={() => toggleDropdown()}>
                             Listings
                           </button>
+                          <ListingSubMenu dropdown={dropdown}/>
                           </div>
-                          <Menu.Item>
-                            <>
-                            {({ active }) => (
-
-
-                          <div className="ml-4" aria-expanded={dropdown ? "true" : "false"}> {/* Adjust the margin as needed */}
-                            {/* Arrow indicator */}
-                            <span className="text-gray-600">{dropdown ? "▼" : "▶"}</span>
-                            {/* Sub-menu items */}
-                            <div className="ml-2"  >
-                              <a href="/listing-new"
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block py-2 text-lg text-black",
-                                  "cursor-pointer", "block py-2 text-lg text-gray-600"
-                                )}>
-                                Create New Listing
-                              </a>
-                              <a
-                                onClick={showManageListings}
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block py-2 text-lg text-black",
-                                  "cursor-pointer", "block py-2 text-lg text-gray-600"
-                                ) }
-                              >
-                                Manage Listings
-                              </a>
-                            </div>
-                          </div>
-                         )}
-                         </>
-                       </Menu.Item>
 
                         </>
                           ))

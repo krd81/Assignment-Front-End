@@ -8,3 +8,7 @@
     /* transform: translateX(10px);  */
     transform: scale(1.02);
 }
+
+.dropdown {
+    display: none;
+}
