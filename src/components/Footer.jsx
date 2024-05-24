@@ -48,7 +48,7 @@ const Footer = () => {
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm font-custom text-white sm:text-center dark:text-gray-400">
-            © 2024{" "}
+            © {new Date(Date.now()).toISOString().slice(0,4)}&nbsp;
             <a href="#" className="hover:underline hover:text-grey">
               TalentForge™
             </a>

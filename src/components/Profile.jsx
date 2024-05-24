@@ -406,7 +406,6 @@ const Profile = () => {
           >
             {(isEditMode && currentUser === profileUser) ? (
               <div className="w-full mx-auto mt-10 px-5 flex flex-col items-center">
-                {" "}
                 {/* Added items-center class */}
                 <label htmlFor="aboutMe" className="text-center mb-3 text-xl font-bold">
                   Career Development:
