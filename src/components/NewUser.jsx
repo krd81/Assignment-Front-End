@@ -1,10 +1,12 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-const NewEmployee = () => {
+const NewUser = () => {
   document.title = "Create User";
-  const [showPassword, setShowPassword] = useState(false)
-  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
+  const isAdminRef = useRef(false);
+  const navigate = useNavigate();
+
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -12,29 +14,59 @@ const NewEmployee = () => {
     const formData = new FormData(event.target)
     const formDataObj = Object.fromEntries(formData.entries())
 
+    const userData = {
+      firstName: formDataObj.firstName,
+      lastName: formDataObj.lastName,
+      email: formDataObj.email,
+      password: formDataObj.password,
+      role: formDataObj.role,
+      department: formDataObj.department,
+      admin: isAdminRef.current
+    }
 
+    if (passwordCheck(formDataObj.password, formDataObj.confirmPassword) &&
+    (!isAdminRef.current || (isAdminRef.current && adminCheck()))) {
+      try {
+        // const response = await fetch('https://talent-forge-api-atu2.onrender.com/users', {
+        const response = await fetch('http://localhost:8002/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          },
+          body: JSON.stringify(userData),
+        })
 
-    try {
-      // const response = await fetch('https://talent-forge-api-atu2.onrender.com/users', {
-      const response = await fetch('http://localhost:8002/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-        },
-        body: JSON.stringify(formDataObj),
-      })
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`)
+        }
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`)
+        const result = await response.json();
+        console.log(result)
+
+        navigate("/home")
+
+      } catch (error) {
+        console.error('Failed to create new employee:', error)
       }
+    }
+  }
 
-      const result = await response.json();
+  const passwordCheck = (password1, password2) => {
+    if (password1 === password2) {
+      return true;
+    } else {
+      alert("Passwords do not match - please try again")
+      return false;
+    }
+  }
 
-      navigate("/home")
 
-    } catch (error) {
-      console.error('Failed to create new employee:', error)
+  const adminCheck = () => {
+    if (confirm("Are you sure this user should have administrator access?")) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -86,18 +118,34 @@ const NewEmployee = () => {
                 />
               </div>
               <br />
-              <div className="flex flex-col md:flex-row md:items-center">
+
+                  <div className="flex items-center justify-between flex-wrap">
+              <div className="flex flex-col md:flex-row md:items-center py-4">
                 <label htmlFor="password-input" className="w-full md:w-1/3 text-center md:text-right md:mr-4">
                   Password:
                 </label>
-                <div className="relative w-full md:w-2/3 lg:w-3/4">
-                  <div className="flex items-center justify-between flex-wrap">
-                    <input
+                <input
                       type={showPassword ? "text" : "password"}
                       id="password-input"
                       name="password"
-                      className="pl-2 form-input w-full block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mb-3"
+                      className="p-textarea-left pl-2 form-input w-full block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mb-3"
                     />
+              </div>
+              <div className="flex flex-col md:flex-row md:items-center">
+
+                <label htmlFor="confirm-password-input" className="w-full md:w-1/3 text-center md:text-right md:mr-4">
+                  Confirm Password:
+                </label>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="confirm-password-input"
+                      name="confirmPassword"
+                      className="p-textarea-left pl-2 form-input w-full block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mb-3"
+                    />
+                  </div>
+
+                  <div className="flex flex-col md:flex-row md:items-center pt-4">
+
                     <label htmlFor="show-password-checkbox" className="cursor-pointer flex items-center pl-2">
                       <input
                         type="checkbox"
@@ -109,7 +157,7 @@ const NewEmployee = () => {
                     </label>
                   </div>
                 </div>
-              </div>
+
               <br />
               <div className="flex flex-col md:flex-row md:items-center">
                 <label htmlFor="role-input" className="w-full md:w-1/3 text-center md:text-right md:mr-4">
@@ -134,6 +182,20 @@ const NewEmployee = () => {
                 />
               </div>
 
+              <div className="flex flex-col md:flex-row md:items-center pt-6">
+
+              <label htmlFor="admin-checkbox" className="cursor-pointer flex items-center pl-2">
+              <span className="ml-2 ">Admin</span>
+                <input
+                  type="checkbox"
+                  id="admin-checkbox"
+                  name="admin"
+                  className="form-checkbox h-5 w-20 text-indigo-600"
+                  onChange={(e) => {isAdminRef.current = e.target.checked}}
+                />
+
+              </label>
+              </div>
           </div>
 
           {/* Buttons */}
@@ -154,4 +216,4 @@ const NewEmployee = () => {
   )
 }
 
-export default NewEmployee
+export default NewUser
