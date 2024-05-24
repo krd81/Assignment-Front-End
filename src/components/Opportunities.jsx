@@ -229,7 +229,7 @@ const JobListing = () => {
         <div className="md:col-span-1 flex flex-col justify-start items-center md:items-start">
           <div className="w-full">
             <label htmlFor="department" className="block text-gray-700">
-              Filter by Department:
+              Filters:
             </label>
             <select
               id="department"
@@ -253,6 +253,57 @@ const JobListing = () => {
               className="p-textarea-left mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
+          <div className="flex flex-col md:flex-row md:items-center pt-6">
+            <input
+              type="radio"
+              id="new-listings"
+              name="listingsFilter"
+              value="new"
+              className="form-checkbox h-5 w-7 text-indigo-600"
+              onChange={e => e}
+            />
+            <label htmlFor="new-listings" className="cursor-pointer flex items-center pl-2"></label>
+            <span className="ml-2 "><em className="text-xl not-italic">☺︎ </em> New Listings</span>
+          </div>
+          <div className="flex flex-col md:flex-row md:items-center pt-6">
+            <input
+              type="radio"
+              id="favourite-listings"
+              name="listingsFilter"
+              value="favourites"
+              className="form-checkbox h-5 w-7 text-indigo-600"
+              onChange={e => e}
+            />
+            <label htmlFor="favourite-listings" className="cursor-pointer flex items-center pl-2"></label>
+            <span className="ml-2 "><em className="text-xl not-italic">☆ </em> Favourites</span>
+          </div>
+          <div className="flex flex-col md:flex-row md:items-center pt-6">
+            <input
+              type="radio"
+              id="applied-listings"
+              name="listingsFilter"
+              value="applied"
+              className="form-checkbox h-5 w-7 text-indigo-600"
+              onChange={e => e}
+            />
+            <label htmlFor="applied-listings" className="cursor-pointer flex items-center pl-2"></label>
+            <span className="ml-2 "><em className="text-xl not-italic">☑︎ </em>Applied</span>
+          </div>
+          <div className="flex flex-col md:flex-row md:items-center pt-6">
+            <input
+              type="radio"
+              id="show-all"
+              name="listingsFilter"
+              defaultValue={true}
+              value="none"
+              checked
+              className="form-checkbox h-5 w-7 text-indigo-600"
+              onChange={e => e}
+            />
+            <label htmlFor="show-all" className="cursor-pointer flex items-center pl-2"></label>
+            <span className="ml-2 "><em className="text-xl not-italic">☒︎ </em>None</span>
+          </div>
+
         </div>
         <div className="md:col-span-2 mb-8">
           <div className="grid grid-cols-1 gap-6">
