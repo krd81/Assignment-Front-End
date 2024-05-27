@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext, useCallback } from "react"
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../authentication/AppContext'
 import Fuse from "fuse.js" // Import Fuse.js library
@@ -25,6 +25,7 @@ const JobListing = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredListings, setFilteredListings] = useState([...listings])
   const [favourites, setFavourites] = useState(null); // Needs to be null so that the user's favourites aren't over-written with empty array on mount
+  const [filterOption, setFilterOption] = useState("none");
 
   console.log(favourites)
   // Function to handle department selection
@@ -36,6 +37,30 @@ const JobListing = () => {
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value)
   }
+
+  // Listings that have been posted in the last 7 days are shown with green b/ground & green border
+  const newListing = useCallback((listing) => {
+    if (listingTimeline(listing).sincePosted < 7) {
+      return true
+    } else {
+      return false
+    }
+  }, []);
+
+  const isFavourite = useCallback((listing) => {
+    if (currentUser && currentUser.favourites) {
+      console.log("currenUser / favourites truthy")
+      if (currentUser.favourites.contains(listing)) {
+        return true;
+    } else {
+      return false;
+    }
+    } else {
+      console.log("currenUser / favourites falsy")
+
+    }
+
+  }, [currentUser])
 
   // Effect to update filtered listings when searchQuery or selectedDepartment changes
   useEffect(() => {
@@ -54,6 +79,9 @@ const JobListing = () => {
       const searchResult = fuse.search(searchQuery.trim())
       newFilteredListings = searchResult.map((result) => result.item)
     }
+
+
+
 
     setFilteredListings(newFilteredListings)
   }, [searchQuery, selectedDepartment, listings])
@@ -178,14 +206,8 @@ const JobListing = () => {
 
     return {sincePosted: daysSincePosted, untilClosing: daysUntilClosing}
   }
-  // Listings that have been posted in the last 7 days are shown with green b/ground & green border
-  function newListing(listing) {
-    if (listingTimeline(listing).sincePosted < 7) {
-      return true
-    } else {
-      return false
-    }
-  }
+
+
 
   // Listings which have less than 5 days until the closing date are shown with a red border
   function lastChanceListing(listing) {
@@ -214,8 +236,6 @@ const JobListing = () => {
       return false
     }
   }
-
-
 
 
   document.title = "Opportunities"
@@ -259,8 +279,9 @@ const JobListing = () => {
               id="new-listings"
               name="listingsFilter"
               value="new"
+              checked = {filterOption === "new"}
               className="form-checkbox h-5 w-7 text-indigo-600"
-              onChange={e => e}
+              onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="new-listings" className="cursor-pointer flex items-center pl-2"></label>
             <span className="ml-2 "><em className="text-xl not-italic">☺︎ </em> New Listings</span>
@@ -271,8 +292,9 @@ const JobListing = () => {
               id="favourite-listings"
               name="listingsFilter"
               value="favourites"
+              checked = {filterOption === "favourites"}
               className="form-checkbox h-5 w-7 text-indigo-600"
-              onChange={e => e}
+              onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="favourite-listings" className="cursor-pointer flex items-center pl-2"></label>
             <span className="ml-2 "><em className="text-xl not-italic">☆ </em> Favourites</span>
@@ -283,8 +305,9 @@ const JobListing = () => {
               id="applied-listings"
               name="listingsFilter"
               value="applied"
+              checked = {filterOption === "applied"}
               className="form-checkbox h-5 w-7 text-indigo-600"
-              onChange={e => e}
+              onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="applied-listings" className="cursor-pointer flex items-center pl-2"></label>
             <span className="ml-2 "><em className="text-xl not-italic">☑︎ </em>Applied</span>
@@ -294,11 +317,11 @@ const JobListing = () => {
               type="radio"
               id="show-all"
               name="listingsFilter"
-              defaultValue={true}
+              // defaultValue={true}
               value="none"
-              checked
+              checked = {filterOption === "none"}
               className="form-checkbox h-5 w-7 text-indigo-600"
-              onChange={e => e}
+              onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="show-all" className="cursor-pointer flex items-center pl-2"></label>
             <span className="ml-2 "><em className="text-xl not-italic">☒︎ </em>None</span>
