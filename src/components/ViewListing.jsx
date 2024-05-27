@@ -212,7 +212,7 @@ const ViewListing = () => {
               }
             }}
               type="submit"
-              className={`${isExpired ? "bg-gray-300 text-gray-400 expired-button" : "bg-dark-blue text-white" } font-semibold text-2xl md:text-3xl lg:text-4xl  m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300 hover:border-transparent rounded`}
+              className={`${isExpired ? "bg-gray-300 text-gray-400 cursor-default expired-button" : "bg-dark-blue text-white" } font-semibold text-2xl md:text-3xl lg:text-4xl  m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300 hover:border-transparent rounded`}
             >
               Apply Now
             </button>

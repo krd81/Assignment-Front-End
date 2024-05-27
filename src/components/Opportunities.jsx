@@ -377,7 +377,7 @@ const JobListing = () => {
                                 handleApply(listing);
                               }
                             }}
-                            className={`${expiredListing(listing) ? "bg-gray-300 text-gray-500 expired-button" : "bg-dark-blue text-white"}  font-bold py-2 px-4 rounded mb-5`}
+                            className={`${expiredListing(listing) ? "bg-gray-300 text-gray-500 cursor-default expired-button" : "bg-dark-blue text-white"}  font-bold py-2 px-4 rounded mb-5`}
                           >
                               Apply Now
                           </button>
