@@ -26,6 +26,7 @@ const JobListing = () => {
   const [filteredListings, setFilteredListings] = useState([...listings])
   const [favourites, setFavourites] = useState(null); // Needs to be null so that the user's favourites aren't over-written with empty array on mount
   const [filterOption, setFilterOption] = useState("none");
+  const [noListingsFound, setNoListingsFound] = useState(false);
 
   console.log(currentUser)
   console.log(favourites)
@@ -51,6 +52,7 @@ const JobListing = () => {
 
 
   // Effect to update filtered listings when searchQuery or selectedDepartment changes
+  // Also controls filterOption (i.e. radio buttons for new, favourites, applied)
   useEffect(() => {
     let newFilteredListings = [...listings]
 
@@ -87,10 +89,14 @@ const JobListing = () => {
         break;
     }
 
-
-
-
     setFilteredListings(newFilteredListings)
+
+    if (newFilteredListings.length === 0) {
+      setNoListingsFound(true);
+    } else {
+      setNoListingsFound(false);
+    }
+
   }, [searchQuery, selectedDepartment, listings, currentUser, filterOption, newListing])
 
   //useEffect hook allows the favourites state to be updated once the current user object becomes available
@@ -331,11 +337,18 @@ const JobListing = () => {
               onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="show-all" className="cursor-pointer flex items-center pl-2"></label>
-            <span className="ml-2 "><em className="text-xl not-italic">☒︎ </em>None</span>
+            <span className="ml-2 "><em className="text-xl not-italic">☒︎ </em>No Filter</span>
           </div>
 
         </div>
         <div className="md:col-span-2 mb-8">
+          <div className={`${noListingsFound ? "visible" : "invisible h-0"}`}>
+          <div className={`flex justify-center items-center h-72`}>
+            <span className="text-7xl text-center text-gray-400 leading-snug">
+              No opportunities found
+            </span>
+          </div>
+          </div>
           <div className="grid grid-cols-1 gap-6">
             {filteredListings.map((listing, index) => (
 
