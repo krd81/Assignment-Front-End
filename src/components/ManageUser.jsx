@@ -1,11 +1,12 @@
 import { useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
-const NewUser = () => {
-  document.title = "Create User";
+const ManageUser = () => {
+  document.title = "Manage User";
   const [showPassword, setShowPassword] = useState(false);
   const isAdminRef = useRef(false);
   const navigate = useNavigate();
+  const params = useParams();
 
 
   const handleSubmit = async (event) => {
@@ -23,6 +24,7 @@ const NewUser = () => {
       department: formDataObj.department,
       admin: isAdminRef.current
     }
+
 
     if (passwordCheck(formDataObj.password, formDataObj.confirmPassword) &&
     (!isAdminRef.current || (isAdminRef.current && adminCheck()))) {
@@ -77,7 +79,9 @@ const NewUser = () => {
         <div className="flex flex-col items-center md:items-start lg:items-center">
           {/* Title */}
           <div className="flex justify-center lg:justify-start pb-4">
-            <h1 className="text-center text-4xl md:text-3xl lg:text-5xl font-bold">Create User</h1>
+            <h1 className="text-center text-4xl md:text-3xl lg:text-5xl font-bold">
+              {(params["*"].includes("new") ? "Create New User" : (params["*"].includes("edit") ? "Edit User" : ""))}
+            </h1>
           </div>
           {/* Form: job title/dept/date */}
           <div className="w-full md:w-4/5 lg:w-3/4 xl:w-1/2">
@@ -216,4 +220,4 @@ const NewUser = () => {
   )
 }
 
-export default NewUser
+export default ManageUser

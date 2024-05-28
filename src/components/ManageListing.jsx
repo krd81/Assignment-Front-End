@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router-dom"
 // NewListing component serves the purpose of creating a new listing (/listing-new)
 // and also editing an existing listing (/listing-edit/:id)
 
-const NewListing = () => {
+const ManageListing = () => {
     document.title = "Create Listing";
     const { allListings, listing, loggedInUser } = useContext(AppContext)
     const [listings, setListings] = allListings
@@ -522,4 +522,4 @@ const NewListing = () => {
   )
 }
 
-export default NewListing
+export default ManageListing

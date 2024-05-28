@@ -18,22 +18,23 @@ export default function NavBar() {
   const [ profileUser, setProfileUser ] = profile
 
     // Define adminRender here to access homeUser
-    const adminRender = () => {
-      if (currentUser && currentUser.admin) {
-        return [
-          { name: "Create User", href: "/user-new", current: false },
-          { name: "Create Listing", href: "/listing-new", current: false }
-        ]
-      }
-      return []
-    }
+    // const adminRender = () => {
+    //   if (currentUser && currentUser.admin) {
+    //     return [
+    //       { name: "Create User", href: "/user-new", current: false },
+    //       { name: "Create Listing", href: "/listing-new", current: false }
+    //     ]
+    //   }
+    //   return []
+    // }
 
     // Nav rendered conditionally based on homeUser.admin status
     const navigation = [
       { name: "Home", href: "/home", current: true },
       { name: "Company Network", href: "/user-search", current: false },
       { name: "Opportunities", href: "/opportunities", current: false },
-      ...adminRender()
+      { name: "Events", href: "", current: false },
+      { name: "Training", href: "", current: false },
     ]
 
   const nav = useNavigate()
@@ -56,6 +57,11 @@ export default function NavBar() {
 
   const showManageListings = () => {
     nav(`/opportunities/${currentUser._id}`)
+  }
+
+  const findUser = () => {
+    const email = prompt("Enter user's email address");
+
   }
 
 
@@ -179,7 +185,7 @@ export default function NavBar() {
                               active ? "bg-gray-100" : "",
                               "block w-full text-left px-4 py-2 text-lg text-black cursor-pointer"
                             )}>
-                              Admin: User Control
+                              ◀︎Users
                             </Menu.Button>
                             <Transition
                               as={Fragment}
@@ -194,13 +200,27 @@ export default function NavBar() {
                                 <Menu.Item>
                                   {({ active }) => (
                                     <a
-                                      href="/user-new"
+                                      href="/user/new"
+                                      className={classNames(
+                                        (active && currentUser.admin) ? "bg-gray-100" : "",
+                                        "block px-4 py-2 text-lg text-black cursor-pointer"
+                                      )}
+                                    >
+                                      Create User
+                                    </a>
+                                  )}
+                                </Menu.Item>
+                                <Menu.Item>
+                                  {({ active }) => (
+                                    <a
+                                      href="/user/edit"
+                                      onClick={e => findUser(e)}
                                       className={classNames(
                                         active ? "bg-gray-100" : "",
                                         "block px-4 py-2 text-lg text-black cursor-pointer"
                                       )}
                                     >
-                                      Create User
+                                      Edit User
                                     </a>
                                   )}
                                 </Menu.Item>
@@ -213,7 +233,7 @@ export default function NavBar() {
                                         "block px-4 py-2 text-lg text-black cursor-pointer"
                                       )}
                                     >
-                                      Edit User
+                                      Delete User
                                     </a>
                                   )}
                                 </Menu.Item>
@@ -226,10 +246,10 @@ export default function NavBar() {
                         {({ active }) => (
                           <Menu as="div" className="relative">
                             <Menu.Button className={classNames(
-                              active ? "bg-gray-100" : "",
+                              (active && currentUser.admin) ? "bg-gray-100" : "",
                               "block w-full text-left px-4 py-2 text-lg text-black cursor-pointer"
                             )}>
-                              Admin: Listings Control
+                              ◀︎Listings
                             </Menu.Button>
                             <Transition
                               as={Fragment}

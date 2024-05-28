@@ -11,8 +11,8 @@ import UserSearch from './UserSearch' // Import the 'UserSearch' component
 import ViewListing from './ViewListing'
 import ApplyNow from './ApplyNow'
 import UserAssetsList from './UserAssetsList'
-import NewListing from './NewListing' // Import the 'NewListing' component
-import NewUser from './NewUser' // Import the 'NewUser' component
+import ManageListing from './ManageListing' // Import the 'NewListing' component
+import ManageUser from './ManageUser' // Import the 'NewUser' component
 import { AuthProvider } from '../authentication/AuthContext'
 import { AppContextProvider } from '../authentication/AppContext'
 
@@ -63,10 +63,11 @@ return (
 
                 <Route path='/listings/:viewtype?/:id' element={<ViewListing />} />
                 <Route path='/listings/:id/apply' element={<ApplyNow />} />
-                <Route path='/listings/:viewtype?/:id/edit' element={<NewListing />} />
+                <Route path='/listings/:viewtype?/:id/edit' element={<ManageListing />} />
                 <Route path='/user/listings/:userId' element={<UserAssetsList />} />
-              <Route path='/listing-new' element={<NewListing />} />
-              <Route path='/user-new' element={<NewUser />} />
+                <Route path='/listing-new' element={<ManageListing />} />
+                <Route path='/user/new' element={<ManageUser />} />
+                <Route path='/user/edit' element={<ManageUser />} />
                 {/* Fallback route for unmatched paths */}
                 <Route path='*' element={<h3>Page not found</h3>} />
               </Routes>
