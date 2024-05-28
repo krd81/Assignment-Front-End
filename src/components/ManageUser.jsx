@@ -7,7 +7,8 @@ const ManageUser = () => {
   const isAdminRef = useRef(false);
   const navigate = useNavigate();
   const params = useParams();
-
+  // Add state object to manage input fields
+  // Add cancel button
 
   const handleSubmit = async (event) => {
     event.preventDefault()

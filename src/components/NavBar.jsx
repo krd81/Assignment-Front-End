@@ -12,21 +12,12 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
-  const { loggedInUser, profile } = useContext(AppContext)
-  const { logout } = useContext(AuthContext)
-  const [ currentUser, setCurrentUser ] = loggedInUser
-  const [ profileUser, setProfileUser ] = profile
+  const { loggedInUser, profile, allUsers } = useContext(AppContext);
+  const { logout } = useContext(AuthContext);
+  const [ currentUser, setCurrentUser ] = loggedInUser;
+  const [ profileUser, setProfileUser ] = profile;
+  const [users, setUsers] = allUsers;
 
-    // Define adminRender here to access homeUser
-    // const adminRender = () => {
-    //   if (currentUser && currentUser.admin) {
-    //     return [
-    //       { name: "Create User", href: "/user-new", current: false },
-    //       { name: "Create Listing", href: "/listing-new", current: false }
-    //     ]
-    //   }
-    //   return []
-    // }
 
     // Nav rendered conditionally based on homeUser.admin status
     const navigation = [
@@ -61,7 +52,13 @@ export default function NavBar() {
 
   const findUser = () => {
     const email = prompt("Enter user's email address");
-
+    if (email) {
+      const user = allUsers.find(user => user.email);
+      setProfileUser(user);
+      // Separate function for edit / delete user ??
+      // Navigate to edit user screen using _id in URL
+      // Populate user's data in form
+    }
   }
 
 
