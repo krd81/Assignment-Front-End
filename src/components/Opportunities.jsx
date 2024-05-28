@@ -27,6 +27,7 @@ const JobListing = () => {
   const [favourites, setFavourites] = useState(null); // Needs to be null so that the user's favourites aren't over-written with empty array on mount
   const [filterOption, setFilterOption] = useState("none");
 
+  console.log(currentUser)
   console.log(favourites)
   // Function to handle department selection
   const handleDepartmentChange = (event) => {
@@ -47,27 +48,14 @@ const JobListing = () => {
     }
   }, []);
 
-  const isFavourite = useCallback((listing) => {
-    if (currentUser && currentUser.favourites) {
-      console.log("currenUser / favourites truthy")
-      if (currentUser.favourites.contains(listing)) {
-        return true;
-    } else {
-      return false;
-    }
-    } else {
-      console.log("currenUser / favourites falsy")
 
-    }
-
-  }, [currentUser])
 
   // Effect to update filtered listings when searchQuery or selectedDepartment changes
   useEffect(() => {
     let newFilteredListings = [...listings]
 
     if (selectedDepartment !== "All") {
-      newFilteredListings = newFilteredListings.filter((listing) => listing.department === selectedDepartment)
+      newFilteredListings = newFilteredListings.filter(listing => listing.department === selectedDepartment)
     }
 
     if (searchQuery.trim() !== "") {
@@ -80,11 +68,30 @@ const JobListing = () => {
       newFilteredListings = searchResult.map((result) => result.item)
     }
 
+    switch (filterOption) {
+      case "new":
+        newFilteredListings = newFilteredListings.filter(listing => newListing(listing) === true);
+        break;
+      case "favourites":
+        if (currentUser && currentUser.listingsFavourites) {
+          newFilteredListings = [...currentUser.listingsFavourites];
+        }
+        break;
+      case "applied":
+        if (currentUser && currentUser.applications) {
+          newFilteredListings = [...currentUser.applications];
+        }
+        break;
+      default:
+        newFilteredListings = [...listings];
+        break;
+    }
+
 
 
 
     setFilteredListings(newFilteredListings)
-  }, [searchQuery, selectedDepartment, listings])
+  }, [searchQuery, selectedDepartment, listings, currentUser, filterOption, newListing])
 
   //useEffect hook allows the favourites state to be updated once the current user object becomes available
   useEffect(() => {
