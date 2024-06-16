@@ -31,8 +31,8 @@ const Login = () => {
 
             let res;
 
-              // res = await fetch('https://talent-forge-api-atu2.onrender.com/login/', {
-                res = await fetch('http://localhost:8002/login/', {
+              res = await fetch('https://assignment-back-end.onrender.com/login/', {
+                // res = await fetch('http://localhost:8002/login/', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

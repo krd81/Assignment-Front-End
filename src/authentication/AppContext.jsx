@@ -17,8 +17,8 @@ export const AppContextProvider = ({ children }) => {
     useEffect(() =>  {
         const setData = async () => {
             try{
-                // await fetch('https://talent-forge-api-atu2.onrender.com/users/', {
-                await fetch('http://localhost:8002/users/', {
+                await fetch('https://assignment-back-end.onrender.com/users/', {
+                // await fetch('http://localhost:8002/users/', {
                     method: 'GET',
                     headers: {
                     'Content-Type': 'application/json}',
@@ -26,8 +26,8 @@ export const AppContextProvider = ({ children }) => {
                 }})
                 .then(res => res.json())
                 .then(data => setUsers(data))
-                // await fetch('https://talent-forge-api-atu2.onrender.com/listings/', {
-                await fetch('http://localhost:8002/listings/', {
+                await fetch('https://assignment-back-end.onrender.com/listings/', {
+                // await fetch('http://localhost:8002/listings/', {
                     method: 'GET',
                     headers: {
                     'Content-Type': 'application/json}',

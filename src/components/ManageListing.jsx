@@ -77,7 +77,8 @@ const ManageListing = () => {
           creator: currentUser
         }
 
-        let url = 'http://localhost:8002/listings';
+        let url = 'https://assignment-back-end.onrender.com/listings'
+        // let url = 'http://localhost:8002/listings';
         let method = 'POST';
 
         if (editMode && currentListing) {
@@ -87,7 +88,6 @@ const ManageListing = () => {
 
 
         try {
-          // const response = await fetch('https://talent-forge-api-atu2.onrender.com/listings', {
           const response = await fetch(url, {
             method: method,
             headers: {
@@ -152,7 +152,8 @@ const ManageListing = () => {
     }
 
     try {
-      await fetch(`http://localhost:8002/listings/${listing._id}`, {
+      await fetch (`https://assignment-back-end.onrender.com/${listing._id}`, {
+      //await fetch(`http://localhost:8002/listings/${listing._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`

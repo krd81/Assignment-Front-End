@@ -30,8 +30,8 @@ const ManageUser = () => {
     if (passwordCheck(formDataObj.password, formDataObj.confirmPassword) &&
     (!isAdminRef.current || (isAdminRef.current && adminCheck()))) {
       try {
-        // const response = await fetch('https://talent-forge-api-atu2.onrender.com/users', {
-        const response = await fetch('http://localhost:8002/users', {
+        const response = await fetch('https://assignment-back-end.onrender.com/users', {
+        // const response = await fetch('http://localhost:8002/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
