@@ -21,8 +21,8 @@ export default {
         'washed-blue': '#455f6e',
       },
       backgroundImage: {
-        'hero' : "url('./src/assets/backgrounds/greybackground.jpg')",
-        'water' : "url('./src/assets/backgrounds/top-view-clear-ocean-water-texture.jpg')"
+        'hero' : "url('/Users/Kelly/talent-forge-app-new/Assignment-Front-End/src/assets/backgrounds/greybackground.jpg')",
+        'water' : "url('/assets/backgrounds/top-view-clear-ocean-water-texture.jpg')"
       },
       screens: {
         // // Breakpoints for screen sizes
