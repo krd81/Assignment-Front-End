@@ -9,4 +9,7 @@ export default defineConfig({
     globals: true
   },
   plugins: [react()],
+  build: {
+    assetsDir: 'assets'
+  }
 })
