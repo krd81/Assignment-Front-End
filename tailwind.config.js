@@ -21,8 +21,8 @@ export default {
         'washed-blue': '#455f6e',
       },
       backgroundImage: {
-        'hero' : "url('src/assets/backgrounds/greybackground.jpg')",
-        'water' : "url('src/assets/backgrounds/top-view-clear-ocean-water-texture.jpg')"
+        'hero' : "url('./src/assets/backgrounds/greybackground.jpg')",
+        'water' : "url('./src/assets/backgrounds/top-view-clear-ocean-water-texture.jpg')"
       },
       screens: {
         // // Breakpoints for screen sizes
