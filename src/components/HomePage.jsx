@@ -2,6 +2,8 @@ import { useContext } from "react"
 import { NavLink } from "react-router-dom"
 import "../assets/css/HomePage.css"
 import { AppContext } from '../authentication/AppContext'
+import talentForgeLogo from '../assets/logos/transplogoslogan.png'
+import backgroundImage from '../assets/backgrounds/greybackground.jpg'
 
 
 
@@ -15,14 +17,16 @@ const HomePage = () => {
       {/* Main container */}
       <div role="main" className="flex-col m-auto max-h-max">
         {/* Background image -- can be changed... */}
-        <div className="bg-hero bg-cover bg-bottom min-h-screen pb-20">
+        {/* <div className="bg-hero bg-cover bg-bottom min-h-screen pb-20"> */}
+        <div className={`${backgroundImage} bg-cover bg-bottom min-h-screen pb-20`}>
           {/* Text content */}
           <div className="flex justify-center p-2">
             <div className="flex flex-col justify-center items-center my-6 md:my-20">
               <h1 className="text-dark-blue text-center text-5xl md:text-6xl lg:text-6xl inset-y-28 h-fit md:inset-y-44 max-w-full md:max-w-lg lg:max-w-3xl px-10">
                 Welcome {currentUser?.firstName || ''} to
               </h1>
-              <img src="/Users/Kelly/talent-forge-app-new/Assignment-Front-End/src/assets/logos/transplogoslogan.png" alt="Talent Forge Logo" className="h-auto w-3/6" />
+              {/* <img src="./assets/logos/transplogoslogan.png" alt="Talent Forge Logo" className="h-auto w-3/6" /> */}
+              {talentForgeLogo}
               <h2 className="text-dark-blue text-3xl lg:text-4xl inset-y-72 md:inset-y-96 h-fit max-w-full md:max-w-lg lg:max-w-3xl px-10">
               Empowering individuals to achieve their full potential through innovative software solutions that foster
               growth, facilitate development, and promote meaningful connections within the workplace.

@@ -2,7 +2,7 @@ import path from 'path';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 export default {
-  entry: './src/main.jsx',
+  entry: './src/index.html',
   output: {
     filename: 'bundle.js',
     path: path.resolve('dist')
@@ -10,7 +10,7 @@ export default {
   module: {
     rules: [
       {
-        test: /\.(png|jpe?g|gif|webp)$/i,
+        test: /\.(png|jpe?g|gif|webp|jpg)$/i,
         use: [
           {
             loader: 'file-loader',
@@ -42,6 +42,10 @@ export default {
             },
           },
         ],
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
     ],
   },

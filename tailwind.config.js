@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+// import backgroundImage from './src/assets/backgrounds/greybackground.jpg'
 const path = require('path');
 
 export default {
@@ -22,6 +23,7 @@ export default {
       },
       backgroundImage: {
         'hero' : "url('/Users/Kelly/talent-forge-app-new/Assignment-Front-End/src/assets/backgrounds/greybackground.jpg')",
+        // 'hero' : `url(${backgroundImage})`,
         'water' : "url('/assets/backgrounds/top-view-clear-ocean-water-texture.jpg')"
       },
       screens: {
