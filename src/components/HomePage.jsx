@@ -22,7 +22,7 @@ const HomePage = () => {
               <h1 className="text-dark-blue text-center text-5xl md:text-6xl lg:text-6xl inset-y-28 h-fit md:inset-y-44 max-w-full md:max-w-lg lg:max-w-3xl px-10">
                 Welcome {currentUser?.firstName || ''} to
               </h1>
-              <img src="src/assets/logos/transplogoslogan.png" alt="Talent Forge Logo" className="h-auto w-3/6" />
+              <img src="/Users/Kelly/talent-forge-app-new/Assignment-Front-End/src/assets/logos/transplogoslogan.png" alt="Talent Forge Logo" className="h-auto w-3/6" />
               <h2 className="text-dark-blue text-3xl lg:text-4xl inset-y-72 md:inset-y-96 h-fit max-w-full md:max-w-lg lg:max-w-3xl px-10">
               Empowering individuals to achieve their full potential through innovative software solutions that foster
               growth, facilitate development, and promote meaningful connections within the workplace.

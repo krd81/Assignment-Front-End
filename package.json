@@ -35,6 +35,8 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "file-loader": "^6.2.0",
+    "image-webpack-loader": "^8.1.0",
     "jsdom": "^24.0.0",
     "msw": "^2.2.2",
     "postcss": "^8.4.35",
