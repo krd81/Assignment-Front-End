@@ -21,6 +21,7 @@ export default {
       },
       backgroundImage: {
         'hero' : "url('/backgrounds/greybackground.jpg')",
+        // 'hero' : `url(${backgroundImage})`,
         'water' : "url('/assets/backgrounds/top-view-clear-ocean-water-texture.jpg')"
       },
       screens: {
