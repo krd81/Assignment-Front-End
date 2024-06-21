@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const path = require('path');
 
 export default {
 
