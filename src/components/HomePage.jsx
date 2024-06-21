@@ -2,8 +2,6 @@ import { useContext } from "react"
 import { NavLink } from "react-router-dom"
 import "../assets/css/HomePage.css"
 import { AppContext } from '../authentication/AppContext'
-import talentForgeLogo from '../assets/logos/transplogoslogan.png'
-import backgroundImage from '../assets/backgrounds/greybackground.jpg'
 
 
 
@@ -16,8 +14,8 @@ const HomePage = () => {
       {/* Main container */}
       <div role="main" className="flex-col m-auto max-h-max">
         {/* Background image -- can be changed... */}
-        {/* <div className="bg-hero bg-cover bg-bottom min-h-screen pb-20"> */}
-        <div className={`${backgroundImage} bg-cover bg-bottom min-h-screen pb-20`}>
+        <div className="bg-hero bg-cover bg-bottom min-h-screen pb-20">
+        {/* <div className={`${backgroundImage} bg-cover bg-bottom min-h-screen pb-20`}> */}
           {/* Text content */}
           <div className="flex justify-center p-2">
             <div className="flex flex-col justify-center items-center my-6 md:my-20">

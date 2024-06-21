@@ -105,7 +105,7 @@ const Login = () => {
           <div className="bg-grey flex-col text-center">
             <img
               className="m-2 mt-20 inline"
-              src="src/assets/logos/talent_forge_logo.jpg"
+              src="/logos/talent_forge_logo.jpg"
               alt="talent forge logo"
               width="200"
               height="200"

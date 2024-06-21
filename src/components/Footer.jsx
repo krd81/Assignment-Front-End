@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <a href="" className="flex items-center">
-              <img src="../src/assets/logos/whitetransplogo.png" className="h-24 me-3" alt="TalentForge Logo" />
+              <img src="/logos/whitetransplogo.png" className="h-24 me-3" alt="TalentForge Logo" />
             </a>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
