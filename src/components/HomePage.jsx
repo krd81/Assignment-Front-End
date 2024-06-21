@@ -11,7 +11,7 @@ const HomePage = () => {
   const { loggedInUser } = useContext(AppContext)
   const [currentUser, setCurrentUser] = loggedInUser // currentUser is set in AppContextProvider
 
-  document.getElementById('hero').src = backgroundImage;
+  document.getElementById('bg-hero').src = backgroundImage;
 
   return (
     <>
