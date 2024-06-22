@@ -255,12 +255,12 @@ const JobListing = () => {
   document.title = "Opportunities"
 
   return (
-    <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-32">
+    <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-8 lg:p-16 xl:mx-32">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-3 flex items-center justify-center">
-          <h2 className="text-3xl font-semibold mt-8 mb-4">Internal Opportunities</h2>
+          <h2 className="text-3xl font-semibold mt-8 md:my-4 mb-4">Internal Opportunities</h2>
         </div>
-        <div className="md:col-span-1 flex flex-col justify-start items-center md:items-start">
+        <div className="flex-row md:col-span-1 md:flex md:flex-col md:justify-start md:items-start">
           <div className="w-full">
             <label htmlFor="department" className="block text-gray-700">
               Filters:
@@ -287,7 +287,8 @@ const JobListing = () => {
               className="p-textarea-left mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
-          <div className="flex flex-col md:flex-row md:items-center pt-6">
+          <div className="grid grid-cols-2 gap-x-2 gap-y-6 md:grid-cols-none md:flex-col my-8 md:my-0">
+          <div className="inline-flex items-center md:pt-6">
             <input
               type="radio"
               id="new-listings"
@@ -298,9 +299,9 @@ const JobListing = () => {
               onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="new-listings" className="cursor-pointer flex items-center pl-2"></label>
-            <span className="ml-2 "><em className="text-xl not-italic">☺︎ </em> New Listings</span>
+            <span className="ml-0 md:ml-2"><em className="text-xl not-italic">☺︎ </em> New Listings</span>
           </div>
-          <div className="flex flex-col md:flex-row md:items-center pt-6">
+          <div className="inline-flex items-center md:pt-6">
             <input
               type="radio"
               id="favourite-listings"
@@ -311,9 +312,9 @@ const JobListing = () => {
               onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="favourite-listings" className="cursor-pointer flex items-center pl-2"></label>
-            <span className="ml-2 "><em className="text-xl not-italic">☆ </em> Favourites</span>
+            <span className="ml-0 md:ml-2"><em className="text-xl not-italic">☆ </em> Favourites</span>
           </div>
-          <div className="flex flex-col md:flex-row md:items-center pt-6">
+          <div className="inline-flex items-center md:pt-6">
             <input
               type="radio"
               id="applied-listings"
@@ -324,9 +325,9 @@ const JobListing = () => {
               onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="applied-listings" className="cursor-pointer flex items-center pl-2"></label>
-            <span className="ml-2 "><em className="text-xl not-italic">☑︎ </em>Applied</span>
+            <span className="ml-0 md:ml-2"><em className="text-xl not-italic">☑︎ </em>Applied</span>
           </div>
-          <div className="flex flex-col md:flex-row md:items-center pt-6">
+          <div className="inline-flex items-center md:pt-6">
             <input
               type="radio"
               id="show-all"
@@ -338,9 +339,9 @@ const JobListing = () => {
               onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="show-all" className="cursor-pointer flex items-center pl-2"></label>
-            <span className="ml-2 "><em className="text-xl not-italic">☒︎ </em>No Filter</span>
+            <span className="ml-0 md:ml-2"><em className="text-xl not-italic">☒︎ </em>No Filter</span>
           </div>
-
+          </div>
         </div>
         <div className="md:col-span-2 mb-8">
           <div className={`${noListingsFound ? "visible" : "invisible h-0"}`}>
