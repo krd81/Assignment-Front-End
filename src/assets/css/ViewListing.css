@@ -14,6 +14,14 @@ li {
     text-indent: -1.6rem; /* Counteract the padding for the first line */
 }
 
+.applicant-link {
+    color: blue;
+    text-decoration: underline;
+}
+
+.applicant-link:hover {
+    color: rgb(243, 200, 60);
+}
 
 @media screen and (min-width: 1024px) {
 

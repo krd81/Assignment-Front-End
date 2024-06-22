@@ -8,7 +8,8 @@ import dateFormat from "../misc/dateFormat"
 
 
 const ViewListing = () => {
-  const { loggedInUser, listing } = useContext(AppContext);
+  const { profile, loggedInUser, listing } = useContext(AppContext);
+  const [ profileUser, setProfileUser ] = profile;
   const [currentUser, setCurrentUser] = loggedInUser;
   const [ currentListing ] = listing;
   const [favourites, setFavourites] = useState(null);
@@ -16,6 +17,7 @@ const ViewListing = () => {
   const nav = useNavigate();
   const location = useLocation();
   const isExpired = location.state?.isExpired;
+  console.log(currentUser)
 
   // Conditional rendering of job description/points
   function renderJobInfo(info) {
@@ -117,6 +119,43 @@ const ViewListing = () => {
         !currentUser.applications.find(application => application._id === listing._id))) {
           nav('apply') // No preceding / makes the path relative and redirects to apply page
     }
+  }
+
+  const showApplicants = () => {
+    if (currentUser._id === currentListing?.creator._id) {
+      return (
+        <>
+          <div className="text-3xl font-bold pb-4">
+            Applicants:
+          </div>
+          {currentListing.applicants.length > 0 ?
+          currentListing.applicants.map(applicant =>
+            <div key={applicant._id} className="text-xl px-4 pb-1">
+              <ul>
+                <li className="list-disc">
+                  <div className="flex">
+                    <a className="applicant-link" onClick={() => showApplicantProfile(applicant)}>{applicant.firstName} {applicant.lastName}</a>
+                    <p className="text-xl pl-2">- {applicant.department}</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            )
+            :
+            <p className="text-gray-500 text-2xl font-semibold px-0 pt-4 pb-1">
+              No applicants to show
+            </p>
+            }
+        </>
+      )
+    }
+  }
+
+  const showApplicantProfile = (applicant) => {
+    setProfileUser(applicant)
+    console.log(applicant)
+    nav(`/profile/${applicant._id}`)
+
   }
 
   document.title = "View Listing"
