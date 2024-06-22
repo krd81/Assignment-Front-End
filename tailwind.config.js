@@ -23,7 +23,10 @@ export default {
       backgroundImage: {
         'hero' : "url('/backgrounds/greybackground.jpg')",
         // 'hero' : `url(${backgroundImage})`,
-        'water' : "url('/assets/backgrounds/top-view-clear-ocean-water-texture.jpg')"
+        'water' : "url('./assets/backgrounds/top-view-clear-ocean-water-texture.jpg')",
+        'blue' : "url('./assets/backgrounds/hi-tech-concepts-on-blue-background-hero-header.jpg')",
+        '404error' : "url('/backgrounds/bluetrianglebackground.jpg')",
+
       },
       screens: {
         // // Breakpoints for screen sizes
@@ -41,4 +44,3 @@ export default {
       path.join(path.dirname(require.resolve('@tailwindcss/forms')), '**/*.js'),
     ],
   }
-
