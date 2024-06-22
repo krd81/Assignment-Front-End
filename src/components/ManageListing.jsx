@@ -77,8 +77,8 @@ const ManageListing = () => {
           creator: currentUser
         }
 
-        let url = 'https://assignment-back-end.onrender.com/listings'
-        // let url = 'http://localhost:8002/listings';
+        // let url = 'https://assignment-back-end.onrender.com/listings'
+        let url = 'http://localhost:8002/listings';
         let method = 'POST';
 
         if (editMode && currentListing) {
