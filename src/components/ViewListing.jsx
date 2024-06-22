@@ -128,8 +128,8 @@ const ViewListing = () => {
           <div className="text-3xl font-bold pb-4">
             Applicants:
           </div>
-          {currentListing.applicants.length > 0 ?
-          currentListing.applicants.map(applicant =>
+          {currentListing?.applicants.length > 0 ?
+          currentListing?.applicants.map(applicant =>
             <div key={applicant._id} className="text-xl px-4 pb-1">
               <ul>
                 <li className="list-disc">

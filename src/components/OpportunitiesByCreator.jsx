@@ -44,6 +44,7 @@ export const OpportunitiesByCreator = () => {
 
   const handleView = (listing) => {
     // Open Listing in view mode
+    // Navigates to 'ViewListing' component
     nav(`/listings/creator/${listing._id}`)
     setCurrentListing(listing)
   }
@@ -101,15 +102,15 @@ export const OpportunitiesByCreator = () => {
             {userListings.map((listing) => (
               <div key={listing._id} className={`${listing.listingActive ? 'bg-white' : 'bg-gray-300'} max-w-full overflow-hidden shadow-lg rounded-lg border select-list-item`}>
                 <div className="p-4 md:flex-row ">
-                  {/* onClick={() => {
-                    handleView(listing)
-                    }} */}
                     <div className="md:flex">
                   <div className="md:w-2/3">
                     <div className="flex">
                       <h2 className="text-xl md:text-3xl lg:text-3xl text-center md:text-left font-medium  md:p-2 text-gray-900">{listing.title} </h2>
                       {listing.applicants.length > 0 ?
+                      <div className="flex">
                         <p className="text-3xl text-green-500 align-baseline leading-loose pl-2"><IonIcon name="people-outline"  /></p>
+                        <p className="text-base text-green-500">{listing.applicants.length}</p>
+                      </div>
                         : null}
                       </div>
                     <p className="text-base md:text-3xl lg:text-3xl text-center md:text-left md:px-2">{listing.department}</p>
