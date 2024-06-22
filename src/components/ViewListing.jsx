@@ -92,8 +92,8 @@ const ViewListing = () => {
         };
 
       try {
-        await fetch (`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
-        // await fetch (`http://localhost:8002/users/${currentUser._id}`, {
+        // await fetch (`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
+        await fetch (`http://localhost:8002/users/${currentUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -263,6 +263,7 @@ const ViewListing = () => {
           <div className="flex justify-center my-3 pb-6 italic ">
             <p className="text-lg md:text-2xl lg:text-2xl text-red-500">Closing Date: {dateFormat(currentListing?.dateClosing)}</p>
           </div>
+          {showApplicants()}
           </div>
         </div>
       </div>
