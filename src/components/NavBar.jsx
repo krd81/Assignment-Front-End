@@ -163,20 +163,6 @@ export default function NavBar() {
                      {/* Conditionally render if user has listings?? */}
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            onClick={showManageListings}
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-lg text-black",
-                              "cursor-pointer"
-                            )}
-                          >
-                            Manage Listings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
                           <Menu as="div" className="relative">
                             <Menu.Button className={classNames(
                               active ? "bg-gray-100" : "",
@@ -284,6 +270,21 @@ export default function NavBar() {
                                     </a>
                                   )}
                                 </Menu.Item>
+                                <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            onClick={showManageListings}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-lg text-black",
+                              "cursor-pointer"
+                            )}
+                          >
+                            Manage Listings
+                          </a>
+                        )}
+                      </Menu.Item>
+
                               </Menu.Items>
                             </Transition>
                           </Menu>

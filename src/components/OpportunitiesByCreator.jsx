@@ -16,6 +16,7 @@ export const OpportunitiesByCreator = () => {
 
   // Local state object
   let [userListings, setUserListings] = useState([])
+  document.title = "Manage Listings"
   console.log(currentUser)
   console.log(currentUser._id)
   console.log(listings)
@@ -85,8 +86,13 @@ export const OpportunitiesByCreator = () => {
         <>
             <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-10 lg:p-16 xl:mx-40">
                 <div className="grid grid-cols-1  gap-4">
-                    <div className="md:col-span-3 flex items-center justify-center">
-                        <h2>
+                <div className="md:col-span-3 flex justify-center">
+                  <h1 className="text-4xl font-semibold">
+                    Manage Listings
+                  </h1>
+                  </div>
+                    <div className="md:col-span-3 flex justify-start">
+                        <h2 className="text-xl">
                             View, edit or delete listings:
                         </h2>
                     </div>
@@ -100,7 +106,12 @@ export const OpportunitiesByCreator = () => {
                     }} */}
                     <div className="md:flex">
                   <div className="md:w-2/3">
-                    <h2 className="text-xl md:text-3xl lg:text-3xl text-center md:text-left font-medium  md:p-2 text-gray-900">{listing.title}</h2>
+                    <div className="flex">
+                      <h2 className="text-xl md:text-3xl lg:text-3xl text-center md:text-left font-medium  md:p-2 text-gray-900">{listing.title} </h2>
+                      {listing.applicants.length > 0 ?
+                        <p className="text-3xl text-green-500 align-baseline leading-loose pl-2"><IonIcon name="people-outline"  /></p>
+                        : null}
+                      </div>
                     <p className="text-base md:text-3xl lg:text-3xl text-center md:text-left md:px-2">{listing.department}</p>
                   </div>
                   <div className="md:w-1/3">
