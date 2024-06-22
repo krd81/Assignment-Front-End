@@ -91,18 +91,9 @@ const Login = () => {
     }
 
 
-
-
-
-
-
-
-
-
-
     return (
         <>
-          <div className="bg-grey flex-col text-center">
+          <div className="bg-grey flex-grow text-center">
             <img
               className="m-2 mt-20 inline"
               src="/logos/talent_forge_logo.jpg"

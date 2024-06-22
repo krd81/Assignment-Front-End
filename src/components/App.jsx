@@ -75,7 +75,7 @@ return (
           } />
         </Routes>
         {/* Render Footer on every page */}
-        <div className='flex-grow'></div><Footer />
+        <Footer />
       </div>
     </BrowserRouter>
     </AppContextProvider>
