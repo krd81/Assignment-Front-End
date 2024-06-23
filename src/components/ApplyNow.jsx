@@ -73,8 +73,8 @@ const ApplyNow = () => {
         }
 
         try {
-          const listingResponse = await fetch(`https://assignment-back-end.onrender.com/listings/${currentListing._id}`, {
-          // const listingResponse = await fetch(`http://localhost:8002/listings/${currentListing._id}`, {
+          // const listingResponse = await fetch(`https://assignment-back-end.onrender.com/listings/${currentListing._id}`, {
+          const listingResponse = await fetch(`http://localhost:8002/listings/${currentListing._id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -83,8 +83,8 @@ const ApplyNow = () => {
             body: JSON.stringify(updateListing), // This adds the user to the applicant array in the listing
           })
 
-            const userResponse = await fetch(`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
-            // const userResponse = await fetch(`http://localhost:8002/users/${currentUser._id}`, {
+            // const userResponse = await fetch(`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
+            const userResponse = await fetch(`http://localhost:8002/users/${currentUser._id}`, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
@@ -114,8 +114,8 @@ const ApplyNow = () => {
     return (
         <>
         {/* <form onSubmit={handleSubmit}> */}
-          <div className="flex justify-center p-4 md:p-8 lg:p-4 xl:p-12 ">
-            <div className="bg-blue-50 border border-gray-300 mt-6 mb-6">
+          <div className="">
+            <div className="bg-blue-50 border border-gray-300 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-8 lg:p-16 xl:mx-32 max-w-full">
               {/* Listing header */}
               <div className="flex justify-center pt-4 lg:pt-10 lg:pb-4">
                 <h1 className="text-4xl md:text-3xl lg:text-5xl font-bold">{currentListing.title}</h1>
@@ -124,7 +124,7 @@ const ApplyNow = () => {
               <div className="flex justify-center">
                 <h2 className="text-2xl md:text-4xl lg:text-4xl">{currentListing.department}</h2>
               </div>
-              <div className="flex justify-center items-center flex-col sm:flex-col md:flex-col lg:flex-row">
+              <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row">
                 {/* User's info */}
                 <div className="top-level-info mx-2 sm:mx-4 md:mx-4 lg:mx-4 my-2 md:my-4 lg:my-4">
                   <h4 className="info-title text-lg md:text-3xl lg:text-3xl flex justify-start pt-2">
@@ -145,29 +145,30 @@ const ApplyNow = () => {
                 {/* Info */}
 
               <div className="flex flex-col justify-center mx-2 md:mx-4 lg:mx-4 my-4 md:my-6 lg:my-6">
-                <div className="mx-8 my-2 md:my-4 lg:my-4">
-                    <p>Thank you for your interest in the role of {currentListing.title} in the {currentListing.department} department. <br/>
+                <div className="mx-0 my-2 md:my-4 lg:my-4">
+                    <p className="text-lg">Thank you for your interest in the role of {currentListing.title} in the {currentListing.department} department. <br/>
                     Please use the space below to write a brief statement explaining your suitability for the role. This will be sent to the hiring manager.<br/>
                     Best of luck!</p>
-                <div className="w-full md:w-4/5 lg:w-3/4 xl:w-1/2 border-t-2 border-dotted mt-8">
+                <div className="w-full md:w-4/5 lg:w-3/4 xl:w-1/2 border-t-2 border-dotted mb-6">
                     <br />
                     <textarea
                         name="description"
                         id="applicant-input"
                         className="p-textarea-left form-input text-xl w-full h-80 block overflow-y-auto rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 placeholder-gray-400 placeholder-shown:text-sm placeholder-shown:leading-[3.75] ">
                     </textarea>
-                    <label htmlFor="job-desc-input" className="font-normal leading-tight text-blue-gray-400"> Suggested 300 word limit</label>
+                    <label htmlFor="job-desc-input" className="font-normal leading-tight text-blue-gray-400"> 300 word limit</label>
                 </div>
                 <div>
-                    <label htmlFor="manager-approval" className="inline-flex items-center">
+                    <label htmlFor="manager-approval" className="inline-flex items-baseline">
                       <input type="checkbox" id="manager-approval" />
-                      <span className="ml-3">I have my line manager&#39;s consent</span>
+                      <span className="ml-3 text-lg">I have my line manager&#39;s consent to apply</span>
                     </label>
                 </div>
                 </div>
               </div>
               {/* Send/Cancel buttons */}
-              <div className="flex justify-center my-3">
+              <div className="">
+              <div className="grid grid-cols-1 place-content-center my-3">
                 <button onClick={(e) => handleSubmit(e)}
                   type="submit"
                   className="bg-dark-green hover:bg-dark-blue text-white font-semibold text-2xl md:text-3xl lg:text-4xl hover:text-white m-2 py-1 px-5 h-12 lg:h-14 min-w-64 max-w-80 border border-gray-300 hover:border-transparent rounded"
@@ -180,6 +181,7 @@ const ApplyNow = () => {
                 >
                   Cancel
                 </button>
+              </div>
               </div>
               {/* Closing date */}
             </div>
