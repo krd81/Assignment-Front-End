@@ -242,7 +242,7 @@ const Profile = () => {
         md:flex md:items-center md:space-x-4 md:max-w-xl md:mx-auto md:px-5 lg:max-w-xl lg:mx-0 lg:px-5 "
           >
 
-            <div className="flex flex-col items-center justify-center flex-1">
+            <div className="flex flex-col md:items-center md:justify-center flex-1">
               {/* Edit Name */}
               {(isEditMode && currentUser.admin) ? (
                 <div className="flex justify-center items-center mb-4 w-full">
@@ -267,9 +267,6 @@ const Profile = () => {
                   {`${profileFields.firstName} ${profileFields.lastName}`}
                 </h2>
               )}
-              <div className="border-2 border-gray-800">
-            <img src={profileFields?.imageRef} alt="Profile Photo" />
-            </div>
               {/* Edit Role */}
               {(isEditMode && currentUser.admin) ? (
                 <div className="flex items-center mb-4">
@@ -284,9 +281,15 @@ const Profile = () => {
                   />
                 </div>
               ) : (
-                <p className="text-xl">Role: {profileFields.role}</p>
+                <p className="text-xl font-semibold mb-3">{profileFields.role}</p>
               )}
+            </div>
 
+              <div className="border-2 border-gray-800">
+            <img src={profileFields?.imageRef} alt="Profile Photo" />
+            </div>
+
+            <div className="flex flex-col md:items-center md:justify-center flex-1">
               {/* Edit Department */}
               {(isEditMode && currentUser.admin) ? (
                  <div className="flex items-center  w-full">
@@ -350,7 +353,7 @@ const Profile = () => {
                 {/* Show any remaining default skills (in blue)*/}
 
                 {skillList.map((skill, index) => {
-                    if (aboutMeFields.skills.includes(skill) === false) {
+                  if (aboutMeFields.skills.includes(skill) === false) {
                     return (
                       <button onClick={() => updateUserSkills(skill)}
                       key={index}
@@ -392,11 +395,14 @@ const Profile = () => {
             </div>
             ) : (
               // Displays skills on main profile page (userSkills state has not yet been set on first rendering profile)
-              <div className="flex flex-col justify-center items-center mb-12">
+              <div className="flex flex-col justify-center items-center mb-0">
+                <h2 className="text-2xl text-center font-bold mb-8">Skills & Experience</h2>
                 {profileUser.aboutMe.skills.map((index, skill) => showUserSkills(index, skill))}
               </div>
             )}
           </div>
+          {/* Divider */}
+          <hr className="border-b border-gray-900 my-10 w-2/3 mx-auto max-w-md lg:hidden" />
 
           {/* Career Development Description */}
           <div
