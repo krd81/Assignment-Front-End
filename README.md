@@ -2,6 +2,7 @@
 
 ## Table Of Contents:
 
+- [Access to Talent Forge App](#login-credentials)
 - [Website Description](#r1---website-description)
 - [Dataflow Diagram](#r2---dataflow-diagram)
 - [Application Architecture Diagram](#r3---application-architecture-diagram)
@@ -10,6 +11,18 @@
 - [Kanban Screenshots](#r6---kanban-screenshots)
 - [Revised Changes](#revised-changes)
 - [Bibliography](#bibliography)
+
+### Login Credentials
+From the login page login as one of the registered users:
+| username | password | admin |
+|----------- | ----------| --------- |
+| adam@email.com | fishing | true |
+| betty@email.com | castle | false |
+| charlie@email.com | empire | false |
+| david@email.com | cavalier | false |
+| adamh@email.com | butterfly | false |
+
+
 
 ### R1 - Website Description
 
@@ -81,7 +94,7 @@ Express is a minimal web-application framework that uses JavaScript to help deve
 
 **React.js**
 
-React is an open source, front-end framework which uses JavaScript to help developers create interactive applications by harnessing the power of HTML, CSS, and JSX (JavaScript + XML). React makes it easy to create SPAs (single-page applications), which conditionally render a webpage for the user by adding and removing its moving parts dynamically. It also uses a virtual DOM in a process known as reconciliation to improve performance speed. 
+React is an open source, front-end framework which uses JavaScript to help developers create interactive applications by harnessing the power of HTML, CSS, and JSX (JavaScript + XML). React makes it easy to create SPAs (single-page applications), which conditionally render a webpage for the user by adding and removing its moving parts dynamically. It also uses a virtual DOM in a process known as reconciliation to improve performance speed.
 
 **Node.js**
 
@@ -96,7 +109,7 @@ Node is a back-end runtime environment that allows developers to write server-si
 *jsonwebtoken* - For returning JSON Web Tokens to app users for session security and timeout purposes
 
 ### R2 - Dataflow Diagram
-#### Dataflow Diagram Keys: 
+#### Dataflow Diagram Keys:
 The following image shows the keys for the dataflow diagram;
  - The red rectangle represents the external entity AKA the end user
  - The green rectangle represents the documents inside a collection, in the database
@@ -116,7 +129,7 @@ This diagram shows the login process, with admin verification and moves on to th
 ![DFD 2](./docs/2%20login%20and%20job%20listings.drawio.png)
 
 #### Diagram 3: Login Process & Users (admin only)
-This diagram shows the login process, with admin verification and moves on to the user section, this section is admin only and serves the purpose of adding, removing, and modifying users in the user document. 
+This diagram shows the login process, with admin verification and moves on to the user section, this section is admin only and serves the purpose of adding, removing, and modifying users in the user document.
 
 ![DFD 3](./docs/3%20login%20and%20view%20users.drawio.png)
 
@@ -124,13 +137,13 @@ This diagram shows the login process, with admin verification and moves on to th
 
 ### R3 - Application Architecture Diagram
 
-To elaborate on the application architecture; 
+To elaborate on the application architecture;
 
-- The end user interacts with the front end interface which is built with the following languages; Javascript (React), HTML, CSS, and XML. The front end also utlises Vite as a build tool and development server. 
-- As users interact with the front end, the front end communicates with Express, a back end web application framework built for JavaScript (Node). Mongoose is used alongside Node as an Object Data Modeling library which communicates with the database (Mongo.db). 
-- The database consists of collections, which contain documents and in this application, the respective documents are categorised into Users (including User Profiles), and Job Listings. Between the front and back end are API calls and requests, and between the back end and database are data queries and responses. 
+- The end user interacts with the front end interface which is built with the following languages; Javascript (React), HTML, CSS, and XML. The front end also utlises Vite as a build tool and development server.
+- As users interact with the front end, the front end communicates with Express, a back end web application framework built for JavaScript (Node). Mongoose is used alongside Node as an Object Data Modeling library which communicates with the database (Mongo.db).
+- The database consists of collections, which contain documents and in this application, the respective documents are categorised into Users (including User Profiles), and Job Listings. Between the front and back end are API calls and requests, and between the back end and database are data queries and responses.
 
-The combination of communication between these tools and technologies result in a full stack MERN application architecture. 
+The combination of communication between these tools and technologies result in a full stack MERN application architecture.
 
 
 ![Application Architecture Diagram](./docs/Application%20Architecture%20Diagram.drawio.png)
@@ -148,10 +161,10 @@ Having interviewed team members about their needs/expectations, the user stories
 * **REVISION** As Alex, when creating job listings, I'd like some standard features to have a tick box type selection (e.g. full time/part time) to make it quicker and easier to create the listing (*this feature has been incorporated into the wireframe - radio buttons allow job type/location of work etc to be selected*)
 * **REVISION** As Alex, when creating job listings, it would be nice to be able to save it as a draft, without it being published straight away, that way if the job hasn't been signed off yet or I'm waiting for confirmation on something, I could get things ready and then simply update it to 'final' when it's ready (*added 'Active on site' on/off slider to the job listing wireframe so that the creator can create, update etc but leave the slider set to off until they are ready for it to be live*)
 * As Alex, I want to be see a list of any users who have applied for a role, to begin the process of next steps
-* As Heather, I want to set up new users, so that new team members joining the business have access to this resource 
+* As Heather, I want to set up new users, so that new team members joining the business have access to this resource
 * **REVISION** As Heather, I think it's important for users who are applying for roles to indicate they have spoken with and received the consent of their line manager to apply, so that team members are aware that this process must be followed. (*Added a tick box to the job application page - the 'send' button should be disabled until this box is ticked*)
 * As Heather, I want to remove users’ profiles once they’ve left the business so that their profile no longer appears in any search results
-* As Heather & Alex, we want to be able to change the job roles or departments of team members, to keep their details up to date when department moves or promotions occur  
+* As Heather & Alex, we want to be able to change the job roles or departments of team members, to keep their details up to date when department moves or promotions occur
 
 **REVISION**: After some discussions we decided that for the initial version of the app, there will only be two types of users: admin / non-admin. Managers (who are able to create/manage job listings) will have the same privileges as admin (who are able to create/delete users and re-set passwords etc). Therefore, although the needs of Heather and Alex are different, initially these two types of user will have the same access.
 
@@ -182,7 +195,7 @@ Kanban Screenshots:
 
 For tracking our TalentForge documentation tasks, we've chosen to use use GitHub Projects, which acts much like Trello with its carded/ticketed system for asigning tasks and indicating their current state. This was to keep our work centralised on the one platform and to avoid unnecessary navigation.
 
-![Kanban Screenshot 1](./docs/Kanban_Screenshots/Kanban_1.png) 
+![Kanban Screenshot 1](./docs/Kanban_Screenshots/Kanban_1.png)
 ![Kanban Screenshot 2](./docs/Kanban_Screenshots/Kanban_2.png)
 ![Kanban Screenshot 3](./docs/Kanban_Screenshots/Kanban_3.png)
 ![Kanban Screenshot 4](./docs/Kanban_Screenshots/Kanban_4.png)
