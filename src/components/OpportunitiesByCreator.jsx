@@ -70,8 +70,8 @@ export const OpportunitiesByCreator = () => {
 
   const deleteListing = async (listingID) => {
     try {
-      // await fetch(`https://assignment-back-end.onrender.com/listings/${listingID}`, {
-      await fetch(`http://localhost:8002/listings/${listingID}`, {
+      await fetch(`https://assignment-back-end.onrender.com/listings/${listingID}`, {
+      // await fetch(`http://localhost:8002/listings/${listingID}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
