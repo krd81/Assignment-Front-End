@@ -55,7 +55,7 @@ const Profile = () => {
       return (
         <button onClick={() => updateUserSkills(skill)}
           key={index}
-          className="p-2 m-2 w-36 border rounded-lg text-xs border-gray-800 bg-green-300 text-black"
+          className="p-2 m-2 w-36 border rounded-lg text-xs md:text-lg border-gray-800 bg-green-300 text-black"
         >
           {skill}
         </button>
@@ -263,7 +263,7 @@ const Profile = () => {
                   />
                 </div>
               ) : (
-                <h2 className="text-2xl text-center font-bold mb-2">
+                <h2 className="text-2xl md:text-4xl text-center font-bold mb-2">
                   {`${profileFields.firstName} ${profileFields.lastName}`}
                 </h2>
               )}
@@ -281,7 +281,7 @@ const Profile = () => {
                   />
                 </div>
               ) : (
-                <p className="text-xl font-semibold mb-3">{profileFields.role}</p>
+                <p className="text-xl md:text-3xl font-semibold mb-3">{profileFields.role}</p>
               )}
             </div>
 
@@ -304,7 +304,7 @@ const Profile = () => {
                   />
                 </div>
               ) : (
-                <p className="text-xl">Department: {profileFields.department}</p>
+                <p className="text-xl md:text-3xl">Department: {profileFields.department}</p>
               )}
             </div>
           </div>
@@ -328,8 +328,8 @@ const Profile = () => {
             </div>
           ) : (
             <div className="flex flex-col justify-center items-center max-w-lg mx-auto mt-10 px-5 lg:mb-10">
-              <h2 className="text-2xl text-center font-bold mb-2">About Me</h2>
-              <p className="text-xl">{aboutMeFields.text}</p>
+              <h2 className="text-2xl md:text-4xl text-center font-bold mb-2">About Me</h2>
+              <p className="text-xl md:text-3xl">{aboutMeFields.text}</p>
             </div>
           )}
           {/* END OF FIRST COLUMN DIV */}
@@ -396,7 +396,7 @@ const Profile = () => {
             ) : (
               // Displays skills on main profile page (userSkills state has not yet been set on first rendering profile)
               <div className="flex flex-col justify-center items-center mb-0">
-                <h2 className="text-2xl text-center font-bold mb-8">Skills & Experience</h2>
+                <h2 className="text-2xl md:text-4xl text-center font-bold mb-8">Skills & Experience</h2>
                 {profileUser.aboutMe.skills.map((index, skill) => showUserSkills(index, skill))}
               </div>
             )}
@@ -427,8 +427,8 @@ const Profile = () => {
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center">
-                <h2 className="text-2xl text-center font-bold mb-2">Career Development</h2>
-                <p className="text-xl text-center">{aboutMeFields.careerDevelopment}</p>
+                <h2 className="text-2xl md:text-4xl text-center font-bold mb-2">Career Development</h2>
+                <p className="text-xl md:text-3xl text-center">{aboutMeFields.careerDevelopment}</p>
               </div>
             )}
           </div>
