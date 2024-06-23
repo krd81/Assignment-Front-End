@@ -115,7 +115,7 @@ const ApplyNow = () => {
         <>
         {/* <form onSubmit={handleSubmit}> */}
           <div className="">
-            <div className="bg-blue-50 border border-gray-300 mx-6 my-6 md:my-12 lg:my-24 p-6 md:px-24 lg:p-16 xl:mx-32 max-w-full">
+            <div className="bg-blue-50 border border-gray-300 mx-6 my-6 md:my-12  p-6 md:px-24 lg:px-32 xl:mx-32 max-w-full">
               {/* Listing header */}
               <div className="flex justify-center pt-4 lg:pt-10 lg:pb-4">
                 <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold">{currentListing.title}</h1>
@@ -124,19 +124,19 @@ const ApplyNow = () => {
               <div className="flex justify-center">
                 <h2 className="text-2xl md:text-4xl lg:text-4xl">{currentListing.department}</h2>
               </div>
-              <div className="flex flex-col sm:flex-col md:flex-col lg:flex-row">
+              <div className="flex flex-col sm:flex-col md:flex-col">
                 {/* User's info */}
-                <div className="top-level-info mx-2 sm:mx-4 md:mx-4 lg:mx-4 my-2 md:my-4 lg:my-4">
+                <div className="top-level-info mx-2 sm:mx-4 md:mx-4 lg:mx-4 my-2 md:my-4 lg:my-2">
                   <h4 className="info-title text-lg md:text-3xl lg:text-3xl flex justify-start pt-2">
                   {`Name: ${currentUser.firstName} ${currentUser.lastName}`}
                   </h4>
                 </div>
-                <div className="top-level-info mx-2 sm:mx-4 md:mx-4 lg:mx-4 my-2 md:my-4 lg:my-4">
+                <div className="top-level-info mx-2 sm:mx-4 md:mx-4 lg:mx-4 my-2 md:my-4 lg:my-2">
                   <h4 className="info-title text-lg md:text-3xl lg:text-3xl flex justify-start pt-2">
                   {`Current Role: ${currentUser.role}`}
                   </h4>
                 </div>
-                <div className="top-level-info mx-2 sm:mx-4 md:mx-4 lg:mx-4 my-2 md:my-4 lg:my-4">
+                <div className="top-level-info mx-2 sm:mx-4 md:mx-4 lg:mx-4 my-2 md:my-4 lg:my-2">
                   <h4 className="info-title text-lg md:text-3xl lg:text-3xl flex justify-start pt-2">
                   {`Current Department: ${currentUser.department}`}
                   </h4>
@@ -149,7 +149,8 @@ const ApplyNow = () => {
                     <p className="text-lg md:text-2xl">Thank you for your interest in the role of {currentListing.title} in the {currentListing.department} department. <br/>
                     Please use the space below to write a brief statement explaining your suitability for the role. This will be sent to the hiring manager.<br/>
                     Best of luck!</p>
-                <div className="w-full  lg:w-3/4 xl:w-1/2 border-t-2 border-dotted mb-6">
+                    <div className="lg:flex lg:justify-center">
+                <div className="w-full lg:w-3/4 border-t-2 border-dotted mb-6 ">
                     <br />
                     <textarea
                         name="description"
@@ -158,7 +159,8 @@ const ApplyNow = () => {
                     </textarea>
                     <label htmlFor="job-desc-input" className="font-normal leading-tight text-blue-gray-400 md:text-2xl"> 300 word limit</label>
                 </div>
-                <div>
+                </div>
+                <div className="lg:flex lg:justify-center">
                     <label htmlFor="manager-approval" className="inline-flex items-baseline">
                       <input type="checkbox" id="manager-approval" />
                       <span className="ml-3 text-lg md:text-2xl">I have my line manager&#39;s consent to apply</span>
