@@ -14,6 +14,7 @@ export const AppContextProvider = ({ children }) => {
     const fetchData = async () => {
       try {
         const userRes = await fetch('https://assignment-back-end.onrender.com/users/', {
+        // const userRes = await fetch('http://localhost:8002/users/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -24,6 +25,7 @@ export const AppContextProvider = ({ children }) => {
         setUsers(usersData);
 
         const listingsRes = await fetch('https://assignment-back-end.onrender.com/listings/', {
+        // const listingsRes = await fetch('http://localhost:8002/listings/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
