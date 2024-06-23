@@ -2,6 +2,7 @@
 
 ## Table Of Contents:
 
+- [Talent Forge URL](#talent-forge)
 - [Access to Talent Forge App](#login-credentials)
 - [Website Description](#r1---website-description)
 - [Dataflow Diagram](#r2---dataflow-diagram)
@@ -11,6 +12,9 @@
 - [Kanban Screenshots](#r6---kanban-screenshots)
 - [Revised Changes](#revised-changes)
 - [Bibliography](#bibliography)
+
+### Talent Forge
+Deployed site: https://talent-force-2.netlify.app
 
 ### Login Credentials
 From the login page login as one of the registered users:
