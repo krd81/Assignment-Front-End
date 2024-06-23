@@ -233,13 +233,11 @@ const Profile = () => {
     <>
     {/* <form onSubmit={updateProfile}> */}
       {/* Div encapsulating/creating grid effect */}
-      <div className="bg-blue-50 items-center justify-center mx-6 my-6 md:my-12 p-6 md:p-10 lg:p-16 xl:mx-40 px-5 lg:grid lg:grid-cols-3 lg:gap-4">
+      <div className="bg-blue-50 items-center justify-center mx-6 my-6 md:my-12 p-6 md:p-10 lg:p-16 xl:mx-40 px-5 ">
         {/* Div for first grid row */}
-        <div className="flex justify-center items-center flex-col lg:flex-col lg:space-x-4 max-w-6xl mx-auto px-5">
-          {/* First Column: Profile Image, Role, & Department */}
           <div
             className="flex flex-col sm:items-center sm:justify-center items-center max-w-lg mx-auto px-5
-        md:flex md:items-center md:space-x-4 md:max-w-xl md:mx-auto md:px-5 lg:max-w-xl lg:mx-0 lg:px-5 "
+            md:flex md:items-center md:space-x-4 md:max-w-xl md:mx-auto md:px-5 lg:max-w-full lg:mx-0 lg:px-5 "
           >
 
             <div className="flex flex-col md:items-center md:justify-center flex-1">
@@ -292,7 +290,7 @@ const Profile = () => {
             <div className="flex flex-col md:items-center md:justify-center flex-1">
               {/* Edit Department */}
               {(isEditMode && currentUser.admin) ? (
-                 <div className="flex items-center  w-full">
+                <div className="flex items-center  w-full">
                   <div className="mr-2">Department: </div>
                   <input
                     type="text"
@@ -304,13 +302,15 @@ const Profile = () => {
                   />
                 </div>
               ) : (
-                <p className="text-xl md:text-3xl">Department: {profileFields.department}</p>
+                <p className="text-xl md:text-3xl pt-4">Department: {profileFields.department}</p>
               )}
             </div>
           </div>
 
-
+          {/* First Column*/}
           {/* Profile Description (About Me) */}
+          <div className="lg:grid lg:grid-cols-3 lg:gap-4">
+        <div className="flex justify-center lg:justify-start items-baseline flex-col lg:flex-col lg:space-x-4 max-w-6xl mx-auto px-5 lg:mt-10">
 
           {(isEditMode && currentUser === profileUser) ? (
             <div className="flex flex-col items-center justify-center w-full mx-auto mt-10 px-5 lg:mb-10">
@@ -328,8 +328,8 @@ const Profile = () => {
             </div>
           ) : (
             <div className="flex flex-col justify-center items-center max-w-lg mx-auto mt-10 px-5 lg:mb-10">
-              <h2 className="text-2xl md:text-4xl text-center font-bold mb-2">About Me</h2>
-              <p className="text-xl md:text-3xl">{aboutMeFields.text}</p>
+              <h2 className="text-2xl md:text-4xl text-center font-bold mb-8">About Me</h2>
+              <p className="text-xl md:text-3xl lg:text-2xl px-4 md:px-12 lg:px-4 lg:pt-10">{aboutMeFields.text}</p>
             </div>
           )}
           {/* END OF FIRST COLUMN DIV */}
@@ -339,10 +339,10 @@ const Profile = () => {
         <hr className="border-b border-gray-900 my-10 w-2/3 mx-auto max-w-md lg:hidden" />
 
         {/* Div for second grid row */}
-        <div className="flex flex-col justify-center items-center lg:flex-col lg:space-x-4 max-w-6xl mx-auto mt-10 mb-10 px-5 ">
+        <div className="flex flex-col justify-center items-center lg:flex-col lg:space-x-4 max-w-6xl mx-auto mt-10 md:mb-10 px-5 ">
           {/* Checkboxes (Radio Buttons) */}
           <div
-            className={`flex ${isEditMode ? "flex-col" : ""} ${isEditMode ? "w-full" : "max-w-lg"} mx-auto mt-10 ${
+            className={`flex flex-col  ${isEditMode ? "w-full" : "max-w-lg"} mx-auto md:mt-10 ${
               isEditMode ? "" : "px-5"
             }`}
           >
@@ -400,13 +400,32 @@ const Profile = () => {
                 {profileUser.aboutMe.skills.map((index, skill) => showUserSkills(index, skill))}
               </div>
             )}
+
           </div>
+
           {/* Divider */}
           <hr className="border-b border-gray-900 my-10 w-2/3 mx-auto max-w-md lg:hidden" />
 
+
+          {/* END OF SECOND COLUMN DIV */}
+        </div>
+        {/* Div for third grid row */}
+          {/* List of Applications Can applications be rendered using opportunities.jsx ?
+          <div className="space-y-4 justify-center items-center max-w-lg mx-auto mt-10 px-5 ">
+            {Object.entries(applications).map(([key, value]) => (
+              <div key={key} className="bg-washed-blue text-white p-4 rounded-lg shadow-md border border-gray-300">
+                <a className="text-lg font-semibold" href="">
+                  {value.jobName}
+                </a>
+                <p className="text-sm">Salary: ${value.jobSalary}</p>
+                <p className="text-sm">{value.jobDescription}</p>
+              </div>
+            ))}
+          </div> */}
           {/* Career Development Description */}
+          <div className="flex flex-col  lg:flex-col lg:space-x-4 lg:justify-start max-w-6xl mx-auto md:mt-10 mb-10 px-5 ">
           <div
-            className={`flex ${isEditMode ? "flex-col" : ""} ${isEditMode ? "w-full" : "max-w-lg"} mx-auto mt-10 ${
+            className={`flex ${isEditMode ? "flex-col" : ""} ${isEditMode ? "w-full" : "max-w-lg"} mx-auto md:mt-10 ${
               isEditMode ? "px-5" : ""
             } justify-center items-center`}
           >
@@ -427,35 +446,26 @@ const Profile = () => {
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center">
-                <h2 className="text-2xl md:text-4xl text-center font-bold mb-2">Career Development</h2>
-                <p className="text-xl md:text-3xl text-center">{aboutMeFields.careerDevelopment}</p>
+                <h2 className="text-2xl md:text-4xl text-center font-bold mb-4">Career Development</h2>
+                <p className="text-xl md:text-3xl lg:text-2xl px-4 md:px-12 lg:px-4 lg:pt-6">{aboutMeFields.careerDevelopment}</p>
               </div>
             )}
           </div>
-          {/* END OF SECOND COLUMN DIV */}
-        </div>
-        {/* Div for third grid row */}
-        <div className="flex flex-col lg:flex-col lg:space-x-4 max-w-6xl mx-auto mt-10 mb-10 px-5 ">
-          {/* List of Applications Can applications be rendered using opportunities.jsx ?
-          <div className="space-y-4 justify-center items-center max-w-lg mx-auto mt-10 px-5 ">
-            {Object.entries(applications).map(([key, value]) => (
-              <div key={key} className="bg-washed-blue text-white p-4 rounded-lg shadow-md border border-gray-300">
-                <a className="text-lg font-semibold" href="">
-                  {value.jobName}
-                </a>
-                <p className="text-sm">Salary: ${value.jobSalary}</p>
-                <p className="text-sm">{value.jobDescription}</p>
-              </div>
-            ))}
-          </div> */}
-
-          {/* Edit Button */}
-          <EditButtonRender Auth={Auth(profileUser._id, currentUser)}/>
           {/* END OF THIRD COLUMN DIV */}
         </div>
         {/* End of div encapsulating/creating grid effect */}
       </div>
       {/* </form> */}
+      <div
+            className="flex flex-col sm:items-center sm:justify-center items-center max-w-lg mx-auto px-5
+            md:flex md:items-center md:space-x-4 md:max-w-xl md:mx-auto md:px-5 lg:max-w-full lg:mx-0 lg:px-5 "
+          >
+          {/* Edit Button */}
+          <div className="flex flex-col justify-end">
+              <EditButtonRender Auth={Auth(profileUser._id, currentUser)}/>
+            </div>
+      </div>
+      </div>
     </>
   )
 }
