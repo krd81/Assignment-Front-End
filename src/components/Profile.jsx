@@ -55,7 +55,7 @@ const Profile = () => {
       return (
         <button onClick={() => updateUserSkills(skill)}
           key={index}
-          className="p-2 m-2 md:m-3 w-36 md:w-56 border rounded-lg text-xs md:text-2xl border-gray-800 bg-green-300 text-black"
+          className="p-2 m-2 md:m-3 w-36 md:w-56 border rounded-lg text-xs md:text-2xl lg:text-lg border-gray-800 bg-green-300 text-black"
         >
           {skill}
         </button>
@@ -136,7 +136,7 @@ const Profile = () => {
               <button
                 type="submit"
                 onClick={() => setShowPasswordModal(true)}
-                className="bg-washed-blue text-white text-lg md:text-2xl lg:text-3xl py-2 md:py-3 lg:py-4 px-4 rounded-lg shadow-md m-1 w-56 hover:bg-dark-blue"
+                className="bg-washed-blue text-white text-lg md:text-2xl lg:text-lg py-2 md:py-3 lg:py-4 px-4 rounded-lg shadow-md m-1 w-56 hover:bg-dark-blue"
               >
                 {"Change Password"}
               </button>
@@ -149,14 +149,14 @@ const Profile = () => {
               <button
                 type="submit"
                 onClick={(e) => updateProfile(e)}
-                className="bg-washed-blue text-white text-lg md:text-2xl lg:text-3xl py-2 md:py-3 lg:py-4 px-4 rounded-lg shadow-md m-2 md:m-4 w-56 hover:bg-dark-blue"
+                className="bg-washed-blue text-white text-lg md:text-2xl lg:text-lg py-2 md:py-3 lg:py-4 px-4 rounded-lg shadow-md m-2 md:m-4 w-56 hover:bg-dark-blue"
               >
                 {"Save Changes"}
               </button>
               <button
               type="submit"
               onClick={() => handleCancel()}
-              className="bg-red-600 hover:bg-white text-white text-lg md:text-2xl lg:text-3xl hover:text-red-600 m-1 py-2 md:py-3 lg:py-4 px-5 md:px-6 lg:px-8 w-56 border border-blue-500 hover:border-red-600 rounded-lg"
+              className="bg-red-600 hover:bg-white text-white text-lg md:text-2xl lg:text-lg hover:text-red-600 m-1 py-2 md:py-3 lg:py-4 px-5 md:px-6 lg:px-8 w-56 border border-blue-500 hover:border-red-600 rounded-lg"
             >
               {"Cancel"}
             </button>
@@ -165,7 +165,7 @@ const Profile = () => {
               <button
                 type="submit"
                 onClick={() => setIsEditMode(true)}
-                className="bg-washed-blue text-white p-4 rounded-lg shadow-md hover:bg-dark-blue"
+                className="bg-washed-blue text-white text-lg md:text-2xl lg:text-lg p-4 lg:mt-6 rounded-lg shadow-md hover:bg-dark-blue"
               >
               {"Edit Profile"}
               </button>
@@ -233,16 +233,16 @@ const Profile = () => {
     <>
     {/* <form onSubmit={updateProfile}> */}
       {/* Div encapsulating/creating grid effect */}
-      <div className="bg-blue-50 items-center justify-center mx-6 my-6 md:my-12 p-6 md:p-10 lg:p-16 xl:mx-40 px-5 ">
+      <div className="bg-blue-50 items-center justify-center mx-6 my-6 md:my-12 p-6 md:p-10 lg:mx-20 px-5 ">
         {/* Div for first grid row */}
           <div
             className="flex flex-col sm:items-center sm:justify-center items-center max-w-lg mx-auto px-5
-            md:flex md:items-center md:space-x-4 md:max-w-xl md:mx-auto md:px-5 lg:max-w-full lg:mx-0 lg:px-5 "
+            md:flex md:items-center md:space-x-4 md:max-w-xl md:mx-auto md:px-5 lg:max-w-full lg:mx-0 lg:px-5 lg:mb-16"
           >
 
             {/* User's name / role */}
             <div className="flex flex-col md:items-center md:justify-center flex-1">
-                <h2 className="text-2xl md:text-4xl text-center font-bold mb-2">
+                <h2 className="text-2xl md:text-4xl text-center font-bold mb-2 lg:mt-4">
                   {`${profileFields.firstName} ${profileFields.lastName}`}
                 </h2>
                 <h3 className="text-xl md:text-3xl font-semibold mb-3">{profileFields.role}</h3>
@@ -262,11 +262,11 @@ const Profile = () => {
           {/* First Column*/}
           {/* Profile Description (About Me) */}
           <div className="lg:grid lg:grid-cols-3 lg:gap-4">
-        <div className="flex justify-center lg:justify-start items-baseline flex-col lg:flex-col lg:space-x-4 max-w-6xl mx-auto px-5 lg:mt-10">
+        <div className="flex justify-center lg:justify-start items-baseline flex-col lg:flex-col lg:space-x-4 max-w-6xl mx-auto px-5">
 
           {(isEditMode && currentUser === profileUser) ? (
-            <div className="flex flex-col items-center justify-center w-full mx-auto mt-10 px-5 lg:mb-10">
-            <label htmlFor="aboutMe" className="text-center mb-3 font-bold text-xl md:text-3xl">
+            <div className="flex flex-col items-center justify-center w-full mx-auto mt-10 lg:mt-0 px-5 lg:mb-10">
+            <label htmlFor="aboutMe" className="text-center mb-3 lg:mb-10 font-bold text-xl md:text-3xl">
                 About Me:
               </label>
               <textarea
@@ -275,13 +275,13 @@ const Profile = () => {
                 placeholder="(220 character max)"
                 value={aboutMeFields.text}
                 onInput={(e) => handleAboutMeChange(e, "text")}
-                className="p-textarea-left text-input-class md:text-2xl w-full md:w-3/4 h-56 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="p-textarea-left text-input-class md:text-2xl lg:text-lg w-full md:w-3/4 lg:w-full h-56 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>
           ) : (
             <div className="flex flex-col justify-center items-center max-w-lg mx-auto mt-10 px-5 lg:mb-10">
               <h2 className="text-2xl md:text-4xl text-center font-bold mb-8">About Me</h2>
-              <p className="text-xl md:text-3xl lg:text-2xl px-4 md:px-12 lg:px-4 lg:pt-10">{aboutMeFields.text}</p>
+              <p className="text-xl md:text-3xl lg:text-2xl px-4 md:px-12 lg:px-4">{aboutMeFields.text}</p>
             </div>
           )}
           {/* END OF FIRST COLUMN DIV */}
@@ -299,10 +299,10 @@ const Profile = () => {
           >
             {(isEditMode && currentUser === profileUser) ? (
               <div className="flex flex-col justify-center items-center w-full mx-auto">
-                <h2 className="text-center mb-3 font-bold text-xl md:text-3xl">
+                <h2 className="text-center mb-3 lg:mb-10 font-bold text-xl md:text-3xl">
                 Skills & Experience:
                 </h2>
-                  <p className="text-gray-500 text-lg md:text-3xl italic px-6 md:px-20 pb-5 md:pb-10">
+                  <p className="text-gray-500 text-lg md:text-3xl lg:text-xl italic px-6 md:px-20 lg:px-5 pb-5 md:pb-10">
                     Click the skills below to toggle on/off. Use the + button to add custom skills to your profile.
                   </p>
 
@@ -315,7 +315,7 @@ const Profile = () => {
                     return (
                       <button onClick={() => updateUserSkills(skill)}
                       key={index}
-                      className="p-2 m-2 md:m-3 w-36 md:w-56 border rounded-lg text-xs md:text-2xl border-gray-800 bg-dark-green text-white"
+                      className="p-2 m-2 md:m-3 w-36 md:w-56 border rounded-lg text-xs md:text-2xl lg:text-lg border-gray-800 bg-dark-green text-white"
                       >
                       {skill}
                       </button>
@@ -325,7 +325,7 @@ const Profile = () => {
                 <button
                   onClick={() => setShowTextInput(true)}
                   data-testid="add-skill-button"
-                  className="bg-dark-green text-white shadow shadow-gray-300 px-4 py-2 mt-5 md:mt-8 mb-4 text-xs md:text-2xl rounded-md self-center"
+                  className="bg-dark-green text-white shadow shadow-gray-300 px-4 py-2 mt-5 md:mt-8 mb-4 text-xs md:text-2xl lg:text-lg rounded-md self-center"
                 >
                   +
                 </button>
@@ -337,17 +337,14 @@ const Profile = () => {
                         name="newSkill"
                         maxLength="15"
                         placeholder="(15 character max)"
-                        // value={newSkill}
-                        // onInput={(e) => setNewSkill(e.target.value)}
-                        className="p-textarea-left border rounded-md w-5/6 mb-4 md:py-3 self-center text-xs md:text-2xl"
+                        className="p-textarea-left border rounded-md w-5/6 lg:w-full mb-4 md:py-3 self-center text-xs md:text-2xl lg:text-lg"
                         />
-                      <button type="submit" className="bg-dark-green text-white shadow shadow-gray-300 text-xs md:text-2xl px-4 py-2 rounded-md mt-2 self-center">
+                      <button type="submit" className="bg-dark-green text-white shadow shadow-gray-300 text-xs md:text-2xl lg:text-lg px-4 py-2 rounded-md mt-2 self-center">
                         Add Skill
                       </button>
                     </form>
                   </>
                 )}
-              {/* </div> */}
             </div>
             ) : (
               // Displays skills on main profile page (userSkills state has not yet been set on first rendering profile)
@@ -397,13 +394,13 @@ const Profile = () => {
                   placeholder="(220 character max)"
                   value={aboutMeFields.careerDevelopment}
                   onInput={(e) => handleAboutMeChange(e, "careerDevelopment")}
-                  className="p-textarea-left text-input-class md:text-2xl w-full md:w-3/4 h-56 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" // Tailwind classes to adjust width and height
+                  className="p-textarea-left text-input-class md:text-2xl lg:text-lg w-full md:w-3/4 lg:w-full h-56 block rounded-md border-2 border-black shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" // Tailwind classes to adjust width and height
                 />
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center">
-                <h2 className="text-2xl md:text-4xl text-center font-bold mb-4">Career Development</h2>
-                <p className="text-xl md:text-3xl lg:text-2xl px-4 md:px-12 lg:px-4 lg:pt-6">{aboutMeFields.careerDevelopment}</p>
+                <h2 className="text-2xl md:text-4xl text-center font-bold mb-8">Career Development</h2>
+                <p className="text-xl md:text-3xl lg:text-2xl px-4 md:px-12 lg:px-4">{aboutMeFields.careerDevelopment}</p>
               </div>
             )}
           </div>
