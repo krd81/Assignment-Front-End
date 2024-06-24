@@ -13,8 +13,8 @@ export const AppContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userRes = await fetch('https://assignment-back-end.onrender.com/users/', {
-        // const userRes = await fetch('http://localhost:8002/users/', {
+        // const userRes = await fetch('https://assignment-back-end.onrender.com/users/', {
+        const userRes = await fetch('http://localhost:8002/users/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -24,8 +24,8 @@ export const AppContextProvider = ({ children }) => {
         const usersData = await userRes.json();
         setUsers(usersData);
 
-        const listingsRes = await fetch('https://assignment-back-end.onrender.com/listings/', {
-        // const listingsRes = await fetch('http://localhost:8002/listings/', {
+        // const listingsRes = await fetch('https://assignment-back-end.onrender.com/listings/', {
+        const listingsRes = await fetch('http://localhost:8002/listings/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
