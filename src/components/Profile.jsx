@@ -136,7 +136,7 @@ const Profile = () => {
               <button
                 type="submit"
                 onClick={() => setShowPasswordModal(true)}
-                className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md m-1 w-56 hover:bg-dark-blue"
+                className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg py-2 px-4 rounded-lg shadow-md m-1 w-56 hover:bg-dark-blue"
               >
                 {"Change Password"}
               </button>
@@ -149,7 +149,7 @@ const Profile = () => {
               <button
                 type="submit"
                 onClick={(e) => updateProfile(e)}
-                className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg p-4 rounded-lg shadow-md m-1 w-56 hover:bg-dark-blue"
+                className="bg-washed-blue text-white text-lg md:text-xl lg:text-lg py-2 px-4 rounded-lg shadow-md m-1 w-56 hover:bg-dark-blue"
               >
                 {"Save Changes"}
               </button>
@@ -240,71 +240,23 @@ const Profile = () => {
             md:flex md:items-center md:space-x-4 md:max-w-xl md:mx-auto md:px-5 lg:max-w-full lg:mx-0 lg:px-5 "
           >
 
+            {/* User's name / role */}
             <div className="flex flex-col md:items-center md:justify-center flex-1">
-              {/* Edit Name */}
-              {(isEditMode && currentUser.admin) ? (
-                <div className="flex justify-center items-center mb-4 w-full">
-                  <div className="mr-2">Name:</div>
-                  <input
-                    maxLength="30"
-                    type="text"
-                    value={`${profileFields.firstName}`}
-                    onInput={(e) => handleInputChange(e, "firstName")}
-                    className="p-textarea-left text-input-class border border-gray-300 w-full"
-                  />
-                  <input
-                    maxLength="30"
-                    type="text"
-                    value={`${profileFields.lastName}`}
-                    onInput={(e) => handleInputChange(e, "lastName")}
-                    className="p-textarea-left text-input-class border border-gray-300 w-full"
-                  />
-                </div>
-              ) : (
                 <h2 className="text-2xl md:text-4xl text-center font-bold mb-2">
                   {`${profileFields.firstName} ${profileFields.lastName}`}
                 </h2>
-              )}
-              {/* Edit Role */}
-              {(isEditMode && currentUser.admin) ? (
-                <div className="flex items-center mb-4">
-                  <div className="mr-2">Role:</div>
-                  <input
-                    type="text"
-                    maxLength="20"
-                    placeholder="(20 character max)"
-                    value={profileFields.role}
-                    onInput={(e) => handleInputChange(e, "role")}
-                    className="p-textarea-left text-input-class flex-1 border border-gray-300"
-                  />
-                </div>
-              ) : (
                 <p className="text-xl md:text-3xl font-semibold mb-3">{profileFields.role}</p>
-              )}
             </div>
-
-              <div className="border-2 border-gray-800">
-            <img src={profileFields?.imageRef} alt="Profile Photo" />
-            </div>
-
+            {/* Department */}
             <div className="flex flex-col md:items-center md:justify-center flex-1">
-              {/* Edit Department */}
-              {(isEditMode && currentUser.admin) ? (
-                <div className="flex items-center  w-full">
-                  <div className="mr-2">Department: </div>
-                  <input
-                    type="text"
-                    maxLength="25"
-                    placeholder="(25 character max)"
-                    value={profileFields.department}
-                    onInput={(e) => handleInputChange(e, "department")}
-                    className="p-textarea-left text-input-class border border-gray-300"
-                  />
-                </div>
-              ) : (
-                <p className="text-xl md:text-3xl pt-4">Department: {profileFields.department}</p>
-              )}
+                <p className="text-xl md:text-3xl pb-4">{profileFields.department}</p>
             </div>
+
+            {/* Profile Picture */}
+            <div className="border-2 border-gray-800">
+              <img src={profileFields?.imageRef} alt="Profile Photo" />
+            </div>
+
           </div>
 
           {/* First Column*/}
@@ -314,7 +266,7 @@ const Profile = () => {
 
           {(isEditMode && currentUser === profileUser) ? (
             <div className="flex flex-col items-center justify-center w-full mx-auto mt-10 px-5 lg:mb-10">
-            <label htmlFor="aboutMe" className="text-center mb-3 text-bold text-xl">
+            <label htmlFor="aboutMe" className="text-center mb-3 font-bold text-xl">
                 About Me:
               </label>
               <textarea
@@ -339,15 +291,21 @@ const Profile = () => {
         <hr className="border-b border-gray-900 my-10 w-2/3 mx-auto max-w-md lg:hidden" />
 
         {/* Div for second grid row */}
-        <div className="flex flex-col justify-center items-center lg:flex-col lg:space-x-4 max-w-6xl mx-auto mt-10 md:mb-10 px-5 ">
+        <div className="flex flex-col justify-center items-center lg:flex-col lg:space-x-4 max-w-6xl mx-auto md:mb-10 px-5 ">
           {/* Checkboxes (Radio Buttons) */}
           <div
             className={`flex flex-col  ${isEditMode ? "w-full" : "max-w-lg"} mx-auto md:mt-10 ${
-              isEditMode ? "" : "px-5"
-            }`}
+              isEditMode ? "" : "px-5"}`}
           >
             {(isEditMode && currentUser === profileUser) ? (
-              <div className="flex flex-col justify-center items-center w-full mx-auto mt-10 ">
+              <div className="flex flex-col justify-center items-center w-full mx-auto md:mt-10 ">
+                <h2 className="text-center mb-3 font-bold text-xl">
+                Skills & Experience:
+                </h2>
+                  <p className="text-gray-500 text-lg italic px-6 pb-5">
+                    Click the skills below to toggle on/off. Use the + button to add custom skills to your profile.
+                  </p>
+
                 {/* Show user skills first (in green) */}
                 {aboutMeFields.skills.map((skill, index) => showUserSkills(skill, index))}
                 {/* Show any remaining default skills (in blue)*/}
@@ -364,18 +322,16 @@ const Profile = () => {
                     )
                   }
                 })}
-              <div className="flex justify-center items-center max-w-lg mx-auto mt-10 px-5 flex-col"> {/* Added flex class */}
                 <button
                   onClick={() => setShowTextInput(true)}
                   data-testid="add-skill-button"
-                  className="bg-dark-green text-white shadow shadow-gray-300 px-4 py-2 rounded-md mt-2 self-center"
-
+                  className="bg-dark-green text-white shadow shadow-gray-300 px-4 py-2 mt-5 mb-4  rounded-md self-center"
                 >
                   +
                 </button>
                 {showTextInput && (
                   <>
-                    <form onSubmit={handleAddUserSkill}>
+                    <form className="flex flex-col justify-center" onSubmit={handleAddUserSkill}>
                       <input
                         type="text"
                         name="newSkill"
@@ -383,7 +339,7 @@ const Profile = () => {
                         placeholder="(15 character max)"
                         // value={newSkill}
                         // onInput={(e) => setNewSkill(e.target.value)}
-                        className="p-textarea-left border rounded-md w-full"
+                        className="p-textarea-left border rounded-md w-4/5 mb-4 self-center"
                         />
                       <button type="submit" className="bg-dark-green text-white shadow shadow-gray-300 px-4 py-2 rounded-md mt-2 self-center">
                         Add Skill
@@ -391,7 +347,7 @@ const Profile = () => {
                     </form>
                   </>
                 )}
-              </div>
+              {/* </div> */}
             </div>
             ) : (
               // Displays skills on main profile page (userSkills state has not yet been set on first rendering profile)
@@ -423,14 +379,14 @@ const Profile = () => {
             ))}
           </div> */}
           {/* Career Development Description */}
-          <div className="flex flex-col  lg:flex-col lg:space-x-4 lg:justify-start max-w-6xl mx-auto md:mt-10 mb-10 px-5 ">
+          <div className="flex flex-col lg:flex-col lg:space-x-4 lg:justify-start max-w-6xl mx-auto md:mt-10 mb-10 px-5 ">
           <div
             className={`flex ${isEditMode ? "flex-col" : ""} ${isEditMode ? "w-full" : "max-w-lg"} mx-auto md:mt-10 ${
               isEditMode ? "px-5" : ""
             } justify-center items-center`}
           >
             {(isEditMode && currentUser === profileUser) ? (
-              <div className="w-full mx-auto mt-10 px-5 flex flex-col items-center">
+              <div className="w-full mx-auto mt-2 px-5 flex flex-col items-center">
                 {/* Added items-center class */}
                 <label htmlFor="aboutMe" className="text-center mb-3 text-xl font-bold">
                   Career Development:
