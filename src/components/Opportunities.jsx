@@ -14,19 +14,21 @@ import dateFormat from "../misc/dateFormat"
 // DONE - Don't show expired listings
 
 const JobListing = () => {
-  const { loggedInUser, allListings, listing } = useContext(AppContext)
-  const [currentUser, setCurrentUser] = loggedInUser
-  const [ listings ] = allListings
-  const [ currentListing, setCurrentListing ] = listing
+  const { loggedInUser, allListings, listing } = useContext(AppContext);
+  const [currentUser, setCurrentUser] = loggedInUser;
+  const [listings, setListings] = allListings;
+  const [currentListing, setCurrentListing] = listing;
 
-  const nav = useNavigate()
+  const nav = useNavigate();
 
-  const [selectedDepartment, setSelectedDepartment] = useState("All")
-  const [searchQuery, setSearchQuery] = useState("")
-  const [filteredListings, setFilteredListings] = useState([...listings])
-  const [favourites, setFavourites] = useState(null); // Needs to be null so that the user's favourites aren't over-written with empty array on mount
+  const [selectedDepartment, setSelectedDepartment] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredListings, setFilteredListings] = useState([]);
+  const [favourites, setFavourites] = useState(null);
   const [filterOption, setFilterOption] = useState("none");
   const [noListingsFound, setNoListingsFound] = useState(false);
+  const [loading, setLoading] = useState(true);
+
 
   console.log(currentUser)
   console.log(favourites)
@@ -50,30 +52,44 @@ const JobListing = () => {
     }
   }, []);
 
+useEffect(() => {
+    if (listings.length > 0) {
+      setFilteredListings([...listings]);
+      setLoading(false);
+    }
+  }, [listings]);
+
+  useEffect(() => {
+    if (currentUser && currentUser.listingsFavourites) {
+      setFavourites([...currentUser.listingsFavourites]);
+    }
+  }, [currentUser]);
+
 
 
   // Effect to update filtered listings when searchQuery or selectedDepartment changes
   // Also controls filterOption (i.e. radio buttons for new, favourites, applied)
   useEffect(() => {
-    let newFilteredListings = [...listings]
+    if (loading) return;
+    let newFilteredListings = [...listings];
 
     if (selectedDepartment !== "All") {
-      newFilteredListings = newFilteredListings.filter(listing => listing.department === selectedDepartment)
+      newFilteredListings = newFilteredListings.filter(listing => listing.department === selectedDepartment);
     }
 
     if (searchQuery.trim() !== "") {
       const fuseOptions = {
-        keys: ["title", "department"], // Search in 'title' and 'department' fields
+        keys: ["title", "department"],
         includeScore: true,
-      }
-      const fuse = new Fuse(newFilteredListings, fuseOptions)
-      const searchResult = fuse.search(searchQuery.trim())
-      newFilteredListings = searchResult.map((result) => result.item)
+      };
+      const fuse = new Fuse(newFilteredListings, fuseOptions);
+      const searchResult = fuse.search(searchQuery.trim());
+      newFilteredListings = searchResult.map((result) => result.item);
     }
 
     switch (filterOption) {
       case "new":
-        newFilteredListings = newFilteredListings.filter(listing => newListing(listing) === true);
+        newFilteredListings = newFilteredListings.filter(listing => newListing(listing));
         break;
       case "favourites":
         if (currentUser && currentUser.listingsFavourites) {
@@ -90,16 +106,14 @@ const JobListing = () => {
         break;
     }
 
-    setFilteredListings(newFilteredListings)
+    setFilteredListings(newFilteredListings);
 
-    if (newFilteredListings.length === 0) {
-      setNoListingsFound(true);
-    } else {
-      setNoListingsFound(false);
-    }
+    setNoListingsFound(newFilteredListings.length === 0);
+  }, [searchQuery, selectedDepartment, listings, currentUser, filterOption, loading]);
 
-  }, [searchQuery, selectedDepartment, listings, currentUser, filterOption, newListing])
-
+  const newListing = useCallback((listing) => {
+    return listingTimeline(listing).sincePosted < 7;
+  }, []);
   //useEffect hook allows the favourites state to be updated once the current user object becomes available
   useEffect(() => {
     if (currentUser && currentUser.listingsFavourites) {
@@ -257,6 +271,9 @@ const JobListing = () => {
 
   return (
     <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-8 lg:p-16 xl:mx-32">
+        {loading ? (
+        <div className="text-3xl text-gray-700 font-semibold mt-8 md:my-4 mb-4">Loading...</div>
+      ) : (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-3 flex items-center justify-center">
           <h2 className="text-3xl font-semibold mt-8 md:my-4 mb-4">Internal Opportunities</h2>
@@ -413,6 +430,7 @@ const JobListing = () => {
           </div>
         </div>
       </div>
+      )}
     </div>
   )
 }
