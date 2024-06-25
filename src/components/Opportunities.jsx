@@ -30,6 +30,7 @@ const JobListing = () => {
 
   console.log(currentUser)
   console.log(favourites)
+  console.log(listings)
   // Function to handle department selection
   const handleDepartmentChange = (event) => {
     setSelectedDepartment(event.target.value)
