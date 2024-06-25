@@ -44,14 +44,26 @@ const JobListing = () => {
   }
 
   // Listings that have been posted in the last 7 days are shown with green b/ground & green border
-  const newListing = useCallback((listing) => {
-    if (listingTimeline(listing).sincePosted < 7) {
-      return true
-    } else {
-      return false
-    }
-  }, []);
+  // const newListing = useCallback((listing) => {
+  //   if (listingTimeline(listing).sincePosted < 7) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }, []);
 
+
+  const newListing = useCallback((listing) => {
+    return listingTimeline(listing).sincePosted < 7;
+  }, []);
+  //useEffect hook allows the favourites state to be updated once the current user object becomes available
+  useEffect(() => {
+    if (currentUser && currentUser.listingsFavourites) {
+      setFavourites([...currentUser.listingsFavourites]);
+    }
+  }, [currentUser]);
+
+  
 useEffect(() => {
     if (listings.length > 0) {
       setFilteredListings([...listings]);
@@ -109,17 +121,9 @@ useEffect(() => {
     setFilteredListings(newFilteredListings);
 
     setNoListingsFound(newFilteredListings.length === 0);
-  }, [searchQuery, selectedDepartment, listings, currentUser, filterOption, loading]);
+  }, [searchQuery, newListing, selectedDepartment, listings, currentUser, filterOption, loading]);
 
-  const newListing = useCallback((listing) => {
-    return listingTimeline(listing).sincePosted < 7;
-  }, []);
-  //useEffect hook allows the favourites state to be updated once the current user object becomes available
-  useEffect(() => {
-    if (currentUser && currentUser.listingsFavourites) {
-      setFavourites([...currentUser.listingsFavourites]);
-    }
-  }, [currentUser]);
+
 
 
 
