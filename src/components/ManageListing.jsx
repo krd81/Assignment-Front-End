@@ -152,8 +152,8 @@ const ManageListing = () => {
     }
 
     try {
-      await fetch (`https://assignment-back-end.onrender.com/${listing._id}`, {
-      // await fetch(`http://localhost:8002/listings/${listing._id}`, {
+      // await fetch (`https://assignment-back-end.onrender.com/${listing._id}`, {
+      await fetch(`http://localhost:8002/listings/${listing._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`

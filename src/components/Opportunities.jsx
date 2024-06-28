@@ -63,7 +63,7 @@ const JobListing = () => {
     }
   }, [currentUser]);
 
-  
+
 useEffect(() => {
     if (listings.length > 0) {
       setFilteredListings([...listings]);
@@ -176,8 +176,8 @@ useEffect(() => {
         };
 
       try {
-        await fetch (`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
-        // await fetch (`http://localhost:8002/users/${currentUser._id}`, {
+        // await fetch (`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
+        await fetch (`http://localhost:8002/users/${currentUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
