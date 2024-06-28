@@ -276,7 +276,7 @@ useEffect(() => {
   return (
     <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-8 lg:p-16 xl:mx-32">
         {loading ? (
-        <div className="text-3xl text-gray-700 font-semibold mt-8 md:my-4 mb-4">Loading...</div>
+        <div className="text-3xl text-gray-700 font-semibold mt-8 md:my-4 mb-4"></div>
       ) : (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-3 flex items-center justify-center">
