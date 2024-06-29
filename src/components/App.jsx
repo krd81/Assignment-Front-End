@@ -1,11 +1,11 @@
-import '../assets/css/App.css'
+import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import NavBar from './NavBar' // Import the 'NavBar' component
 import Footer from './Footer' // Import the 'Footer' component
 import Login from './Login' // Import the 'Login' component
 import HomePage from './HomePage' // Import the 'HomePage' component
 import Profile from './Profile' // Import the 'Profile' component
-import Opportunities from './Opportunities' // Import the 'Opportunities' component
+//import JobListing from './Opportunities' // Import the 'Opportunities' component
 import OpportunitiesByCreator from './OpportunitiesByCreator' // Import the 'OpportunitiesByCreator' component
 import UserSearch from './UserSearch' // Import the 'UserSearch' component
 import ViewListing from './ViewListing'
@@ -14,33 +14,47 @@ import UserAssetsList from './UserAssetsList'
 import ManageListing from './ManageListing' // Import the 'NewListing' component
 import ManageUser from './ManageUser' // Import the 'NewUser' component
 import Error from './Error'
+import Loading from './Loading';
 import { AuthProvider } from '../authentication/AuthContext'
 import { AppContextProvider } from '../authentication/AppContext'
+import '../assets/css/App.css'
+const JobListing = lazy(() => import('./Opportunities'));
 
 
 
 const App = () => {
-
   // Layout component from conditional Header render
-const Layout = ({ children }) => {
-  // Assigning current user location to location
-  const location = useLocation()
-  // Conditionally show the NavBar unless on login page
-  const showNavBar = location.pathname !== '/'
+  const Layout = ({ children }) => {
+    // Assigning current user location to location
+    const location = useLocation()
+    // Conditionally show the NavBar unless on login page
+    const showNavBar = location.pathname !== '/'
 
-  return (
-  <>
-  <AppContextProvider>
-      {/* Conditionally render the NavBar unless on login page */}
-      {showNavBar && <NavBar />}
-      {/* Content to render on other pages */}
-      <div className='flex flex-col min-h-screen'>
-      <div className='flex-grow'>{children}</div>
-      </div>
-      </AppContextProvider>
-  </>
-  )
-}
+    return (
+      <>
+        <AppContextProvider>
+          {/* Conditionally render the NavBar unless on login page */}
+          {showNavBar && <NavBar />}
+          {/* Content to render on other pages */}
+          <div className='flex flex-col min-h-screen'>
+            <div className='flex-grow'>{children}</div>
+          </div>
+        </AppContextProvider>
+      </>
+    )
+  }
+
+  const DelayLoad = () => {
+    return (
+      <>
+        <Suspense fallback={<Loading />}>
+          <JobListing />
+        </Suspense>
+      </>
+    )
+  }
+
+
 
 
 return (
@@ -58,7 +72,7 @@ return (
 
                 <Route path='/home' element={<HomePage />} />
                 <Route path='/profile/:id' element={<Profile />} />
-                <Route path='/opportunities' element={<Opportunities />} />
+                <Route path='/opportunities' element={<DelayLoad />} />
                 <Route path='/opportunities/:userId' element={<OpportunitiesByCreator />} />
                 <Route path='/user-search' element={<UserSearch />} />
                 <Route path='/listings/:viewtype?/:id' element={<ViewListing />} />
@@ -68,6 +82,7 @@ return (
                 <Route path='/listing-new' element={<ManageListing />} />
                 <Route path='/user/new' element={<ManageUser />} />
                 <Route path='/user/edit' element={<ManageUser />} />
+                <Route path='/loading' element={<Loading />} />
                 {/* Fallback route for unmatched paths */}
                 <Route path='*' element={<Error />} />
               </Routes>
