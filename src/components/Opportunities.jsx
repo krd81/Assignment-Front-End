@@ -378,9 +378,9 @@ useEffect(() => {
 
                 (listing.listingActive && !removeListing(listing)) && (
                   <>
-                    <div key={index} className={`overflow-hidden shadow-lg rounded-lg select-list-item bg-white border `} >
-
-
+                    <div key={index} className={`overflow-hidden shadow-lg rounded-lg select-list-item 
+                    ${newListing(listing) ? "border-green-600 border-2 bg-green-100" : "bg-white border"}
+                    ${lastChanceListing(listing) ? "border-red-600 border-2" : "bg-white border"}`}>
                       <div className="p-4 " onClick={() => {listingClick(listing)}}>
                         <div className="flex justify-between">
                           <div>
@@ -403,7 +403,7 @@ useEffect(() => {
                             <p className="text-base text-center pl-14">{listing.department}</p>
                           </div>
                           <div className="px-2">
-                            {displayFavouriteIcon(listing)}
+                            {/* {displayFavouriteIcon(listing)} */}
                           </div>
                         </div>
 
@@ -421,8 +421,8 @@ useEffect(() => {
                                 handleApply(listing);
                               }
                             }}
-                            // className={`${expiredListing(listing) ? "bg-gray-300 text-gray-500 cursor-default expired-button" : "bg-dark-blue text-white"}  font-bold py-2 px-4 rounded mb-5`}
-                            className="bg-dark-blue text-white font-bold py-2 px-4 rounded mb-5"
+                            className={`${expiredListing(listing) ? "bg-gray-300 text-gray-500 cursor-default expired-button" : "bg-dark-blue text-white"}  font-bold py-2 px-4 rounded mb-5`}
+                            // className="bg-dark-blue text-white font-bold py-2 px-4 rounded mb-5"
                           >
                               Apply Now
                           </button>
