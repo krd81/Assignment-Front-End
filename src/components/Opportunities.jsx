@@ -136,8 +136,10 @@ useEffect(() => {
 
       // Set iconName based on whether the listing is a favourite or not
       // isFavourite is either defined (as the found listing) or undefined
-      const iconName = isFavourite ? "star" : "star-outline";
-      const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
+      // const iconName = isFavourite ? "star" : "star-outline";
+      const iconName =  "star-outline";
+      // const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
+      const iconColour =  "text-gray-300";
 
       return (
         <>
