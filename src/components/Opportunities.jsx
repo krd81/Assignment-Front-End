@@ -403,7 +403,7 @@ useEffect(() => {
                             <p className="text-base text-center pl-14">{listing.department}</p>
                           </div>
                           <div className="px-2">
-                            {/* {displayFavouriteIcon(listing)} */}
+                            {displayFavouriteIcon(listing)}
                           </div>
                         </div>
 
