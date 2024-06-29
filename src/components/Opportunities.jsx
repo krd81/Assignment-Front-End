@@ -24,7 +24,7 @@ const JobListing = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredListings, setFilteredListings] = useState([]);
-  const [favourites, setFavourites] = useState(null);
+  const [favourites, setFavourites] = useState([]);
   const [filterOption, setFilterOption] = useState("none");
   const [noListingsFound, setNoListingsFound] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -378,7 +378,7 @@ useEffect(() => {
 
                 (listing.listingActive && !removeListing(listing)) && (
                   <>
-                    <div key={index} className={`overflow-hidden shadow-lg rounded-lg select-list-item 
+                    <div key={index} className={`overflow-hidden shadow-lg rounded-lg select-list-item
                     ${newListing(listing) ? "border-green-600 border-2 bg-green-100" : "bg-white border"}
                     ${lastChanceListing(listing) ? "border-red-600 border-2" : "bg-white border"}`}>
                       <div className="p-4 " onClick={() => {listingClick(listing)}}>
@@ -403,7 +403,7 @@ useEffect(() => {
                             <p className="text-base text-center pl-14">{listing.department}</p>
                           </div>
                           <div className="px-2">
-                            {/* {displayFavouriteIcon(listing)} */}
+                            {displayFavouriteIcon(listing)}
                           </div>
                         </div>
 
