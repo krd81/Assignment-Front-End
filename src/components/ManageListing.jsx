@@ -152,8 +152,10 @@ const ManageListing = () => {
     }
 
     try {
+      const apiUrl = import.meta.env.VITE_API_URL;
       // await fetch (`https://assignment-back-end.onrender.com/${listing._id}`, {
-      await fetch(`http://localhost:8002/listings/${listing._id}`, {
+      // await fetch(`http://localhost:8002/listings/${listing._id}`, {
+      await fetch(`${apiUrl}/listings/${listing._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`

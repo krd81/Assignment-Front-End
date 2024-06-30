@@ -13,8 +13,10 @@ export const AppContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const apiUrl = import.meta.env.VITE_API_URL;
         // const userRes = await fetch('https://assignment-back-end.onrender.com/users/', {
-        const userRes = await fetch('http://localhost:8002/users/', {
+        // const userRes = await fetch('http://localhost:8002/users/', {
+        const userRes = await fetch(`${apiUrl}/users/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -25,7 +27,8 @@ export const AppContextProvider = ({ children }) => {
         setUsers(usersData);
 
         // const listingsRes = await fetch('https://assignment-back-end.onrender.com/listings/', {
-        const listingsRes = await fetch('http://localhost:8002/listings/', {
+        // const listingsRes = await fetch('http://localhost:8002/listings/', {
+        const listingsRes = await fetch(`${apiUrl}/listings/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

@@ -162,6 +162,7 @@ const JobListing = () => {
 
   useEffect(() =>  {
     const updateUserFavourites = async () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
       // If favourites is null (i.e. on initial mount, do not update the database)
       if (favourites) {
         const favouritesUpdate = {
@@ -170,7 +171,7 @@ const JobListing = () => {
 
       try {
         // await fetch (`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
-        await fetch (`http://localhost:8002/users/${currentUser._id}`, {
+        await fetch (`${apiUrl}/users/${currentUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

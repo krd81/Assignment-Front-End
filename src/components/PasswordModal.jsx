@@ -36,14 +36,17 @@ const ChangePassword = ({ onClose }) => {
 
         // API call to compare user's password
         try {
+          const apiUrl = import.meta.env.VITE_API_URL;
           // let response = await apiCall(`https://assignment-back-end.onrender.com/users/${profileUser._id}/password`, 'POST', {password: oldPassword})
-          let response = await apiCall(`http://localhost:8002/users/${profileUser._id}/password`, 'POST', {password: oldPassword})
+          // let response = await apiCall(`http://localhost:8002/users/${profileUser._id}/password`, 'POST', {password: oldPassword})
+          let response = await apiCall(`${apiUrl}/users/${profileUser._id}/password`, 'POST', {password: oldPassword})
           if (response.ok || currentUser.admin) {
             if (newPassword === confirmNewPassword) {
               // Second API call to change user's password
               try {
                 // response = await apiCall(`https://assignment-back-end.onrender.com/users/${profileUser._id}`, 'PUT', {password: newPassword})
-                response = await apiCall(`http://localhost:8002/users/${profileUser._id}`, 'PUT', {password: newPassword})
+                // response = await apiCall(`http://localhost:8002/users/${profileUser._id}`, 'PUT', {password: newPassword})
+                response = await apiCall(`${apiUrl}/users/${profileUser._id}`, 'PUT', {password: newPassword})
                 if (response.ok) {
                   alert("Your password has been changed");
                     // Close portal

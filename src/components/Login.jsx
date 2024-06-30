@@ -28,11 +28,11 @@ const Login = () => {
 
         if (username && password) {
             e.preventDefault();
+            const apiUrl = import.meta.env.VITE_API_URL;
 
-            let res;
-
-              // res = await fetch('https://assignment-back-end.onrender.com/login/', {
-                res = await fetch('http://localhost:8002/login/', {
+              // let res = await fetch('https://assignment-back-end.onrender.com/login/', {
+                // let res = await fetch('http://localhost:8002/login/', {
+                let res = await fetch(`${apiUrl}/login/`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
