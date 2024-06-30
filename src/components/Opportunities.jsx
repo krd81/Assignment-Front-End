@@ -116,7 +116,12 @@ const JobListing = () => {
   // Function to highlight user's starred listings
   const displayFavouriteIcon = (listing) => {
 
-    if (favourites) {
+    if (!favourites) {
+      // Handle the case when favourites is undefined or null
+      return null;
+    }
+
+    // if (favourites) {
       // Find and add to isFavourite if the current listing is in favourites
       let isFavourite = favourites.find(favourite => favourite._id === listing._id);
 
@@ -134,7 +139,7 @@ const JobListing = () => {
           </a>
         </>
       );
-    }
+    // }
   }
 
 
@@ -391,8 +396,7 @@ const JobListing = () => {
                             <p className="text-base text-center pl-14">{listing.department}</p>
                           </div>
                           <div className="px-2">
-                            {/* {displayFavouriteIcon(listing)} */}
-                            {`${console.log(favourites)}`}
+                            {displayFavouriteIcon(listing)}
                           </div>
                         </div>
 
