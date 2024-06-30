@@ -44,15 +44,6 @@ const JobListing = () => {
   }
 
   // Listings that have been posted in the last 7 days are shown with green b/ground & green border
-  // const newListing = useCallback((listing) => {
-  //   if (listingTimeline(listing).sincePosted < 7) {
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // }, []);
-
-
   const newListing = useCallback((listing) => {
     return listingTimeline(listing).sincePosted < 7;
   }, []);
@@ -60,8 +51,9 @@ const JobListing = () => {
   useEffect(() => {
     if (currentUser && currentUser.listingsFavourites) {
       setFavourites([...currentUser.listingsFavourites]);
+      console.log(favourites)
     }
-  }, [currentUser]);
+  }, [currentUser, favourites]);
 
 
 useEffect(() => {
@@ -71,11 +63,6 @@ useEffect(() => {
     }
   }, [listings]);
 
-  useEffect(() => {
-    if (currentUser && currentUser.listingsFavourites) {
-      setFavourites([...currentUser.listingsFavourites]);
-    }
-  }, [currentUser]);
 
 
 
@@ -405,7 +392,8 @@ useEffect(() => {
                             <p className="text-base text-center pl-14">{listing.department}</p>
                           </div>
                           <div className="px-2">
-                            {displayFavouriteIcon(listing)}
+                            {/* {displayFavouriteIcon(listing)} */}
+                            ${console.log(favourites)}
                           </div>
                         </div>
 
