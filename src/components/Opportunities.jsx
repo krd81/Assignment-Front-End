@@ -51,12 +51,11 @@ const JobListing = () => {
   useEffect(() => {
     if (currentUser && currentUser.listingsFavourites) {
       setFavourites([...currentUser.listingsFavourites]);
-      console.log(favourites)
     }
   }, [currentUser, favourites]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (listings.length > 0) {
       setFilteredListings([...listings]);
       setLoading(false);
@@ -117,16 +116,16 @@ useEffect(() => {
   // Function to highlight user's starred listings
   const displayFavouriteIcon = (listing) => {
 
-    if (favourites.length > 0) {
+    if (favourites) {
       // Find and add to isFavourite if the current listing is in favourites
       let isFavourite = favourites.find(favourite => favourite._id === listing._id);
 
       // Set iconName based on whether the listing is a favourite or not
       // isFavourite is either defined (as the found listing) or undefined
-      // const iconName = isFavourite ? "star" : "star-outline";
-      const iconName =  "star-outline";
-      // const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
-      const iconColour =  "text-gray-300";
+      const iconName = isFavourite ? "star" : "star-outline";
+      // const iconName =  "star-outline";
+      const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
+      // const iconColour =  "text-gray-300";
 
       return (
         <>
@@ -393,7 +392,7 @@ useEffect(() => {
                           </div>
                           <div className="px-2">
                             {/* {displayFavouriteIcon(listing)} */}
-                            ${console.log(favourites)}
+                            {`${console.log(favourites)}`}
                           </div>
                         </div>
 
