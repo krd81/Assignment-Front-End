@@ -52,7 +52,7 @@ const JobListing = () => {
     if (currentUser && currentUser.listingsFavourites) {
       setFavourites([...currentUser.listingsFavourites]);
     }
-  }, [currentUser, favourites]);
+  }, [currentUser]);
 
 
   useEffect(() => {
@@ -315,7 +315,7 @@ const JobListing = () => {
               onChange={e => setFilterOption(e.target.value)}
             />
             <label htmlFor="new-listings" className="cursor-pointer flex items-center pl-2"></label>
-            <span className="ml-0 md:ml-2"><em className="text-xl not-italic">☺︎ </em> New Listings</span>
+            <span className="ml-0 md:ml-2"><em className="text-xl not-italic">☺︎ </em> New Job Listings</span>
           </div>
           <div className="inline-flex items-center md:pt-6">
             <input
