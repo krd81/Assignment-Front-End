@@ -130,7 +130,7 @@ useEffect(() => {
   // Function to highlight user's starred listings
   const displayFavouriteIcon = (listing) => {
 
-    if (favourites) {
+    if (favourites.length > 0) {
       // Find and add to isFavourite if the current listing is in favourites
       let isFavourite = favourites.find(favourite => favourite._id === listing._id);
 
