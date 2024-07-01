@@ -152,11 +152,14 @@ const JobListing = () => {
       .then(response => response.json())
       .then(data => setFaveData(data.listingsFavourites))
       .catch(error => console.error('Error:', error));
+
+
   }, [currentUser]);
+
 
   // Function to highlight user's starred listings
   const displayFavouriteIcon = (listing) => {
-
+    console.log(faveData);
 
       // Find and add to isFavourite if the current listing is in favourites
       let isFavourite = faveData?.find(favourite => favourite._id === listing._id);
@@ -166,13 +169,13 @@ const JobListing = () => {
       const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
 
 
-      return (
-        <>
-          <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(listing, event)}>
-            <IonIcon name={iconName} size="large" />
-          </a>
-        </>
-      );
+      // return (
+      //   <>
+      //     <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(listing, event)}>
+      //       <IonIcon name={iconName} size="large" />
+      //     </a>
+      //   </>
+      // );
   }
 
 
