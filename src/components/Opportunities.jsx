@@ -25,13 +25,14 @@ const JobListing = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredListings, setFilteredListings] = useState([]);
   const [favourites, setFavourites] = useState([]);
+  const [faveData, setFaveData] = useState(null);
   const [filterOption, setFilterOption] = useState("none");
   const [noListingsFound, setNoListingsFound] = useState(false);
   const [loading, setLoading] = useState(true);
 
 
   console.log(currentUser)
-  console.log(favourites)
+  console.log(faveData)
   console.log(listings)
   // Function to handle department selection
   const handleDepartmentChange = (event) => {
@@ -50,7 +51,8 @@ const JobListing = () => {
   //useEffect hook allows the favourites state to be updated once the current user object becomes available
   useEffect(() => {
     if (currentUser && currentUser.listingsFavourites) {
-      setFavourites([...currentUser.listingsFavourites]);
+      // setFavourites([...currentUser.listingsFavourites]);
+      setFaveData([...currentUser.listingsFavourites]);
     }
   }, [currentUser]);
 
@@ -114,7 +116,7 @@ const JobListing = () => {
 
 
   // Function to highlight user's starred listings
-  const displayFavouriteIcon = (listing) => {
+  const displayFavouriteIconOld = (listing) => {
 
     if (!favourites) {
       // Handle the case when favourites is undefined or null
@@ -143,20 +145,56 @@ const JobListing = () => {
   }
 
 
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    fetch(`${apiUrl}/users/${currentUser?._id}`)
+      .then(response => response.json())
+      .then(data => setFaveData(data.listingsFavourites))
+      .catch(error => console.error('Error:', error));
+  }, [currentUser]);
+
+  // Function to highlight user's starred listings
+  const displayFavouriteIcon = (listing) => {
+
+
+      // Find and add to isFavourite if the current listing is in favourites
+      let isFavourite = faveData?.find(favourite => favourite._id === listing._id);
+
+      // Set iconName based on whether the listing is a favourite or not
+      const iconName = isFavourite ? "star" : "star-outline";
+      const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
+
+
+      return (
+        <>
+          <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(listing, event)}>
+            <IonIcon name={iconName} size="large" />
+          </a>
+        </>
+      );
+  }
+
+
+
   const toggleFavourite = (listing, event) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation(); // Stop the event from propagating to parent elements
     }
 
-    if (favourites.length > 0) {
-      if (favourites.find(favourite => favourite._id === listing._id)) {
-        setFavourites(prev => prev.filter(prevListing => prevListing._id !== listing._id));
+    // if (favourites.length > 0) {
+    if (faveData.length > 0) {
+      // if (favourites.find(favourite => favourite._id === listing._id)) {
+      if (faveData.find(favourite => favourite._id === listing._id)) {
+        // setFavourites(prev => prev.filter(prevListing => prevListing._id !== listing._id));
+        setFaveData(prev => prev.filter(prevListing => prevListing._id !== listing._id));
       } else {
-        setFavourites([...favourites, listing]);
+        // setFavourites([...favourites, listing]);
+        setFaveData([...faveData, listing]);
       }
     } else {
-      setFavourites([listing]);
+      setFaveData([listing]);
     }
   }
 
@@ -164,9 +202,11 @@ const JobListing = () => {
     const updateUserFavourites = async () => {
       const apiUrl = import.meta.env.VITE_API_URL;
       // If favourites is null (i.e. on initial mount, do not update the database)
-      if (favourites) {
+      // if (favourites) {
+      if (faveData) {
         const favouritesUpdate = {
-          listingsFavourites: favourites.length > 0 ? [...favourites] : []
+          // listingsFavourites: favourites.length > 0 ? [...favourites] : []
+          listingsFavourites: faveData.length > 0 ? [...faveData] : []
         };
 
       try {
@@ -187,7 +227,7 @@ const JobListing = () => {
    if (currentUser) {
     updateUserFavourites();
    }
-  }, [favourites, currentUser]);
+  }, [faveData, currentUser]);
 
 
   // Functionality to apply for role
@@ -252,7 +292,6 @@ const JobListing = () => {
     } else {
       return false
     }
-
   }
 
   // Listings where the closing date was more than 7 days ago are not shown
