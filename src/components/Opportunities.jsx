@@ -168,14 +168,13 @@ const JobListing = () => {
       const iconName = isFavourite ? "star" : "star-outline";
       const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
 
-
-      // return (
-      //   <>
-      //     <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(listing, event)}>
-      //       <IonIcon name={iconName} size="large" />
-      //     </a>
-      //   </>
-      // );
+      return (
+        <>
+          <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(listing, event)}>
+            <IonIcon name={iconName} size="large" />
+          </a>
+        </>
+      );
   }
 
 
