@@ -28,7 +28,6 @@ const JobListing = () => {
   const [faveData, setFaveData] = useState(null);
   const [filterOption, setFilterOption] = useState("none");
   const [noListingsFound, setNoListingsFound] = useState(false);
-  const [loading, setLoading] = useState(true);
 
 
   console.log(currentUser)
@@ -57,20 +56,12 @@ const JobListing = () => {
   }, [currentUser]);
 
 
-  useEffect(() => {
-    if (listings.length > 0) {
-      setFilteredListings([...listings]);
-      setLoading(false);
-    }
-  }, [listings]);
-
 
 
 
   // Effect to update filtered listings when searchQuery or selectedDepartment changes
   // Also controls filterOption (i.e. radio buttons for new, favourites, applied)
   useEffect(() => {
-    if (loading) return;
     let newFilteredListings = [...listings];
 
     if (selectedDepartment !== "All") {
@@ -109,7 +100,7 @@ const JobListing = () => {
     setFilteredListings(newFilteredListings);
 
     setNoListingsFound(newFilteredListings.length === 0);
-  }, [searchQuery, newListing, selectedDepartment, listings, currentUser, filterOption, loading]);
+  }, [searchQuery, newListing, selectedDepartment, listings, currentUser, filterOption]);
 
 
 
@@ -309,9 +300,6 @@ const JobListing = () => {
 
   return (
     <div className="bg-blue-50 mx-6 my-6 md:my-12 lg:my-24 p-6 md:p-8 lg:p-16 xl:mx-32">
-        {loading ? (
-        <div className="text-3xl text-gray-700 font-semibold mt-8 md:my-4 mb-4"></div>
-      ) : (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-3 flex items-center justify-center">
           <h2 className="text-3xl font-semibold mt-8 md:my-4 mb-4">Internal Opportunities</h2>
@@ -469,7 +457,6 @@ const JobListing = () => {
           </div>
         </div>
       </div>
-      )}
     </div>
   )
 }
