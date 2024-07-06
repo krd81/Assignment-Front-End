@@ -25,13 +25,12 @@ const JobListing = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredListings, setFilteredListings] = useState([]);
   const [favourites, setFavourites] = useState([]);
-  const [faveData, setFaveData] = useState(null);
   const [filterOption, setFilterOption] = useState("none");
   const [noListingsFound, setNoListingsFound] = useState(false);
 
 
   console.log(currentUser)
-  console.log(faveData)
+  console.log(favourites)
   console.log(listings)
   // Function to handle department selection
   const handleDepartmentChange = (event) => {
@@ -50,8 +49,7 @@ const JobListing = () => {
   //useEffect hook allows the favourites state to be updated once the current user object becomes available
   useEffect(() => {
     if (currentUser && currentUser.listingsFavourites) {
-      // setFavourites([...currentUser.listingsFavourites]);
-      setFaveData([...currentUser.listingsFavourites]);
+      setFavourites([...currentUser.listingsFavourites]);
     }
   }, [currentUser]);
 
@@ -107,56 +105,15 @@ const JobListing = () => {
 
 
   // Function to highlight user's starred listings
-  const displayFavouriteIconOld = (listing) => {
+  const displayFavouriteIcon = (listing) => {
 
-    if (!favourites) {
-      // Handle the case when favourites is undefined or null
-      return null;
-    }
-
-    // if (favourites) {
+    if (favourites) {
       // Find and add to isFavourite if the current listing is in favourites
       let isFavourite = favourites.find(favourite => favourite._id === listing._id);
 
       // Set iconName based on whether the listing is a favourite or not
       // isFavourite is either defined (as the found listing) or undefined
       const iconName = isFavourite ? "star" : "star-outline";
-      // const iconName =  "star-outline";
-      const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
-      // const iconColour =  "text-gray-300";
-
-      return (
-        <>
-          <a className={`md:p-1 ${iconColour}`} onClick={event => toggleFavourite(listing, event)}>
-            <IonIcon name={iconName} size="large" />
-          </a>
-        </>
-      );
-    // }
-  }
-
-
-  useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL;
-
-    fetch(`${apiUrl}/users/${currentUser?._id}`)
-      .then(response => response.json())
-      .then(data => setFaveData(data.listingsFavourites))
-      .catch(error => console.error('Error:', error));
-
-
-  }, [currentUser]);
-
-
-  // Function to highlight user's starred listings
-  const displayFavouriteIcon = (listing) => {
-    console.log(faveData);
-
-      // Find and add to isFavourite if the current listing is in favourites
-      let isFavourite = faveData?.find(favourite => favourite._id === listing._id);
-
-      // Set iconName based on whether the listing is a favourite or not
-      const iconName = isFavourite ? "star" : "star-outline";
       const iconColour = isFavourite ? "text-yellow-400" : "text-gray-300";
 
       return (
@@ -166,6 +123,7 @@ const JobListing = () => {
           </a>
         </>
       );
+    }
   }
 
 
@@ -176,18 +134,14 @@ const JobListing = () => {
       event.stopPropagation(); // Stop the event from propagating to parent elements
     }
 
-    // if (favourites.length > 0) {
-    if (faveData.length > 0) {
-      // if (favourites.find(favourite => favourite._id === listing._id)) {
-      if (faveData.find(favourite => favourite._id === listing._id)) {
-        // setFavourites(prev => prev.filter(prevListing => prevListing._id !== listing._id));
-        setFaveData(prev => prev.filter(prevListing => prevListing._id !== listing._id));
+    if (favourites.length > 0) {
+      if (favourites.find(favourite => favourite._id === listing._id)) {
+        setFavourites(prev => prev.filter(prevListing => prevListing._id !== listing._id));
       } else {
-        // setFavourites([...favourites, listing]);
-        setFaveData([...faveData, listing]);
+        setFavourites([...favourites, listing]);
       }
     } else {
-      setFaveData([listing]);
+      setFavourites([listing]);
     }
   }
 
@@ -195,11 +149,9 @@ const JobListing = () => {
     const updateUserFavourites = async () => {
       const apiUrl = import.meta.env.VITE_API_URL;
       // If favourites is null (i.e. on initial mount, do not update the database)
-      // if (favourites) {
-      if (faveData) {
+      if (favourites) {
         const favouritesUpdate = {
-          // listingsFavourites: favourites.length > 0 ? [...favourites] : []
-          listingsFavourites: faveData.length > 0 ? [...faveData] : []
+          listingsFavourites: favourites.length > 0 ? [...favourites] : []
         };
 
       try {
@@ -219,7 +171,7 @@ const JobListing = () => {
    if (currentUser) {
     updateUserFavourites();
    }
-  }, [faveData, currentUser]);
+  }, [favourites, currentUser]);
 
 
   // Functionality to apply for role
