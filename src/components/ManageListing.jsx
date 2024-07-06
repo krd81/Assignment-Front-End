@@ -77,8 +77,7 @@ const ManageListing = () => {
           creator: currentUser
         }
 
-        let url = 'https://assignment-back-end.onrender.com/listings'
-        // let url = 'http://localhost:8002/listings';
+        let url = import.meta.env.VITE_API_URL`/${listings}`
         let method = 'POST';
 
         if (editMode && currentListing) {
@@ -130,8 +129,6 @@ const ManageListing = () => {
             throw new Error(`Error: ${response.statusText}`)
           }
 
-
-
         } catch (error) {
           console.error('Failed to create/update listing:', error)
 
@@ -153,8 +150,6 @@ const ManageListing = () => {
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
-      // await fetch (`https://assignment-back-end.onrender.com/${listing._id}`, {
-      // await fetch(`http://localhost:8002/listings/${listing._id}`, {
       await fetch(`${apiUrl}/listings/${listing._id}`, {
         method: 'DELETE',
         headers: {

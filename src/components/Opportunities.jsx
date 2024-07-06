@@ -212,7 +212,6 @@ const JobListing = () => {
         };
 
       try {
-        // await fetch (`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
         await fetch (`${apiUrl}/users/${currentUser._id}`, {
           method: 'PUT',
           headers: {

@@ -200,8 +200,6 @@ const Profile = () => {
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
-      // const response = await fetch(`https://assignment-back-end.onrender.com/users/${profileUser._id}`, {
-        // const response = await fetch(`http://localhost:8002/users/${profileUser._id}`, {
         const response = await fetch(`${apiUrl}/users/${profileUser._id}`, {
           method: 'PUT',
           headers: {

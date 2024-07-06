@@ -71,8 +71,6 @@ export const OpportunitiesByCreator = () => {
   const deleteListing = async (listingID) => {
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
-      // await fetch(`https://assignment-back-end.onrender.com/listings/${listingID}`, {
-      // await fetch(`http://localhost:8002/listings/${listingID}`, {
       await fetch(`${apiUrl}/listings/${listingID}`, {
         method: 'DELETE',
         headers: {

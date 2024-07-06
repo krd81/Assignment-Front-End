@@ -93,8 +93,6 @@ const ViewListing = () => {
 
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
-        // await fetch (`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
-        // await fetch (`http://localhost:8002/users/${currentUser._id}`, {
         await fetch (`${apiUrl}/users/${currentUser._id}`, {
           method: 'PUT',
           headers: {

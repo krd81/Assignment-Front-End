@@ -74,8 +74,6 @@ const ApplyNow = () => {
 
         try {
           const apiUrl = import.meta.env.VITE_API_URL;
-          // const listingResponse = await fetch(`https://assignment-back-end.onrender.com/listings/${currentListing._id}`, {
-          // const listingResponse = await fetch(`http://localhost:8002/listings/${currentListing._id}`, {
           const listingResponse = await fetch(`${apiUrl}/listings/${currentListing._id}`, {
             method: 'PUT',
             headers: {
@@ -85,8 +83,6 @@ const ApplyNow = () => {
             body: JSON.stringify(updateListing), // This adds the user to the applicant array in the listing
           })
 
-            // const userResponse = await fetch(`https://assignment-back-end.onrender.com/users/${currentUser._id}`, {
-            // const userResponse = await fetch(`http://localhost:8002/users/${currentUser._id}`, {
             const userResponse = await fetch(`${apiUrl}/users/${currentUser._id}`, {
               method: 'PUT',
               headers: {

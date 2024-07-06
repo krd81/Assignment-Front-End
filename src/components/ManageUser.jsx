@@ -31,8 +31,6 @@ const ManageUser = () => {
     (!isAdminRef.current || (isAdminRef.current && adminCheck()))) {
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
-        // const response = await fetch('https://assignment-back-end.onrender.com/users', {
-        // const response = await fetch('http://localhost:8002/users', {
         const response = await fetch(`${apiUrl}/users`, {
           method: 'POST',
           headers: {
