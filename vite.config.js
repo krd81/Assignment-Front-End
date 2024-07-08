@@ -9,6 +9,9 @@ export default defineConfig({
     globals: true
   },
   plugins: [react()],
+  define: {
+    'process.env': process.env,
+  },
   build: {
     assetsDir: 'assets',
     rollupOptions: {
