@@ -77,7 +77,8 @@ const ManageListing = () => {
           creator: currentUser
         }
 
-        let url = import.meta.env.VITE_API_URL`/${listings}`
+        let apiUrl = import.meta.env.VITE_API_URL;
+        let url = `${apiUrl}/listings`
         let method = 'POST';
 
         if (editMode && currentListing) {
